@@ -1,0 +1,16 @@
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: 265px;
+}
+
+.price {
+  width: fit-content;
+  max-width: 90%;
+}
+
+.title {
+  text-align: center;
+}

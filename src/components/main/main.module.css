@@ -1,6 +1,7 @@
 .main {
   display: flex;
   gap: 40px;
-  min-height: 912px;
+  margin: 0 auto;
+  height: calc(100vh - 88px);
   width: 1240px;
 }
