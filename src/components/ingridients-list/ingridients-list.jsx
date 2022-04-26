@@ -1,4 +1,4 @@
-import ConstructorCard from "../constructor-card/constructor-card";
+import ConstructorCard from "../ingridients-card/ingridients-card";
 import Title from "../title/title";
 import listStyles from './ingridients-list.module.css';
 

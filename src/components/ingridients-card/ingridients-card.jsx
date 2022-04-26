@@ -1,7 +1,7 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import cardStyles from './constructor-card.module.css';
+import cardStyles from './ingridients-card.module.css';
 
-const ConstructorCard = (props) => {
+const IngridientsCard = (props) => {
   return (
     <article className={cardStyles.card}>
       <img className='pl-4 pr-4' src={props.image} alt={props.name} />
@@ -11,4 +11,4 @@ const ConstructorCard = (props) => {
   );
 }
 
-export default ConstructorCard;
+export default IngridientsCard;
