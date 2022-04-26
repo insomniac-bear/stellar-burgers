@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const ConstructorNavigation = ({ tabs }) => {
+const IngridientsNavigation = ({ tabs }) => {
   const [current, setCurrent] = React.useState(tabs[0]);
 
   return (
@@ -14,8 +14,8 @@ const ConstructorNavigation = ({ tabs }) => {
   )
 }
 
-ConstructorNavigation.propTypes = {
+IngridientsNavigation.propTypes = {
   tabs: PropTypes.arrayOf(PropTypes.string).isRequired
 }
 
-export default ConstructorNavigation
+export default IngridientsNavigation
