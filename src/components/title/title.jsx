@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const Title = ({tag, className, children}) => {
   switch (tag) {
     case 'h1':
@@ -9,6 +11,12 @@ const Title = ({tag, className, children}) => {
     default:
       return <h4 className={`${className}`}>{children}</h4>
   }
+}
+
+Title.propTypes = {
+  tag: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
 }
 
 export default Title;

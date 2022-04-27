@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingridientDataTypes } from '../../utils/const';
 import constructorStyles from './burger-constructor.module.css';
 
 const BurgerConstructor = (props) => {
@@ -54,11 +55,7 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-  props: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    price: PropTypes.number,
-    img: PropTypes.string,
-  }))
+  order: PropTypes.arrayOf(ingridientDataTypes.isRequired).isRequired
 }
 
 export default BurgerConstructor;
