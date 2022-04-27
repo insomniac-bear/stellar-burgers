@@ -15,7 +15,7 @@ const IngridientsNavigation = ({ tabs }) => {
 }
 
 IngridientsNavigation.propTypes = {
-  tabs: PropTypes.arrayOf(PropTypes.string).isRequired
+  tabs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 }
 
 export default IngridientsNavigation

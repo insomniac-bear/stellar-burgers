@@ -5,7 +5,7 @@ import IngridientsList from '../ingridients-list/ingridients-list';
 import Title from '../title/title';
 
 import { selectItemsOfType } from '../../utils/utils';
-import { ItemType } from '../../utils/const';
+import { ItemType, ingridientDataTypes } from '../../utils/const';
 
 import ingridientsStyles from './burger-ingridients.module.css';
 
@@ -34,21 +34,8 @@ const BurgerIngridients = (props) => {
   );
 }
 
-BurgerIngridients.propTypes ={
-  data: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.oneOf(['bun', 'main','sauce']),
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number
-  }))
+BurgerIngridients.propTypes = {
+  data: PropTypes.arrayOf(ingridientDataTypes.isRequired).isRequired
 }
 
 export default BurgerIngridients;
