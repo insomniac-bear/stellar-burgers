@@ -1,0 +1,7 @@
+.main {
+  display: flex;
+  gap: 40px;
+  margin: 0 auto;
+  height: calc(100vh - 88px);
+  width: 1240px;
+}

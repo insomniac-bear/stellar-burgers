@@ -1,0 +1,40 @@
+.header {
+  margin: 0 auto;
+  width: 100%;
+  background-color: #1c1c21;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0;
+
+  width: 1280px;
+}
+
+.wrapper {
+  composes: navigation;
+  margin: 0;
+  width: 61.5%;
+}
+
+.navList {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  justify-content: flex-start;
+  color: #8585ad;
+  text-decoration: none;
+}
+
+.linkActive {
+  composes: link;
+  color: #f2f2f3;
+}
