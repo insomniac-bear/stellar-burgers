@@ -26,11 +26,14 @@ const App = () => {
       });
   };
 
-
   return (
     <div className={styles.app}>
       <AppHeader />
-      { !ingridients.isLoading && <Main ingridients={ingridients.data}/> }
+      {
+        !ingridients.isLoading &&
+        !ingridients.hasError &&
+        <Main ingridients={ingridients.data}/>
+      }
     </div>
   );
 }
