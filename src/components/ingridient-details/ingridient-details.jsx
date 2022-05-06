@@ -1,7 +1,7 @@
 import { ingridientDataTypes } from '../../utils/const';
 import detailsStyles from './ingridient-details.module.css';
 
-const IngridientDetails = ({ingridient}) => {
+const IngridientDetails = ({ ingridient }) => {
   return(
     <div className={detailsStyles.container}>
       <img src={ingridient.image_large} className={'mb-4'} alt={ingridient.name} />

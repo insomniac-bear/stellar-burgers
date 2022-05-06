@@ -10,8 +10,7 @@ import { ItemType, ingridientDataTypes } from '../../utils/const';
 import ingridientsStyles from './burger-ingridients.module.css';
 
 
-const BurgerIngridients = (props) => {
-  const { data, openDetailedPopup } = props;
+const BurgerIngridients = ({ data, openDetailedPopup }) => {
   const buns = selectItemsOfType(ItemType.Bun.TYPE, data);
   const sauce = selectItemsOfType(ItemType.Sauce.TYPE, data);
   const main = selectItemsOfType(ItemType.Main.TYPE, data);
