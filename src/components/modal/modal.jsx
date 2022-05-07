@@ -7,19 +7,28 @@ import modalStyles from './modal.module.css';
 
 const modalsContainer = document.querySelector('#modals');
 
-const Modal = (props) => {
-  const { title, closePopup, onEscKeydown, children } = props;
+const Modal = ({ title, closePopup, children }) => {
   useEffect(()=> {
-    document.addEventListener('keydown', onEscKeydown);
+    document.addEventListener('keydown', onEscKeyPress);
 
     return((() => {
-      document.removeEventListener('keydown', onEscKeydown);
+      document.removeEventListener('keydown', onEscKeyPress);
     }));
   }, []);
 
+  const onModalClick = (evt) => {
+    evt.stopPropagation();
+  }
+
+  const onEscKeyPress = (evt) => {
+    if (evt.key === 'Escape') {
+      closePopup();
+    }
+  }
+
   return ReactDOM.createPortal(
       <ModalOverlay onClick={closePopup}>
-        <div className={`${modalStyles.container} pt-10 pr-10 pb-15 pl-10`}>
+        <div className={`${modalStyles.container} pt-10 pr-10 pb-15 pl-10`} onClick={onModalClick}>
           <header className={modalStyles.header}>
             <h3 className='text text_type_main-large'>
               {title}
@@ -36,7 +45,6 @@ const Modal = (props) => {
 Modal.propTypes = {
   title: PropTypes.string,
   closePopup: PropTypes.func.isRequired,
-  onEscKeydown: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
 
