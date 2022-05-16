@@ -3,9 +3,9 @@ import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktiku
 import { ingridientDataTypes } from '../../utils/const';
 import constructorStyles from './burger-constructor.module.css';
 
-const BurgerConstructor = (props) => {
-  const bean = props.order[0];
-  const main = props.order.slice(1);
+const BurgerConstructor = ({ order, openOrderDetailsPopup }) => {
+  const bean = order[0];
+  const main = order.slice(1);
   const price = main.reduce((summ, current) => summ + current.price, bean.price);
 
   return (
@@ -48,14 +48,15 @@ const BurgerConstructor = (props) => {
       </ul>
       <div className={`${constructorStyles.controls} mt-10`}>
         <p className='text text_type_digits-medium mr-10'>{price} <CurrencyIcon /></p>
-        <Button type='primary' size='medium'>Оформить заказ</Button>
+        <Button type='primary' size='medium' onClick={openOrderDetailsPopup}>Оформить заказ</Button>
       </div>
     </section>
   );
 };
 
 BurgerConstructor.propTypes = {
-  order: PropTypes.arrayOf(ingridientDataTypes.isRequired).isRequired
+  order: PropTypes.arrayOf(ingridientDataTypes.isRequired).isRequired,
+  openOrderDetailsPopup: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor;

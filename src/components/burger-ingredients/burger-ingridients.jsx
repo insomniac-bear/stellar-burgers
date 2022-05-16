@@ -10,10 +10,10 @@ import { ItemType, ingridientDataTypes } from '../../utils/const';
 import ingridientsStyles from './burger-ingridients.module.css';
 
 
-const BurgerIngridients = (props) => {
-  const buns = selectItemsOfType(ItemType.Bun.TYPE, props.data);
-  const sauce = selectItemsOfType(ItemType.Sauce.TYPE, props.data);
-  const main = selectItemsOfType(ItemType.Main.TYPE, props.data);
+const BurgerIngridients = ({ data, openDetailedPopup }) => {
+  const buns = selectItemsOfType(ItemType.Bun.TYPE, data);
+  const sauce = selectItemsOfType(ItemType.Sauce.TYPE, data);
+  const main = selectItemsOfType(ItemType.Main.TYPE, data);
 
   return (
     <section className={`${ingridientsStyles.constructor} pt-10`}>
@@ -26,16 +26,17 @@ const BurgerIngridients = (props) => {
         ]}
       />
       <div className={`${ingridientsStyles.ingridients} mt-10`}>
-        <IngridientsList itemList={buns} itemType={ItemType.Bun} />
-        <IngridientsList itemList={sauce} itemType={ItemType.Sauce} />
-        <IngridientsList itemList={main} itemType={ItemType.Main} />
+        <IngridientsList itemList={buns} itemType={ItemType.Bun} openDetailedPopup={openDetailedPopup} />
+        <IngridientsList itemList={sauce} itemType={ItemType.Sauce} openDetailedPopup={openDetailedPopup} />
+        <IngridientsList itemList={main} itemType={ItemType.Main} openDetailedPopup={openDetailedPopup} />
       </div>
     </section>
   );
 }
 
 BurgerIngridients.propTypes = {
-  data: PropTypes.arrayOf(ingridientDataTypes.isRequired).isRequired
+  data: PropTypes.arrayOf(ingridientDataTypes.isRequired).isRequired,
+  openDetailedPopup: PropTypes.func.isRequired
 }
 
 export default BurgerIngridients;

@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingridientDataTypes} from '../../utils/const'
 import cardStyles from './ingridients-card.module.css';
 
-const IngridientsCard = (props) => {
-  const { image, name, price } = props;
+const IngridientsCard = ({ ingridient, openDetailedPopup }) => {
+  const { image, name, price } = ingridient;
   return (
-    <article className={cardStyles.card}>
+    <article className={cardStyles.card} onClick={() => openDetailedPopup(ingridient)}>
       <Counter count={1} size="default" />
       <img className='pl-4 pr-4' src={image} alt={name} />
       <p className={`${cardStyles.price} text text_type_digits-default mt-1 mb-1`}>{price} <CurrencyIcon /></p>
@@ -15,9 +16,8 @@ const IngridientsCard = (props) => {
 }
 
 IngridientsCard.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
+  ingridient: ingridientDataTypes.isRequired,
+  openDetailedPopup: PropTypes.func.isRequired,
 }
 
 export default IngridientsCard;
