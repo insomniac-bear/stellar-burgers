@@ -1,9 +1,12 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { OrderContext } from '../../services/orderContext';
 import { ingridientDataTypes } from '../../utils/const';
 import constructorStyles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ order, openOrderDetailsPopup }) => {
+const BurgerConstructor = ({ openOrderDetailsPopup }) => {
+  const order = useContext(OrderContext);
   const bean = order[0];
   const main = order.slice(1);
   const price = main.reduce((summ, current) => summ + current.price, bean.price);

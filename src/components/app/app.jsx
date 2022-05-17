@@ -10,7 +10,7 @@ import styles from './app.module.css';
 const App = () => {
   const [isIngridientPopupOpened, setIngridientPopupStatus] = useState(false);
   const [isOrderPopupOpened, setOrderPopupStatus] = useState(false);
-  const [activeIngridient, setActiveIngridfient] = useState({});
+  const [activeIngridient, setActiveIngridient] = useState({});
   const [ingridients, setIngridients] = useState({
     isLoading: false,
     hasError: false,
@@ -27,7 +27,7 @@ const App = () => {
 
 
   const onIngridientClick = (ingridientCard) => {
-    setActiveIngridfient(ingridientCard);
+    setActiveIngridient(ingridientCard);
     toggleIngridientPopup();
   };
 
@@ -36,40 +36,41 @@ const App = () => {
 
   return (
     <div className={styles.app}>
-      <AppHeader />
+        <AppHeader />
 
-      {
-        ingridients.isLoading && <p className={`${styles.message} text text_type_main-large`}>Загружаем ингридиенты...</p>
-      }
+        {
+          ingridients.isLoading && <p className={`${styles.message} text text_type_main-large`}>Загружаем ингридиенты...</p>
+        }
 
-      {
-        ingridients.hasError &&
-        <Modal title={'Что-то пошло не так.'} closePopup={closeErrorPopup}>
-          <p>Попробуйте перезагрузить страницу</p>
-        </Modal>
-      }
+        {
+          ingridients.hasError &&
+          <Modal title={'Что-то пошло не так.'} closePopup={closeErrorPopup}>
+            <p>Попробуйте перезагрузить страницу</p>
+          </Modal>
+        }
 
-      {
-        !ingridients.isLoading &&
-        !ingridients.hasError &&
-        <Main
-          ingridients={ingridients.ingridientsData}
-          openDetailedPopup={onIngridientClick}
-          openOrderDetailsPopup={toggleOrderPopup}
-        />
-      }
+        {
+          !ingridients.isLoading &&
+          !ingridients.hasError &&
+          ingridients.ingridientsData.length &&
+          <Main
+            ingridients={ingridients.ingridientsData}
+            openDetailedPopup={onIngridientClick}
+            openOrderDetailsPopup={toggleOrderPopup}
+          />
+        }
 
-      {
-        isIngridientPopupOpened && <Modal title='Детали ингридиента' closePopup={toggleIngridientPopup} >
-          <IngridientDetails ingridient={activeIngridient}/>
-        </Modal>
-      }
+        {
+          isIngridientPopupOpened && <Modal title='Детали ингридиента' closePopup={toggleIngridientPopup} >
+            <IngridientDetails ingridient={activeIngridient}/>
+          </Modal>
+        }
 
-      {
-        isOrderPopupOpened && <Modal title='' closePopup={toggleOrderPopup} >
-          <OrderDetails />
-        </Modal>
-      }
+        {
+          isOrderPopupOpened && <Modal title='' closePopup={toggleOrderPopup} >
+            <OrderDetails />
+          </Modal>
+        }
     </div>
   );
 }
