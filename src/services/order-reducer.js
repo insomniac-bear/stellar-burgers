@@ -1,3 +1,4 @@
+import { orderInitialState } from './order-initial-state';
 import { OrderActionTypes } from '../utils/const';
 
 export const orderReducer = (state, action) => {
@@ -17,7 +18,7 @@ export const orderReducer = (state, action) => {
         main: [...state.main, action.payload],
         ingredients: [...state.ingredients, action.payload._id],
         price: state.price + action.payload.price,
-      }
+      };
     case OrderActionTypes.DEL:
       const ingredientIndex = state.ingredients.indexOf(action.payload.item._id);
       return {
@@ -25,7 +26,14 @@ export const orderReducer = (state, action) => {
         main: [].concat(state.main.slice(0, action.payload.index), state.main.slice(action.payload.index + 1, state.main.length)),
         ingredients: [].concat(state.ingredients.slice(0, ingredientIndex), state.ingredients.slice(ingredientIndex + 1, state.ingredients.length)),
         price: state.price - action.payload.item.price,
-      }
+      };
+    case OrderActionTypes.SET_ORDER:
+      return {
+        ...state,
+        orderNumber: action.payload,
+      };
+    case OrderActionTypes.CLEAR:
+      return orderInitialState;
     default:
       throw new Error(`Wrong type of action: ${action.type}`);
   }

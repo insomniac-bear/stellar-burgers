@@ -4,19 +4,13 @@ import Main from '../main/main';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-deatils/order-details';
-import { getingredients } from '../../utils/utils';
+import { getingredients } from '../../services/api';
+import { orderInitialState } from '../../services/order-initial-state';
 import { orderReducer } from '../../services/order-reducer';
 import { OrderContext } from '../../services/order-context';
 import styles from './app.module.css';
 
 const App = () => {
-  const orderInitialState = {
-    bun: null,
-    main: [],
-    ingredients: [],
-    price: 0,
-  };
-
   const [orderState, orderDispatcher] = useReducer(orderReducer, orderInitialState, undefined);
   const [isingredientPopupOpened, setingredientPopupStatus] = useState(false);
   const [isOrderPopupOpened, setOrderPopupStatus] = useState(false);
@@ -25,7 +19,7 @@ const App = () => {
     isLoading: false,
     hasError: false,
     errorMessage: '',
-    ingredientsData: []
+    ingredientsData: [],
   });
 
   useEffect(() => {
@@ -77,8 +71,8 @@ const App = () => {
         }
 
         {
-          isOrderPopupOpened && <Modal title='' closePopup={toggleOrderPopup} >
-            <OrderDetails />
+          isOrderPopupOpened && orderState.orderNumber && <Modal title='' closePopup={toggleOrderPopup} >
+            <OrderDetails orderNumber={orderState.orderNumber} />
           </Modal>
         }
     </div>

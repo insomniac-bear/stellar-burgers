@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { OrderContext } from '../../services/order-context';
 import { OrderActionTypes } from '../../utils/const';
+import { sendOrder } from '../../services/api';
 import constructorStyles from './burger-constructor.module.css';
 
 const BurgerConstructor = ({ openOrderDetailsPopup }) => {
@@ -10,6 +11,12 @@ const BurgerConstructor = ({ openOrderDetailsPopup }) => {
   const bun = orderState.bun;
   const main = orderState.main;
   const price = orderState.price;
+
+  const handleOrderButton = () => {
+    sendOrder(orderState.ingredients, orderDispatcher);
+    openOrderDetailsPopup();
+    orderDispatcher({ type: OrderActionTypes.CLEAR });
+  }
 
   return (
     <section className={`${constructorStyles.container} pt-25 pl-4`}>
@@ -52,7 +59,14 @@ const BurgerConstructor = ({ openOrderDetailsPopup }) => {
       </ul>
       <div className={`${constructorStyles.controls} mt-10`}>
         <p className='text text_type_digits-medium mr-10'>{price} <CurrencyIcon /></p>
-        <Button type='primary' size='medium' onClick={openOrderDetailsPopup}>Оформить заказ</Button>
+        <Button
+          type='primary'
+          size='medium'
+          onClick={handleOrderButton}
+          disabled={!bun || !main.length}
+        >
+          Оформить заказ
+        </Button>
       </div>
     </section>
   );

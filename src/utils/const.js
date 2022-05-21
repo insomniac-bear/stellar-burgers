@@ -18,6 +18,8 @@ export const ItemType = {
 export const OrderActionTypes = {
   ADD: 'ADD',
   DEL: 'DEL',
+  SET_ORDER: 'SET_ORDER',
+  CLEAR: 'CLEAR',
 }
 
 export const ingredientDataTypes = PropTypes.shape({
@@ -40,4 +42,4 @@ export const itemDataTypes = PropTypes.shape({
   NAME: PropTypes.string.isRequired,
 });
 
-export const BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
+export const BASE_URL = 'https://norma.nomoreparties.space/api';
