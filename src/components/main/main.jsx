@@ -1,23 +1,19 @@
 import PropTypes from 'prop-types';
-import { ingridientDataTypes } from '../../utils/const';
+import { ingredientDataTypes } from '../../utils/const';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngridients from '../burger-ingredients/burger-ingridients';
+import Burgeringredients from '../burger-ingredients/burger-ingredients';
 import mainStyles from './main.module.css';
-import { OrderContext } from '../../services/orderContext';
-import { order } from '../../utils/order';
-const Main = ({ ingridients, openDetailedPopup, openOrderDetailsPopup }) => {
+const Main = ({ ingredients, openDetailedPopup, openOrderDetailsPopup }) => {
   return (
     <main className={mainStyles.main}>
-      <BurgerIngridients data={ingridients} openDetailedPopup={openDetailedPopup} />
-      <OrderContext.Provider value={ingridients}>
-        <BurgerConstructor order={order} openOrderDetailsPopup={openOrderDetailsPopup} />
-      </OrderContext.Provider>
+      <Burgeringredients data={ingredients} openDetailedPopup={openDetailedPopup} />
+      <BurgerConstructor openOrderDetailsPopup={openOrderDetailsPopup} />
     </main>
   );
 }
 
 Main.propTypes = {
-  ingridients: PropTypes.arrayOf(ingridientDataTypes.isRequired).isRequired,
+  ingredients: PropTypes.arrayOf(ingredientDataTypes.isRequired).isRequired,
   openDetailedPopup: PropTypes.func.isRequired,
   openOrderDetailsPopup: PropTypes.func.isRequired
 }

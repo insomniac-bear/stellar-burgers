@@ -18,11 +18,11 @@ export const fetchData = (url) => {
   );
 };
 
-export const getIngridients = (ingridients, setIngridients) => {
-  setIngridients({ ...ingridients, hasError: false, isLoading: true });
+export const getingredients = (ingredients, setingredients) => {
+  setingredients({ ...ingredients, hasError: false, isLoading: true });
   fetchData(BASE_URL)
-    .then(res => setIngridients({ ...ingridients, ingridientsData: res.data, isLoading: false }))
+    .then(res => setingredients({ ...ingredients, ingredientsData: res.data, isLoading: false }))
     .catch(err => {
-      setIngridients({ ...ingridients, isLoading: false, hasError: true, errorMessage: err.message })
+      setingredients({ ...ingredients, isLoading: false, hasError: true, errorMessage: err.message })
     });
 };

@@ -13,9 +13,14 @@ export const ItemType = {
     TYPE: 'sauce',
     NAME: 'Соусы'
   }
+};
+
+export const OrderActionTypes = {
+  ADD: 'ADD',
+  DEL: 'DEL',
 }
 
-export const ingridientDataTypes = PropTypes.shape({
+export const ingredientDataTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['bun', 'main','sauce']).isRequired,
