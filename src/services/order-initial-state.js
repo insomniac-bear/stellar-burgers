@@ -4,5 +4,8 @@ export const orderInitialState = {
   ingredients: [],
   price: 0,
   orderNumber: undefined,
+  isOrderLoading: false,
+  hasOrderError: false,
+  orderErrorMessage: '',
 };
 

@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { nanoid } from 'nanoid';
 import { OrderContext } from '../../services/order-context';
 import { OrderActionTypes } from '../../utils/const';
 import { sendOrder } from '../../services/api';
@@ -34,7 +35,8 @@ const BurgerConstructor = ({ openOrderDetailsPopup }) => {
           {main && <ul className={`${constructorStyles.mainingredientsList} mt-4 pr-4`}>
             {main.map((item, index) => {
               return (
-                <li key={index} className={`${constructorStyles.mainItem} mt-4`}>
+                // Используется nanoid, а не _id ингредиента, т.к. в списке может быть два одинаковых ингредиента с одинаковыми _id
+                <li key={nanoid()} className={`${constructorStyles.mainItem} mt-4`}>
                   <DragIcon />
                   <ConstructorElement
                     text={item.name}

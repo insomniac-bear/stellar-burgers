@@ -20,9 +20,7 @@ const IngredientsList = ({ itemList, itemType, openDetailedPopup }) => {
 }
 
 IngredientsList.propTypes = {
-  itemType: PropTypes.shape(
-    itemDataTypes.isRequired,
-  ).isRequired,
+  itemType: itemDataTypes.isRequired,
   itemList: PropTypes.arrayOf(ingredientDataTypes.isRequired).isRequired,
   openDetailedPopup: PropTypes.func.isRequired,
 }

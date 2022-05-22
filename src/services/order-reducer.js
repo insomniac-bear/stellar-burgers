@@ -34,6 +34,17 @@ export const orderReducer = (state, action) => {
       };
     case OrderActionTypes.CLEAR:
       return orderInitialState;
+    case OrderActionTypes.SET_ERROR:
+      return {
+        ...state,
+        hasOrderError: true,
+        orderErrorMessage: action.payload.message
+      }
+    case OrderActionTypes.SET_LOADING:
+      return {
+        ...state,
+        isOrderLoading: action.payload,
+      }
     default:
       throw new Error(`Wrong type of action: ${action.type}`);
   }

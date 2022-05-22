@@ -8,11 +8,12 @@ import { getingredients } from '../../services/api';
 import { orderInitialState } from '../../services/order-initial-state';
 import { orderReducer } from '../../services/order-reducer';
 import { OrderContext } from '../../services/order-context';
+import { OrderActionTypes } from '../../utils/const';
 import styles from './app.module.css';
 
 const App = () => {
   const [orderState, orderDispatcher] = useReducer(orderReducer, orderInitialState, undefined);
-  const [isingredientPopupOpened, setingredientPopupStatus] = useState(false);
+  const [isIngredientPopupOpened, setingredientPopupStatus] = useState(false);
   const [isOrderPopupOpened, setOrderPopupStatus] = useState(false);
   const [activeingredient, setActiveingredient] = useState({});
   const [ingredients, setingredients] = useState({
@@ -26,7 +27,7 @@ const App = () => {
     getingredients(ingredients, setingredients);
   }, []);
 
-  const toggleingredientPopup = () => setingredientPopupStatus(!isingredientPopupOpened);
+  const toggleingredientPopup = () => setingredientPopupStatus(!isIngredientPopupOpened);
   const toggleOrderPopup = () => setOrderPopupStatus(!isOrderPopupOpened);
 
 
@@ -35,7 +36,14 @@ const App = () => {
     toggleingredientPopup();
   };
 
-  const closeErrorPopup = () => setingredients({ ...ingredients, hasError: false});
+  const closeErrorPopup = () => {
+    if (ingredients.hasError) {
+      setingredients({ ...ingredients, hasError: false});
+    }
+    if (orderState.hasOrderError) {
+      orderDispatcher({ type: OrderActionTypes.CLEAR })
+    }
+  };
 
 
   return (
@@ -47,7 +55,7 @@ const App = () => {
         }
 
         {
-          ingredients.hasError &&
+          (ingredients.hasError || orderState.hasOrderError) &&
           <Modal title={'Что-то пошло не так.'} closePopup={closeErrorPopup}>
             <p>Попробуйте перезагрузить страницу</p>
           </Modal>
@@ -65,7 +73,7 @@ const App = () => {
         }
 
         {
-          isingredientPopupOpened && <Modal title='Детали ингридиента' closePopup={toggleingredientPopup} >
+          isIngredientPopupOpened && <Modal title='Детали ингридиента' closePopup={toggleingredientPopup} >
             <IngredientDetails ingredient={activeingredient}/>
           </Modal>
         }

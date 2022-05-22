@@ -20,6 +20,8 @@ export const OrderActionTypes = {
   DEL: 'DEL',
   SET_ORDER: 'SET_ORDER',
   CLEAR: 'CLEAR',
+  SET_ERROR: 'SET_ERROR',
+  SET_LOADING: 'SET_LOADING',
 }
 
 export const ingredientDataTypes = PropTypes.shape({

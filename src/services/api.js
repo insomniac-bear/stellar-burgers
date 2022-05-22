@@ -26,6 +26,7 @@ export const getingredients = (ingredients, setingredients) => {
 };
 
 export const sendOrder = (ingredients, setOrder) => {
+  setOrder({ type: OrderActionTypes.SET_LOADING, payload: true });
   fetch(`${config.baseUrl}/orders`, {
     method: 'POST',
     headers: config.headers,
@@ -35,5 +36,6 @@ export const sendOrder = (ingredients, setOrder) => {
   })
   .then(baseResponseHandler)
   .then(res => setOrder({ type: OrderActionTypes.SET_ORDER, payload: res.order.number}))
-    .catch(err => console.log(err));
+  .catch(err => setOrder({ type: OrderActionTypes.SET_ERROR, payload: err }))
+  .finally(() => setOrder({ type: OrderActionTypes.SET_LOADING, payload: false }));
 }
