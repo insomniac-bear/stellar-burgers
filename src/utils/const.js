@@ -13,9 +13,18 @@ export const ItemType = {
     TYPE: 'sauce',
     NAME: 'Соусы'
   }
+};
+
+export const OrderActionTypes = {
+  ADD: 'ADD',
+  DEL: 'DEL',
+  SET_ORDER: 'SET_ORDER',
+  CLEAR: 'CLEAR',
+  SET_ERROR: 'SET_ERROR',
+  SET_LOADING: 'SET_LOADING',
 }
 
-export const ingridientDataTypes = PropTypes.shape({
+export const ingredientDataTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['bun', 'main','sauce']).isRequired,
@@ -35,4 +44,4 @@ export const itemDataTypes = PropTypes.shape({
   NAME: PropTypes.string.isRequired,
 });
 
-export const BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
+export const BASE_URL = 'https://norma.nomoreparties.space/api';

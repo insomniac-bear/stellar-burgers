@@ -1,75 +1,88 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import AppHeader from '../app-header/app-header';
 import Main from '../main/main';
 import Modal from '../modal/modal';
-import IngridientDetails from '../ingridient-details/ingridient-details';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-deatils/order-details';
-import { getIngridients } from '../../utils/utils';
+import { getingredients } from '../../services/api';
+import { orderInitialState } from '../../services/order-initial-state';
+import { orderReducer } from '../../services/order-reducer';
+import { OrderContext } from '../../services/order-context';
+import { OrderActionTypes } from '../../utils/const';
 import styles from './app.module.css';
 
 const App = () => {
-  const [isIngridientPopupOpened, setIngridientPopupStatus] = useState(false);
+  const [orderState, orderDispatcher] = useReducer(orderReducer, orderInitialState, undefined);
+  const [isIngredientPopupOpened, setingredientPopupStatus] = useState(false);
   const [isOrderPopupOpened, setOrderPopupStatus] = useState(false);
-  const [activeIngridient, setActiveIngridfient] = useState({});
-  const [ingridients, setIngridients] = useState({
+  const [activeingredient, setActiveingredient] = useState({});
+  const [ingredients, setingredients] = useState({
     isLoading: false,
     hasError: false,
     errorMessage: '',
-    ingridientsData: []
+    ingredientsData: [],
   });
 
   useEffect(() => {
-    getIngridients(ingridients, setIngridients);
+    getingredients(ingredients, setingredients);
   }, []);
 
-  const toggleIngridientPopup = () => setIngridientPopupStatus(!isIngridientPopupOpened);
+  const toggleingredientPopup = () => setingredientPopupStatus(!isIngredientPopupOpened);
   const toggleOrderPopup = () => setOrderPopupStatus(!isOrderPopupOpened);
 
 
-  const onIngridientClick = (ingridientCard) => {
-    setActiveIngridfient(ingridientCard);
-    toggleIngridientPopup();
+  const oningredientClick = (ingredientCard) => {
+    setActiveingredient(ingredientCard);
+    toggleingredientPopup();
   };
 
-  const closeErrorPopup = () => setIngridients({ ...ingridients, hasError: false});
+  const closeErrorPopup = () => {
+    if (ingredients.hasError) {
+      setingredients({ ...ingredients, hasError: false});
+    }
+    if (orderState.hasOrderError) {
+      orderDispatcher({ type: OrderActionTypes.CLEAR })
+    }
+  };
 
 
   return (
     <div className={styles.app}>
-      <AppHeader />
+        <AppHeader />
 
-      {
-        ingridients.isLoading && <p className={`${styles.message} text text_type_main-large`}>Загружаем ингридиенты...</p>
-      }
+        {
+          ingredients.isLoading && <p className={`${styles.message} text text_type_main-large`}>Загружаем ингридиенты...</p>
+        }
 
-      {
-        ingridients.hasError &&
-        <Modal title={'Что-то пошло не так.'} closePopup={closeErrorPopup}>
-          <p>Попробуйте перезагрузить страницу</p>
-        </Modal>
-      }
+        {
+          (ingredients.hasError || orderState.hasOrderError) &&
+          <Modal title={'Что-то пошло не так.'} closePopup={closeErrorPopup}>
+            <p>Попробуйте перезагрузить страницу</p>
+          </Modal>
+        }
 
-      {
-        !ingridients.isLoading &&
-        !ingridients.hasError &&
-        <Main
-          ingridients={ingridients.ingridientsData}
-          openDetailedPopup={onIngridientClick}
-          openOrderDetailsPopup={toggleOrderPopup}
-        />
-      }
+        {
+          ingredients.ingredientsData.length &&
+          <OrderContext.Provider value={{ orderState, orderDispatcher }}>
+            <Main
+              ingredients={ingredients.ingredientsData}
+              openDetailedPopup={oningredientClick}
+              openOrderDetailsPopup={toggleOrderPopup}
+            />
+          </OrderContext.Provider>
+        }
 
-      {
-        isIngridientPopupOpened && <Modal title='Детали ингридиента' closePopup={toggleIngridientPopup} >
-          <IngridientDetails ingridient={activeIngridient}/>
-        </Modal>
-      }
+        {
+          isIngredientPopupOpened && <Modal title='Детали ингридиента' closePopup={toggleingredientPopup} >
+            <IngredientDetails ingredient={activeingredient}/>
+          </Modal>
+        }
 
-      {
-        isOrderPopupOpened && <Modal title='' closePopup={toggleOrderPopup} >
-          <OrderDetails />
-        </Modal>
-      }
+        {
+          isOrderPopupOpened && orderState.orderNumber && <Modal title='' closePopup={toggleOrderPopup} >
+            <OrderDetails orderNumber={orderState.orderNumber} />
+          </Modal>
+        }
     </div>
   );
 }

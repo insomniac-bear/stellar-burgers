@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import propertyStyles from './ingridient-property.module.css';
+import propertyStyles from './ingredient-property.module.css';
 
-const IngridientProperty = ({ property, value }) => {
+const ingredientProperty = ({ property, value }) => {
   return(
     <li className={propertyStyles.item}>
       <p className='text text_type_main-default mb-2'>{property}</p>
@@ -10,9 +10,9 @@ const IngridientProperty = ({ property, value }) => {
   );
 };
 
-IngridientProperty.propTypes = {
+ingredientProperty.propTypes = {
   property: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired
 };
 
-export default IngridientProperty;
+export default ingredientProperty;
