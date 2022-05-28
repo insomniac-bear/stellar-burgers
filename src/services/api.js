@@ -25,6 +25,10 @@ export const getingredients = (ingredients, setingredients) => {
     });
 };
 
+export const ingredientsRequest = () => {
+  return fetch(`${config.baseUrl}/ingredients`).then(baseResponseHandler)
+}
+
 export const sendOrder = (ingredients, setOrder) => {
   setOrder({ type: OrderActionTypes.SET_LOADING, payload: true });
   fetch(`${config.baseUrl}/orders`, {

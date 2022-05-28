@@ -1,44 +1,38 @@
 import { useState, useEffect, useReducer } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AppHeader from '../app-header/app-header';
 import Main from '../main/main';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-deatils/order-details';
-import { getingredients } from '../../services/api';
+
+import {
+  RESET_INGREDIENTS_FAILED,
+  CLEAR_SELECTED_INGREDIENT
+} from '../../services/actions/ingredients';
+
 import { orderInitialState } from '../../services/order-initial-state';
 import { orderReducer } from '../../services/order-reducer';
 import { OrderContext } from '../../services/order-context';
 import { OrderActionTypes } from '../../utils/const';
 import styles from './app.module.css';
+import { getIngredients } from '../../services/actions/ingredients';
 
 const App = () => {
+  const dispatch = useDispatch();
   const [orderState, orderDispatcher] = useReducer(orderReducer, orderInitialState, undefined);
-  const [isIngredientPopupOpened, setingredientPopupStatus] = useState(false);
   const [isOrderPopupOpened, setOrderPopupStatus] = useState(false);
-  const [activeingredient, setActiveingredient] = useState({});
-  const [ingredients, setingredients] = useState({
-    isLoading: false,
-    hasError: false,
-    errorMessage: '',
-    ingredientsData: [],
-  });
+
+  const loadingIngredientsFailed = useSelector(store => store.ingredients.ingredientsError);
+  const selectedIngredient = useSelector(store => store.ingredients.selectedIngredient);
 
   useEffect(() => {
-    getingredients(ingredients, setingredients);
-  }, []);
-
-  const toggleingredientPopup = () => setingredientPopupStatus(!isIngredientPopupOpened);
-  const toggleOrderPopup = () => setOrderPopupStatus(!isOrderPopupOpened);
-
-
-  const oningredientClick = (ingredientCard) => {
-    setActiveingredient(ingredientCard);
-    toggleingredientPopup();
-  };
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   const closeErrorPopup = () => {
-    if (ingredients.hasError) {
-      setingredients({ ...ingredients, hasError: false});
+    if (loadingIngredientsFailed) {
+      dispatch({ type: RESET_INGREDIENTS_FAILED });
     }
     if (orderState.hasOrderError) {
       orderDispatcher({ type: OrderActionTypes.CLEAR })
@@ -49,37 +43,29 @@ const App = () => {
   return (
     <div className={styles.app}>
         <AppHeader />
-
         {
-          ingredients.isLoading && <p className={`${styles.message} text text_type_main-large`}>Загружаем ингридиенты...</p>
-        }
-
-        {
-          (ingredients.hasError || orderState.hasOrderError) &&
+          (loadingIngredientsFailed || orderState.hasOrderError) &&
           <Modal title={'Что-то пошло не так.'} closePopup={closeErrorPopup}>
             <p>Попробуйте перезагрузить страницу</p>
           </Modal>
         }
 
-        {
-          ingredients.ingredientsData.length &&
           <OrderContext.Provider value={{ orderState, orderDispatcher }}>
-            <Main
-              ingredients={ingredients.ingredientsData}
-              openDetailedPopup={oningredientClick}
-              openOrderDetailsPopup={toggleOrderPopup}
-            />
+            <Main />
           </OrderContext.Provider>
-        }
 
         {
-          isIngredientPopupOpened && <Modal title='Детали ингридиента' closePopup={toggleingredientPopup} >
-            <IngredientDetails ingredient={activeingredient}/>
+          selectedIngredient &&
+          <Modal
+            title='Детали ингридиента'
+            closePopup={() => dispatch({ type: CLEAR_SELECTED_INGREDIENT })}
+          >
+            <IngredientDetails ingredient={selectedIngredient} />
           </Modal>
         }
 
         {
-          isOrderPopupOpened && orderState.orderNumber && <Modal title='' closePopup={toggleOrderPopup} >
+          isOrderPopupOpened && orderState.orderNumber && <Modal title=''>
             <OrderDetails orderNumber={orderState.orderNumber} />
           </Modal>
         }
