@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { ingredientsReducer } from './ingredients';
+import { orderReducer } from './order';
 
 // const initialState = {
 //   activeIngredient: null,
@@ -19,5 +20,5 @@ import { ingredientsReducer } from './ingredients';
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
-  // morder: orderReducer
+  order: orderReducer
 })

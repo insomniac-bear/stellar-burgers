@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import IngredientsNavigation from '../ingredients-navigation/ingredients-navigation';
@@ -12,7 +11,7 @@ import { ItemType } from '../../utils/const';
 import ingredientsStyles from './burger-ingredients.module.css';
 
 
-const BurgerIngredients = ({ openDetailedPopup }) => {
+const BurgerIngredients = () => {
   const ingredients = useSelector(store => store.ingredients.items);
   const ingredientsRequest = useSelector(store => store.ingredients.ingredientsRequest);
 
@@ -37,17 +36,13 @@ const BurgerIngredients = ({ openDetailedPopup }) => {
       {
         ingredients.length > 0
         && <div className={`${ingredientsStyles.ingredients} mt-10`}>
-          <IngredientsList itemList={buns} itemType={ItemType.Bun} openDetailedPopup={openDetailedPopup} />
-          <IngredientsList itemList={sauce} itemType={ItemType.Sauce} openDetailedPopup={openDetailedPopup} />
-          <IngredientsList itemList={main} itemType={ItemType.Main} openDetailedPopup={openDetailedPopup} />
+          <IngredientsList itemList={buns} itemType={ItemType.Bun} />
+          <IngredientsList itemList={sauce} itemType={ItemType.Sauce} />
+          <IngredientsList itemList={main} itemType={ItemType.Main} />
         </div>
       }
     </section>
   );
-}
-
-BurgerIngredients.propTypes = {
-  openDetailedPopup: PropTypes.func.isRequired
 }
 
 export default BurgerIngredients;

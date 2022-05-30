@@ -4,14 +4,14 @@ import Title from "../title/title";
 import { ingredientDataTypes, itemDataTypes } from '../../utils/const';
 import listStyles from './ingredients-list.module.css';
 
-const IngredientsList = ({ itemList, itemType, openDetailedPopup }) => {
+const IngredientsList = ({ itemList, itemType }) => {
   return(
     <div className={`${listStyles.container} mb-10`}>
       <Title tag={'h2'} className='mb-6'>{itemType.NAME}</Title>
       <ul className={`${listStyles.list} pr-4 pl-4`}>
         {itemList.map(item =>
           <li key={item._id}>
-            <IngredientCard ingredient={item} openDetailedPopup={openDetailedPopup} />
+            <IngredientCard ingredient={item} />
           </li>)
         }
       </ul>
@@ -22,7 +22,6 @@ const IngredientsList = ({ itemList, itemType, openDetailedPopup }) => {
 IngredientsList.propTypes = {
   itemType: itemDataTypes.isRequired,
   itemList: PropTypes.arrayOf(ingredientDataTypes.isRequired).isRequired,
-  openDetailedPopup: PropTypes.func.isRequired,
 }
 
 export default IngredientsList

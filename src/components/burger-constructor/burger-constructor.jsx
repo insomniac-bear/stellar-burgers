@@ -1,22 +1,19 @@
-import { useContext } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
-import { OrderContext } from '../../services/order-context';
-import { OrderActionTypes } from '../../utils/const';
-import { sendOrder } from '../../services/api';
+import { REMOVE_INGREDIENT, postOrder } from '../../services/actions/order';
 import constructorStyles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ openOrderDetailsPopup }) => {
-  const { orderState, orderDispatcher } = useContext(OrderContext);
-  const bun = orderState.bun;
-  const main = orderState.main;
-  const price = orderState.price;
+const BurgerConstructor = () => {
+  const dispatch = useDispatch();
+  const order = useSelector(store => store.order.order);
+  const ingredientsId = useSelector(store => store.order.orderIngredientsId);
+  const bun = order.bun;
+  const main = order.main;
+  const price = useSelector(store => store.order.price);
 
   const handleOrderButton = () => {
-    sendOrder(orderState.ingredients, orderDispatcher);
-    openOrderDetailsPopup();
-    orderDispatcher({ type: OrderActionTypes.CLEAR });
+    dispatch(postOrder(ingredientsId));
   }
 
   return (
@@ -42,7 +39,10 @@ const BurgerConstructor = ({ openOrderDetailsPopup }) => {
                     text={item.name}
                     price={item.price}
                     thumbnail={item.image_mobile}
-                    handleClose={() => orderDispatcher({ type: OrderActionTypes.DEL, payload: { item, index } })}
+                    handleClose={() => dispatch({
+                      type: REMOVE_INGREDIENT,
+                      index
+                    })}
                   />
                 </li>
               );
@@ -73,9 +73,5 @@ const BurgerConstructor = ({ openOrderDetailsPopup }) => {
     </section>
   );
 };
-
-BurgerConstructor.propTypes = {
-  openOrderDetailsPopup: PropTypes.func.isRequired
-}
 
 export default BurgerConstructor;

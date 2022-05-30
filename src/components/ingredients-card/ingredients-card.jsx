@@ -1,22 +1,25 @@
-import { useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { SELECT_INGREDIENT } from '../../services/actions/ingredients';
-import { ingredientDataTypes, OrderActionTypes } from '../../utils/const';
-import { OrderContext } from '../../services/order-context';
+import { ingredientDataTypes } from '../../utils/const';
 import cardStyles from './ingredients-card.module.css';
+import { ADD_INGREDIENT, SET_ORDER_ID_LIST } from '../../services/actions/order';
 
-const IngredientsCard = ({ ingredient, openDetailedPopup }) => {
+const IngredientsCard = ({ ingredient }) => {
   const { image, name, price } = ingredient;
   const dispatch = useDispatch();
-  const { orderDispatcher } = useContext(OrderContext);
   const onCardClick = () => {
     dispatch({
       type: SELECT_INGREDIENT,
       ingredient,
     });
-    orderDispatcher({ type: OrderActionTypes.ADD, payload: ingredient });
+    dispatch({
+      type: ADD_INGREDIENT,
+      ingredient,
+    });
+    dispatch({
+      type: SET_ORDER_ID_LIST,
+    });
   }
   return (
     <article className={cardStyles.card} onClick={onCardClick}>
@@ -30,7 +33,6 @@ const IngredientsCard = ({ ingredient, openDetailedPopup }) => {
 
 IngredientsCard.propTypes = {
   ingredient: ingredientDataTypes.isRequired,
-  openDetailedPopup: PropTypes.func.isRequired,
 }
 
 export default IngredientsCard;
