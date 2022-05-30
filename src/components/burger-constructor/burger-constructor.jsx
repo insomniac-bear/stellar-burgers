@@ -32,7 +32,6 @@ const BurgerConstructor = () => {
           {main && <ul className={`${constructorStyles.mainingredientsList} mt-4 pr-4`}>
             {main.map((item, index) => {
               return (
-                // Используется nanoid, а не _id ингредиента, т.к. в списке может быть два одинаковых ингредиента с одинаковыми _id
                 <li key={nanoid()} className={`${constructorStyles.mainItem} mt-4`}>
                   <DragIcon />
                   <ConstructorElement

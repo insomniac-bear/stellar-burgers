@@ -15,15 +15,6 @@ export const ItemType = {
   }
 };
 
-export const OrderActionTypes = {
-  ADD: 'ADD',
-  DEL: 'DEL',
-  SET_ORDER: 'SET_ORDER',
-  CLEAR: 'CLEAR',
-  SET_ERROR: 'SET_ERROR',
-  SET_LOADING: 'SET_LOADING',
-}
-
 export const ingredientDataTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
