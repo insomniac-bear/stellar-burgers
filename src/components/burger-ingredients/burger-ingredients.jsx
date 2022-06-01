@@ -21,9 +21,9 @@ const BurgerIngredients = () => {
   ];
   const [currentTab, setCurrenTab] = useState(ItemType.Bun.TYPE);
 
-  const [bunsRef, inViewBuns] = useInView({ threshold: 1 });
-  const [saucesRef, inViewSauces] = useInView({ threshold: 1 });
-  const [mainsRef, inViewMains] = useInView({ threshold: 0.5 });
+  const [bunsRef, inViewBuns] = useInView({ threshold: 0 });
+  const [saucesRef, inViewSauces] = useInView({ threshold: 0 });
+  const [mainsRef, inViewMains] = useInView({ threshold: .5 });
 
   useEffect(() => {
     if (inViewBuns) {
@@ -46,7 +46,7 @@ const BurgerIngredients = () => {
     setCurrenTab(tab);
     const element = document.getElementById(tab);
     if (element) {
-      const scrollIntoViewOptions = { behavior: 'smooth', block: 'nearest' };
+      const scrollIntoViewOptions = { behavior: 'smooth' };
       element.scrollIntoView(scrollIntoViewOptions);
     }
   }

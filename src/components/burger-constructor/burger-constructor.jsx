@@ -1,13 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
-import { REMOVE_INGREDIENT, postOrder } from '../../services/actions/order';
+import { useDrop } from 'react-dnd';
+import { REMOVE_INGREDIENT, postOrder, ADD_INGREDIENT, SET_ORDER_ID_LIST } from '../../services/actions/order';
 import constructorStyles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const order = useSelector(store => store.order.order);
   const ingredientsId = useSelector(store => store.order.orderIngredientsId);
+
   const bun = order.bun;
   const main = order.main;
   const price = useSelector(store => store.order.price);
@@ -16,9 +18,25 @@ const BurgerConstructor = () => {
     dispatch(postOrder(ingredientsId));
   }
 
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop({ ingredient }) {
+      dispatch({
+        type: ADD_INGREDIENT,
+        ingredient,
+      });
+      dispatch({
+        type: SET_ORDER_ID_LIST
+      })
+    },
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+    })
+  });
+
   return (
     <section className={`${constructorStyles.container} pt-25 pl-4`}>
-      <ul className={constructorStyles.list}>
+      <ul className={`${constructorStyles.list} ${isHover && constructorStyles.list_type_isHover}`} ref={dropTarget}>
         <li className={`${constructorStyles.item} pl-8 mr-4`}>
           {bun && <ConstructorElement
             type='top'
