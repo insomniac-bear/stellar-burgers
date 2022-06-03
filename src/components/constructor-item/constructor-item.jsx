@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { REMOVE_INGREDIENT, SORT_ORDER } from '../../services/actions/order';
+import { REMOVE_INGREDIENT, SORT_ORDER, SET_ORDER_ID_LIST } from '../../services/actions/order';
 import { ingredientDataTypes } from '../../utils/const';
 import itemStyles from './constructor-item.module.css';
 
@@ -16,7 +16,12 @@ const ConstructorItem = ({ item, index }) => {
     item: { index },
     collect: monitor => ({
       isDrag: monitor.isDragging(),
-    })
+    }),
+    end: () => {
+      dispatch({
+        type: SET_ORDER_ID_LIST,
+      })
+    }
   });
 
   const [{ handlerId }, dropRef] = useDrop({
