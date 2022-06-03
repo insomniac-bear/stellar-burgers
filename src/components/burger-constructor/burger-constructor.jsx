@@ -1,8 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
 import { useDrop } from 'react-dnd';
-import { REMOVE_INGREDIENT, postOrder, ADD_INGREDIENT, SET_ORDER_ID_LIST } from '../../services/actions/order';
+
+import ConstructorItem from '../constructor-item/constructor-item';
+
+import {
+  postOrder,
+  ADD_INGREDIENT,
+  SET_ORDER_ID_LIST
+} from '../../services/actions/order';
 import constructorStyles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
@@ -47,24 +54,13 @@ const BurgerConstructor = () => {
           />}
         </li>
         <li>
-          {main && <ul className={`${constructorStyles.mainingredientsList} mt-4 pr-4`}>
-            {main.map((item, index) => {
-              return (
-                <li key={nanoid()} className={`${constructorStyles.mainItem} mt-4`}>
-                  <DragIcon />
-                  <ConstructorElement
-                    text={item.name}
-                    price={item.price}
-                    thumbnail={item.image_mobile}
-                    handleClose={() => dispatch({
-                      type: REMOVE_INGREDIENT,
-                      index
-                    })}
-                  />
-                </li>
-              );
-            })}
-          </ul>}
+          {
+            main && <ul className={`${constructorStyles.mainingredientsList} mt-4 pr-4`}>
+              {
+                main.map((item, index) => <ConstructorItem key={nanoid()} item={item} index={index}/>)
+              }
+            </ul>
+          }
         </li>
         <li className={`${constructorStyles.item} mt-4 mr-4 pl-8`}>
           {bun && <ConstructorElement

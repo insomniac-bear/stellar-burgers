@@ -13,7 +13,8 @@ const IngredientsCard = ({ ingredient }) => {
 
   const count = useMemo(() => ingredient.type !== 'bun' && order.main.length
   ? order.main.filter(it => it._id === ingredient._id).length
-  : !!order.bun && order.bun._id === ingredient._id ? 2
+  : !!order.bun && order.bun._id === ingredient._id
+  ? 2
   : 0, [order, ingredient._id, ingredient.type]);
 
   const onCardClick = () => {
@@ -23,16 +24,13 @@ const IngredientsCard = ({ ingredient }) => {
     });
   };
 
-  const [{ isDrag }, ingredientRef] = useDrag({
+  const [, ingredientRef] = useDrag({
     type: 'ingredient',
     item: { ingredient },
-    collect: monitor => ({
-      isDrag: monitor.isDragging()
-    })
   });
 
   return (
-    !isDrag && <article className={cardStyles.card} onClick={onCardClick} ref={ingredientRef}>
+    <article className={cardStyles.card} onClick={onCardClick} ref={ingredientRef}>
       {!!count && <Counter count={count} size="default" />}
       <img className='pl-4 pr-4' src={image} alt={name} />
       <p className={`${cardStyles.price} text text_type_digits-default mt-1 mb-1`}>{price} <CurrencyIcon /></p>

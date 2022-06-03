@@ -7,6 +7,7 @@ export const POST_ORDER_REQUEST = 'POST_ORDER_REQUEST';
 export const POST_ORDER_SUCCESS = 'POST_ORDER_SUCCESS';
 export const POST_ORDER_FAILED = 'POST_ORDER_FAILED';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
+export const SORT_ORDER = 'SORT_ORDER';
 
 export function postOrder(ingredients) {
   return function(dispatch) {

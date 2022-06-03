@@ -1,3 +1,5 @@
+import { correctArr } from '../../utils/utils';
+
 import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
@@ -6,6 +8,7 @@ import {
   POST_ORDER_FAILED,
   POST_ORDER_SUCCESS,
   CLEAR_ORDER,
+  SORT_ORDER,
 } from '../actions/order';
 
 const initialState = {
@@ -54,7 +57,9 @@ export const orderReducer = (state = initialState, action) => {
     case SET_ORDER_ID_LIST: {
       return {
         ...state,
-        orderIngredientsId: [].concat(state.order.bun._id, state.order.main.map(it => it._id))
+        orderIngredientsId: state.order.bun
+          ? [].concat(state.order.bun._id, state.order.main.map(it => it._id), state.order.bun._id)
+          : [].concat(undefined, state.order.main.map(it => it._id), undefined)
       }
     }
     case POST_ORDER_REQUEST: {
@@ -79,6 +84,23 @@ export const orderReducer = (state = initialState, action) => {
     }
     case CLEAR_ORDER: {
       return initialState
+    }
+    case SORT_ORDER: {
+      return {
+        ...state,
+        order: {
+          ...state.order,
+          main: correctArr(state.order.main, action.hoverIndex, action.dragIndex),
+          // [].concat(
+          //   state.order.main
+          //     .slice(0, action.hoverIndex),
+          //   state.order.main[action.dragIndex],
+          //   state.order.main[action.hoverIndex],
+          //   state.order.main
+          //     .slice(action.dragIndex + 1, state.order.main.length)
+          // ),
+        }
+      }
     }
     default:
       return state

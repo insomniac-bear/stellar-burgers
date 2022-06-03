@@ -1,0 +1,26 @@
+.item {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: move;
+}
+
+.mainItem {
+  composes: item;
+  align-items: center;
+}
+
+.mainItem_shadow {
+  opacity: 0;
+}
+
+.mainItem:first-child {
+  margin-top: 0;
+}
+
+.controls {
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
