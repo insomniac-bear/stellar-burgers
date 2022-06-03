@@ -17,6 +17,7 @@ export const ItemType = {
 
 export const ingredientDataTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
+  uuid: PropTypes.string,
   name: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['bun', 'main','sauce']).isRequired,
   proteins: PropTypes.number.isRequired,

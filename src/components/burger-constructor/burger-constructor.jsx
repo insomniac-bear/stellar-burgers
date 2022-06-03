@@ -30,7 +30,10 @@ const BurgerConstructor = () => {
     drop({ ingredient }) {
       dispatch({
         type: ADD_INGREDIENT,
-        ingredient,
+        ingredient: {
+          ...ingredient,
+          uuid: nanoid()
+        },
       });
       dispatch({
         type: SET_ORDER_ID_LIST
@@ -48,7 +51,7 @@ const BurgerConstructor = () => {
           {bun && <ConstructorElement
             type='top'
             isLocked={true}
-            text={bun.name}
+            text={`${bun.name} (верх)`}
             price={bun.price}
             thumbnail={bun.image_mobile}
           />}
@@ -57,7 +60,7 @@ const BurgerConstructor = () => {
           {
             main && <ul className={`${constructorStyles.mainingredientsList} mt-4 pr-4`}>
               {
-                main.map((item, index) => <ConstructorItem key={nanoid()} item={item} index={index}/>)
+                main.map((item, index) => <ConstructorItem key={item.uuid} item={item} index={index}/>)
               }
             </ul>
           }
@@ -66,7 +69,7 @@ const BurgerConstructor = () => {
           {bun && <ConstructorElement
             type='bottom'
             isLocked={true}
-            text={bun.name}
+            text={`${bun.name} (низ)`}
             price={bun.price}
             thumbnail={bun.image_mobile}
           />}
