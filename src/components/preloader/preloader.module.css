@@ -1,0 +1,25 @@
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.preloader {
+  margin: auto;
+  width: 70px;
+  height: 70px;
+  border-top: 5px solid #4c4cff;
+  border-right: 5px solid #4c4cff;
+
+  animation-name: rotation;
+  animation-delay: 0s;
+  animation-direction: normal;
+  animation-duration: 2s;
+  animation-fill-mode: none;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  border-radius: 50%;
+}

@@ -1,21 +1,18 @@
-import PropTypes from 'prop-types';
-import { ingredientDataTypes } from '../../utils/const';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Burgeringredients from '../burger-ingredients/burger-ingredients';
 import mainStyles from './main.module.css';
-const Main = ({ ingredients, openDetailedPopup, openOrderDetailsPopup }) => {
+
+const Main = () => {
   return (
     <main className={mainStyles.main}>
-      <Burgeringredients data={ingredients} openDetailedPopup={openDetailedPopup} />
-      <BurgerConstructor openOrderDetailsPopup={openOrderDetailsPopup} />
+      <DndProvider backend={HTML5Backend}>
+        <Burgeringredients />
+        <BurgerConstructor />
+      </DndProvider>
     </main>
   );
-}
-
-Main.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientDataTypes.isRequired).isRequired,
-  openDetailedPopup: PropTypes.func.isRequired,
-  openOrderDetailsPopup: PropTypes.func.isRequired
 }
 
 export default Main;
