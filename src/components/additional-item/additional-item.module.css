@@ -1,0 +1,14 @@
+.item {
+  color: #8585ad;
+  text-align: center;
+}
+
+.link {
+  color: #4c4cff;
+  text-decoration: none;
+  transition: opacity .5s ease;
+}
+
+.link:hover {
+  opacity: .6;
+}

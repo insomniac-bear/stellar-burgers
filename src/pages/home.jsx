@@ -1,21 +1,18 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import AppHeader from '../app-header/app-header';
-import Main from '../main/main';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrderDetails from '../order-deatils/order-details';
+import Main from '../components/main/main';
+import Modal from '../components/modal/modal';
+import IngredientDetails from '../components/ingredient-details/ingredient-details';
+import OrderDetails from '../components/order-deatils/order-details';
 
 import {
   RESET_INGREDIENTS_FAILED,
   CLEAR_SELECTED_INGREDIENT,
   getIngredients
-} from '../../services/actions/ingredients';
-import { CLEAR_ORDER } from '../../services/actions/order';
+} from '../services/actions/ingredients';
+import { CLEAR_ORDER } from '../services/actions/order';
 
-import styles from './app.module.css';
-
-const App = () => {
+export const HomePage = () => {
   const dispatch = useDispatch();
 
   const loadingIngredientsFailed = useSelector(store => store.ingredients.ingredientsError);
@@ -37,8 +34,7 @@ const App = () => {
   };
 
   return (
-    <div className={styles.app}>
-      <AppHeader />
+    <div className='page'>
       {
         (loadingIngredientsFailed || sendOrderError) &&
         <Modal title={'Что-то пошло не так.'} closePopup={closeErrorPopup}>
@@ -71,4 +67,3 @@ const App = () => {
   );
 }
 
-export default App;

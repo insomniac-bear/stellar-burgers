@@ -1,0 +1,16 @@
+.title {
+  padding-top: 120px;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 100px;
+}
+
+.icon {
+  display: block;
+  margin: 0 auto;
+}
+
+.text {
+  padding-top: 20px;
+  text-align: center;
+}

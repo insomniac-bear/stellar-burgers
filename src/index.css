@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.page {
+  background-color: #131316;
+  min-height: calc(100vh - 88px);
+  width: 100%;
+  min-width: 1280px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin: 0 auto;
+  padding-top: 200px;
+
+  width: 25%;
+  min-width: 480px;
+  max-width: 480px;
+}
+
+.form > div > div {
+  width: 480px;
+}

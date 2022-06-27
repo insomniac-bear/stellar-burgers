@@ -1,33 +1,48 @@
 import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import appHeaderStyles from './app-header.module.css';
 
 const AppHeader = () => {
+  const location = useLocation();
+
   return(
     <header className={`${appHeaderStyles.header} pt-4 pb-4`}>
       <nav className={appHeaderStyles.navigation}>
         <div className={appHeaderStyles.wrapper}>
           <menu className={`${appHeaderStyles.navList} pt-4 pb-4`}>
             <li className={`${appHeaderStyles.navItem} pt-4 pr-5 pb-4 pl-5`}>
-              <a href='/#' className={`${appHeaderStyles.linkActive} text text_type_main-default`}>
-                <BurgerIcon type='primary' />
+              <NavLink
+                to='/'
+                className={`${appHeaderStyles.link} text text_type_main-default`}
+                activeClassName={`${appHeaderStyles.linkActive} text text_type_main-default`}
+              >
+                <BurgerIcon type={location.pathname === '/' ? 'primary' : 'secondary'} />
                 <span className='ml-2'>Конструктор</span>
-              </a>
+              </NavLink>
             </li>
             <li className={`${appHeaderStyles.navItem} pt-4 pr-5 pb-4 pl-5 ml-2`}>
-              <a href='/#' className={`${appHeaderStyles.link} text text_type_main-default`}>
-                <ListIcon type='secondary' />
+              <NavLink
+               to='/order-list'
+                className={`${appHeaderStyles.link} text text_type_main-default`}
+                activeClassName={`${appHeaderStyles.linkActive} text text_type_main-default`}
+              >
+                <ListIcon type={location.pathname === '/order-list' ? 'primary' : 'secondary'} />
                 <span className='ml-2'>Лента заказов</span>
-              </a>
+              </NavLink>
             </li>
           </menu>
           <Logo />
         </div>
         <div className='pt-4 pr-5 pb-4 pl-5'>
-          <a href='/#' className={`${appHeaderStyles.link} text text_type_main-default`}>
-            <ProfileIcon type='secondary'/>
+          <NavLink
+            to='/profile'
+            className={`${appHeaderStyles.link} text text_type_main-default`}
+            activeClassName={appHeaderStyles.linkActive}
+            >
+            <ProfileIcon type={location.pathname === '/profile' ? 'primary' : 'secondary'} />
             <span className='ml-2'>Личный кабинет</span>
-          </a>
+          </NavLink>
         </div>
       </nav>
     </header>
