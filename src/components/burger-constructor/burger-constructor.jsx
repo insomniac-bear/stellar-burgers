@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
 import { useDrop } from 'react-dnd';
@@ -14,15 +15,25 @@ import constructorStyles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const order = useSelector(store => store.order.order);
-  const ingredientsId = useSelector(store => store.order.orderIngredientsId);
+  const history = useHistory();
+
+  const { order, orderIngredientsId } = useSelector(store => store.order);
+  const { isAuth } = useSelector(store => store.user.data);
 
   const bun = order.bun;
   const main = order.main;
   const price = useSelector(store => store.order.price);
 
   const handleOrderButton = () => {
-    dispatch(postOrder(ingredientsId));
+    isAuth && dispatch(postOrder(orderIngredientsId));
+    !isAuth && history.replace({
+      pathname: '/',
+      state: {
+        from: {
+          pathname: '/'
+        }
+      }
+    });
   }
 
   const [{ isHover }, dropTarget] = useDrop({
