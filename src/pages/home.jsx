@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import Main from '../components/main/main';
 import Modal from '../components/modal/modal';
 import IngredientDetails from '../components/ingredient-details/ingredient-details';
@@ -22,7 +23,7 @@ export const HomePage = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-  }, [dispatch]);
+  }, [ dispatch ]);
 
   const closeErrorPopup = () => {
     if (loadingIngredientsFailed) {

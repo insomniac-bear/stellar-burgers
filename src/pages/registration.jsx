@@ -55,10 +55,10 @@ export const RegistrationPage = () => {
       type: CLEAR_REQUESTS_MESSAGE,
     });
     history.replace({
-      pathname: '/login',
+      pathname: '/',
       state: {
         from: {
-          pathname: '/profile'
+          pathname: '/'
         }
       }
     });

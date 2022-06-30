@@ -9,9 +9,11 @@ import {
   ProfilePage,
   Page404,
 } from './pages';
+import { useAuth } from './hooks/use-auth-hook';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 
 function App () {
+  useAuth();
   return(
     <Router>
       <AppHeader />

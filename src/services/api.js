@@ -1,9 +1,11 @@
+import { getCookie } from '../utils/utils';
+
 const config = {
   baseUrl: 'https://norma.nomoreparties.space/api',
   headers: {
     'Content-Type': 'application/json',
   },
-}
+};
 
 function baseResponseHandler (res) {
   return res.ok ?
@@ -58,3 +60,31 @@ export const resetPassRequest = ({password, token}) => {
     })
   }).then(baseResponseHandler);
 };
+
+export const refreshTokenRequest = (refreshToken) => {
+  return fetch(`${config.baseUrl}/auth/token`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({
+      token: refreshToken
+    })
+  }).then(baseResponseHandler);
+};
+
+export const logoutRequest = (refreshToken) => {
+  return fetch(`${config.baseUrl}/auth/logout`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({
+      token: refreshToken
+    })
+  }).then(baseResponseHandler);
+};
+
+export const authUserRequest = () => {
+  return fetch(`${config.baseUrl}/auth/user`, {
+    headers: {
+      authorization: 'Bearer ' + getCookie('token'),
+    }
+  }).then(baseResponseHandler);
+}

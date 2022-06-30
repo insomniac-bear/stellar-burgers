@@ -61,7 +61,7 @@ export const ForgotPasswordPage = () => {
   }, [ email ]);
 
   useEffect(() => {
-    if (message === 'Reset email sent') {
+    if (message && !forgotPassError) {
       dispatch({
         type: CLEAR_REQUESTS_MESSAGE
       })
@@ -70,7 +70,7 @@ export const ForgotPasswordPage = () => {
         state: '/login'
       });
     }
-  }, [ history, message, dispatch ]);
+  }, [ history, message, forgotPassError, dispatch ]);
 
   return (
     <main className='page'>

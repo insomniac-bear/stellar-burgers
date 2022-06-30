@@ -11,6 +11,12 @@ import {
   GET_RESET_PASS_FAILED,
   GET_RESET_PASS_REQUEST,
   GET_RESET_PASS_SUCCESS,
+  GET_AUTH_FAILED,
+  GET_AUTH_REQUEST,
+  GET_AUTH_SUCCESS,
+  GET_REFRESH_TOKEN_FAILED,
+  GET_REFRESH_TOKEN_REQUEST,
+  GET_REFRESH_TOKEN_SUCCESS,
   USER_FORM_SET_VALUE,
   CLEAR_REQUESTS_MESSAGE,
 } from '../actions/user';
@@ -31,17 +37,23 @@ const initialState = {
 
   message: '',
 
+  authRequest: false,
+  authError: false,
+
   registerRequest: false,
   registerError: false,
 
-  authRequest: false,
-  authError: false,
+  loginRequest: false,
+  loginError: false,
 
   forgotPassRequest: false,
   forgotPassError: false,
 
   resetPassRequest: false,
   resetPassError: false,
+
+  refreshTokenRequest: false,
+  refreshTokenError: false,
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -95,14 +107,14 @@ export const userReducer = (state = initialState, action) => {
     case GET_LOGIN_REQUEST: {
       return {
         ...state,
-        authRequest: true,
+        loginRequest: true,
       }
     }
     case GET_LOGIN_FAILED: {
       return {
         ...state,
-        authRequest: false,
-        authError: true,
+        loginRequest: false,
+        loginError: true,
         input: {
           ...state.input,
           email: '',
@@ -114,8 +126,8 @@ export const userReducer = (state = initialState, action) => {
     case GET_LOGIN_SUCCESS: {
       return {
         ...state,
-        authRequest: false,
-        accessToken: action.accessToken,
+        loginRequest: false,
+        refreshTokenError: false,
         input: {
           ...state.input,
           email: '',
@@ -125,6 +137,61 @@ export const userReducer = (state = initialState, action) => {
           name: action.user.name,
           email: action.user.email,
           isAuth: true,
+        },
+      }
+    }
+    case GET_AUTH_REQUEST: {
+      return {
+        ...state,
+        authRequest: true,
+      }
+    }
+    case GET_AUTH_FAILED: {
+      return {
+        ...state,
+        authRequest: false,
+        authError: true,
+        message: action.message,
+      }
+    }
+    case GET_AUTH_SUCCESS: {
+      return {
+        ...state,
+        authRequest: false,
+        data: {
+          name: action.user.name,
+          email: action.user.email,
+          isAuth: true,
+        },
+      }
+    }
+    case GET_REFRESH_TOKEN_REQUEST: {
+      return {
+        ...state,
+        refreshTokenRequest: true,
+      }
+    }
+    case GET_REFRESH_TOKEN_FAILED: {
+      return {
+        ...state,
+        refreshTokenRequest: false,
+        refreshTokenError: true,
+        message: action.message,
+        data: {
+          name: '',
+          email: '',
+          isAuth: false,
+        }
+      }
+    }
+    case GET_REFRESH_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        refreshTokenRequest: false,
+        authError: false,
+        data: {
+          ...state.data,
+          isAuth: false,
         },
       }
     }
@@ -192,6 +259,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         authError: false,
+        loginError: false,
         registerError: false,
         forgotPassError: false,
         resetPassError: false,

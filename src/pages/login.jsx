@@ -7,7 +7,7 @@ import Modal from '../components/modal/modal';
 import Preloader from '../components/preloader/preloader';
 import Title from '../components/title/title';
 import {
-  authUser,
+  loginUser,
   USER_FORM_SET_VALUE,
   CLEAR_REQUESTS_MESSAGE,
 } from '../services/actions/user';
@@ -35,11 +35,11 @@ export const LoginPage = () => {
 
   const [ isEmail, setIsEmail ] = useState(true);
   const { email, password } = useSelector(state => state.user.input);
-  const { data, authRequest, authError, message } = useSelector(state => state.user);
+  const { data, loginRequest, loginError, message } = useSelector(state => state.user);
 
   const onFormSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(authUser({ email, password }));
+    dispatch(loginUser({ email, password }));
   };
 
   const handleInputChange = (evt) => {
@@ -92,7 +92,7 @@ export const LoginPage = () => {
           placeholder='Пароль'
         />
         {
-          !authRequest && <Button
+          !loginRequest && <Button
             type='primary'
             size='medium'
             onClick={onFormSubmit}
@@ -103,12 +103,12 @@ export const LoginPage = () => {
           </Button>
         }
         {
-          authRequest && <Preloader />
+          loginRequest && <Preloader />
         }
       </form>
       <AdditionalActions additionalItems={additionalItems} />
       {
-        authError &&
+        loginError &&
         <Modal title={'Ошибка'} closePopup={onCloseErrorPopup}>
           <p>{ message }</p>
         </Modal>
