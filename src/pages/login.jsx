@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -25,8 +25,6 @@ const additionalItems = [
     linkText: 'Восстановить пароль'
   }
 ];
-
-let buttonIsDisabled = true;
 
 export const LoginPage = () => {
   const history = useHistory();
@@ -62,10 +60,6 @@ export const LoginPage = () => {
     }
   }
 
-  useEffect(() => {
-    buttonIsDisabled = !email || !password;
-  }, [ email, password ]);
-
   useMemo(() => {
     if (data.isAuth) {
       history.replace({ pathname: location.state.from.pathname });
@@ -96,7 +90,7 @@ export const LoginPage = () => {
             type='primary'
             size='medium'
             onClick={onFormSubmit}
-            disabled={buttonIsDisabled}
+            disabled={!email || !password}
             htmlType='submit'
           >
             Войти

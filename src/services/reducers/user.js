@@ -17,6 +17,9 @@ import {
   GET_REFRESH_TOKEN_FAILED,
   GET_REFRESH_TOKEN_REQUEST,
   GET_REFRESH_TOKEN_SUCCESS,
+  GET_LOGOUT_FAILED,
+  GET_LOGOUT_REQUEST,
+  GET_LOGOUT_SUCCESS,
   USER_FORM_SET_VALUE,
   CLEAR_REQUESTS_MESSAGE,
 } from '../actions/user';
@@ -45,6 +48,9 @@ const initialState = {
 
   loginRequest: false,
   loginError: false,
+
+  logoutRequest: false,
+  logoutError: false,
 
   forgotPassRequest: false,
   forgotPassError: false,
@@ -194,6 +200,23 @@ export const userReducer = (state = initialState, action) => {
           isAuth: false,
         },
       }
+    }
+    case GET_LOGOUT_REQUEST: {
+      return {
+        ...state,
+        logoutRequest: true,
+      }
+    }
+    case GET_LOGOUT_FAILED: {
+      return {
+        ...state,
+        logoutRequest: false,
+        logoutError: true,
+        message: action.message,
+      }
+    }
+    case GET_LOGOUT_SUCCESS: {
+      return initialState;
     }
     case GET_FORGOT_PASS_REQUEST: {
       return {

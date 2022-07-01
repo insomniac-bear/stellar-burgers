@@ -6,6 +6,7 @@ import {
   resetPassRequest,
   authUserRequest,
   refreshTokenRequest,
+  logoutRequest,
 } from '../api';
 
 export const USER_FORM_SET_VALUE = 'USER_FORM_SET_VALUE';
@@ -33,6 +34,10 @@ export const GET_AUTH_FAILED = 'GET_AUTH_FAILED';
 export const GET_REFRESH_TOKEN_REQUEST = 'GET_REFRESH_TOKEN_REQUEST';
 export const GET_REFRESH_TOKEN_SUCCESS = 'GET_REFRESH_TOKEN_SUCCESS';
 export const GET_REFRESH_TOKEN_FAILED = 'GET_REFRESH_TOKEN_FAILED';
+
+export const GET_LOGOUT_REQUEST = 'GET_LOGOUT_REQUEST';
+export const GET_LOGOUT_SUCCESS = 'GET_LOGOUT_SUCCESS';
+export const GET_LOGOUT_FAILED = 'GET_LOGOUT_FAILED';
 
 export const CLEAR_REQUESTS_MESSAGE = 'CLEAR_REQUESTS_MESSAGE';
 
@@ -183,6 +188,31 @@ export function updateRefreshToken() {
         dispatch({
           type: GET_REFRESH_TOKEN_FAILED,
           message: err.message
+        });
+      });
+  }
+};
+
+export function logoutUser() {
+  return function (dispatch) {
+    dispatch({
+      type: GET_LOGOUT_REQUEST,
+    });
+
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    logoutRequest(refreshToken)
+      .then(() => {
+        dispatch({
+          type: GET_LOGOUT_SUCCESS,
+        });
+        setCookie('token', '');
+        localStorage.clear();
+      })
+      .catch(err => {
+        dispatch({
+          type: GET_LOGOUT_FAILED,
+          message: err.message,
         });
       });
   }

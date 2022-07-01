@@ -1,15 +1,33 @@
+import { useDispatch } from "react-redux";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
-  useRouteMatch
+  useRouteMatch,
+  useHistory
 } from "react-router-dom";
 import ProfileForm from '../components/profile-form/profile-form';
+import { logoutUser } from "../services/actions/user";
 import styles from './profile.module.css'
 
 export const ProfilePage = () => {
+  const dispatch = useDispatch();
   const { url } = useRouteMatch();
+  const history = useHistory();
+
+  const logoutButtonHandler = () => {
+    dispatch(logoutUser());
+    history.replace({
+      pathname: '/',
+      state: {
+        from: {
+          pathname: '/',
+        }
+      }
+    });
+  };
+
   return (
     <div className='page'>
       <main className={styles.main}>
@@ -34,7 +52,12 @@ export const ProfilePage = () => {
               </NavLink>
             </li>
             <li>
-              <button className={`${styles.button} text text_type_main-medium`}>Выход</button>
+              <button
+                className={`${styles.button} text text_type_main-medium`}
+                onClick={logoutButtonHandler}
+              >
+                Выход
+              </button>
             </li>
           </menu>
           <p className={`${styles.notes} text text_type_main-small mt-20`}>В этом разделе вы можете изменить&nbsp;свои персональные данные</p>
