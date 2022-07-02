@@ -7,6 +7,7 @@ import {
   authUserRequest,
   refreshTokenRequest,
   logoutRequest,
+  updateUserRequest,
 } from '../api';
 
 export const USER_FORM_SET_VALUE = 'USER_FORM_SET_VALUE';
@@ -38,6 +39,10 @@ export const GET_REFRESH_TOKEN_FAILED = 'GET_REFRESH_TOKEN_FAILED';
 export const GET_LOGOUT_REQUEST = 'GET_LOGOUT_REQUEST';
 export const GET_LOGOUT_SUCCESS = 'GET_LOGOUT_SUCCESS';
 export const GET_LOGOUT_FAILED = 'GET_LOGOUT_FAILED';
+
+export const GET_UPDATE_USER_REQUEST = 'GET_UPDATE_USER_REQUEST';
+export const GET_UPDATE_USER_SUCCESS = 'GET_UPDATE_USER_SUCCESS';
+export const GET_UPDATE_USER_FAILED = 'GET_UPDATE_USER_FAILED';
 
 export const CLEAR_REQUESTS_MESSAGE = 'CLEAR_REQUESTS_MESSAGE';
 
@@ -217,3 +222,25 @@ export function logoutUser() {
       });
   }
 };
+
+export function updateUser (userData) {
+  return function (dispatch) {
+    dispatch({
+      type: GET_UPDATE_USER_REQUEST,
+    });
+
+    updateUserRequest(userData)
+      .then(res => {
+        dispatch({
+          type: GET_UPDATE_USER_SUCCESS,
+          user: res.user,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: GET_UPDATE_USER_FAILED,
+          message: err.message,
+        })
+      });
+  }
+}

@@ -87,4 +87,19 @@ export const authUserRequest = () => {
       authorization: 'Bearer ' + getCookie('token'),
     }
   }).then(baseResponseHandler);
+};
+
+export const updateUserRequest = (userData) => {
+  return fetch(`${config.baseUrl}/auth/user`, {
+    method: 'PATCH',
+    headers: {
+      ...config.headers,
+      authorization: 'Bearer ' + getCookie('token')
+    },
+    body: JSON.stringify({
+      name: userData?.name,
+      email: userData?.email,
+      password: userData?.password
+    }),
+  }).then(baseResponseHandler);
 }

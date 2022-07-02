@@ -20,6 +20,9 @@ import {
   GET_LOGOUT_FAILED,
   GET_LOGOUT_REQUEST,
   GET_LOGOUT_SUCCESS,
+  GET_UPDATE_USER_FAILED,
+  GET_UPDATE_USER_REQUEST,
+  GET_UPDATE_USER_SUCCESS,
   USER_FORM_SET_VALUE,
   CLEAR_REQUESTS_MESSAGE,
 } from '../actions/user';
@@ -60,6 +63,9 @@ const initialState = {
 
   refreshTokenRequest: false,
   refreshTokenError: false,
+
+  updateUserRequest: false,
+  updateUserError: false,
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -164,6 +170,31 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         authRequest: false,
+        data: {
+          name: action.user.name,
+          email: action.user.email,
+          isAuth: true,
+        },
+      }
+    }
+    case GET_UPDATE_USER_REQUEST: {
+      return {
+        ...state,
+        updateUserRequest: true,
+      }
+    }
+    case GET_UPDATE_USER_FAILED: {
+      return {
+        ...state,
+        updateUserRequest: false,
+        updateUserError: true,
+        message: action.message,
+      }
+    }
+    case GET_UPDATE_USER_SUCCESS: {
+      return {
+        ...state,
+        updateUserRequest: false,
         data: {
           name: action.user.name,
           email: action.user.email,
@@ -286,6 +317,7 @@ export const userReducer = (state = initialState, action) => {
         registerError: false,
         forgotPassError: false,
         resetPassError: false,
+        updateUserError: false,
         message: '',
       }
     }

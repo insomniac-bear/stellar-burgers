@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -60,7 +60,7 @@ export const LoginPage = () => {
     }
   }
 
-  useMemo(() => {
+  useEffect(() => {
     if (data.isAuth) {
       history.replace({ pathname: location.state.from.pathname });
     }
