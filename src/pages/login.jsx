@@ -69,7 +69,11 @@ export const LoginPage = () => {
 
   return (
     <main className='page'>
-      <form className='form' noValidate>
+      <form
+        className='form'
+        noValidate
+        onSubmit={onFormSubmit}
+      >
         <Title tag={'h2'}>Вход</Title>
         <Input
           placeholder='E-mail'
@@ -90,7 +94,6 @@ export const LoginPage = () => {
           !loginRequest && <Button
             type='primary'
             size='medium'
-            onClick={onFormSubmit}
             disabled={!email || !password}
             htmlType='submit'
           >

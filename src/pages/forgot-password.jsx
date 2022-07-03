@@ -74,7 +74,11 @@ export const ForgotPasswordPage = () => {
 
   return (
     <main className='page'>
-      <form className='form' noValidate>
+      <form
+        className='form'
+        noValidate
+        onSubmit={onFormSubmit}
+      >
         <Title tag={'h2'}>Восстановление пароля</Title>
         <Input
           placeholder='E-mail'
@@ -89,7 +93,6 @@ export const ForgotPasswordPage = () => {
           !forgotPassRequest && <Button
             type='primary'
             size='medium'
-            onClick={onFormSubmit}
             disabled={buttonIsDisabled}
             htmlType='submit'
           >

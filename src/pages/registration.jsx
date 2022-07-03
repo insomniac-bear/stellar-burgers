@@ -76,7 +76,11 @@ export const RegistrationPage = () => {
 
   return (
     <main className='page'>
-      <form className='form' noValidate>
+      <form
+        className='form'
+        noValidate
+        onSubmit={onFormSubmit}
+      >
         <Title tag={'h2'}>Регистрация</Title>
         <Input
           placeholder='Имя'
@@ -103,7 +107,6 @@ export const RegistrationPage = () => {
           !registerRequest && <Button
             type='primary'
             size='medium'
-            onClick={onFormSubmit}
             disabled={buttonIsDisabled}
             htmlType='submit'
           >

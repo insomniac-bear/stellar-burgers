@@ -68,7 +68,11 @@ export const ResetPasswordPage = () => {
 
   return (
     <main className='page'>
-      <form className='form' noValidate>
+      <form
+        className='form'
+        noValidate
+        onSubmit={onFormSubmit}
+      >
         <Title tag={'h2'}>Восстановление пароля</Title>
         <PasswordInput
           name='password'
@@ -86,7 +90,6 @@ export const ResetPasswordPage = () => {
           !resetPassRequest && <Button
             type='primary'
             size='medium'
-            onClick={onFormSubmit}
             disabled={buttonIsDisabled}
             htmlType='submit'
           >

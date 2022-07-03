@@ -54,7 +54,7 @@ function ProfileForm () {
     });
   }
 
-  const onCancelButtonClick = (evt) => {
+  const resetForm = (evt) => {
     evt.preventDefault();
     setInputEdit({
       name: false,
@@ -73,6 +73,7 @@ function ProfileForm () {
       className={styles.form}
       noValidate={true}
       onSubmit={submitForm}
+      onReset={resetForm}
     >
       <Input
         type='text'
@@ -111,7 +112,6 @@ function ProfileForm () {
             <Button
               type="secondary"
               size="medium"
-              onClick={onCancelButtonClick}
               htmlType='reset'
             >
               Отмена

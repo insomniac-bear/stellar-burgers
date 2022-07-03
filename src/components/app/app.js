@@ -5,7 +5,7 @@ import {
   useLocation,
   useHistory,
 } from 'react-router-dom';
-import AppHeader from './components/app-header/app-header';
+import AppHeader from '../app-header/app-header';
 import {
   HomePage,
   LoginPage,
@@ -15,17 +15,17 @@ import {
   ProfilePage,
   Page404,
   IngredientPage,
-} from './pages';
-import Modal from './components/modal/modal';
-import IngredientDetails from './components/ingredient-details/ingredient-details';
-import { useAuth } from './hooks/use-auth-hook';
-import { useGetIngredients } from './hooks/use-get-ingredients';
+} from '../../pages';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import { useAuth } from '../../hooks/use-auth-hook';
+import { useGetIngredients } from '../../hooks/use-get-ingredients';
 import {
   RESET_INGREDIENTS_FAILED,
-} from './services/actions/ingredients';
-import { ProtectedRoute } from './components/protected-route/protected-route';
-import { AnonimusRoute } from './components/anonimus-route/anonimus-route';
-import Preloader from './components/preloader/preloader';
+} from '../../services/actions/ingredients';
+import { ProtectedRoute } from '../protected-route/protected-route';
+import { AnonimusRoute } from '../anonimus-route/anonimus-route';
+import Preloader from '../preloader/preloader';
 
 function App () {
   const history = useHistory();

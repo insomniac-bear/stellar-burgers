@@ -1,10 +1,11 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import appHeaderStyles from './app-header.module.css';
 
 const AppHeader = () => {
   const location = useLocation();
+  console.log(location);
 
   return(
     <header className={`${appHeaderStyles.header} pt-4 pb-4`}>
@@ -32,7 +33,11 @@ const AppHeader = () => {
               </NavLink>
             </li>
           </menu>
-          <Logo />
+          {
+            location.pathname !== '/'
+              ? <Link to="/" className={appHeaderStyles.logoLink}><Logo /></Link>
+              : <Logo />
+          }
         </div>
         <div className='pt-4 pr-5 pb-4 pl-5'>
           <NavLink
