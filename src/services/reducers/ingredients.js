@@ -3,15 +3,12 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
   RESET_INGREDIENTS_FAILED,
-  SELECT_INGREDIENT,
-  CLEAR_SELECTED_INGREDIENT,
 } from '../actions/ingredients';
 
 const initialState = {
   items: [],
   ingredientsRequest: false,
   ingredientsError: false,
-  selectedIngredient: null,
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -40,18 +37,6 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredientsError: false,
-      }
-    }
-    case SELECT_INGREDIENT: {
-      return {
-        ...state,
-        selectedIngredient: action.ingredient,
-      }
-    }
-    case CLEAR_SELECTED_INGREDIENT: {
-      return {
-        ...state,
-        selectedIngredient: null,
       }
     }
     default:

@@ -27,7 +27,7 @@ const BurgerConstructor = () => {
   const handleOrderButton = () => {
     isAuth && dispatch(postOrder(orderIngredientsId));
     !isAuth && history.replace({
-      pathname: '/',
+      pathname: '/login',
       state: {
         from: {
           pathname: '/'

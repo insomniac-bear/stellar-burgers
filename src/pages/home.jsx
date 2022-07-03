@@ -2,18 +2,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Main from '../components/main/main';
 import Modal from '../components/modal/modal';
-import IngredientDetails from '../components/ingredient-details/ingredient-details';
 import OrderDetails from '../components/order-deatils/order-details';
 
-import {
-  CLEAR_SELECTED_INGREDIENT,
-} from '../services/actions/ingredients';
 import { CLEAR_ORDER } from '../services/actions/order';
 
 export const HomePage = () => {
   const dispatch = useDispatch();
 
-  const selectedIngredient = useSelector(store => store.ingredients.selectedIngredient);
   const {
     number: orderNumber,
     orderIngredientsError,
@@ -33,16 +28,6 @@ export const HomePage = () => {
       }
 
       <Main />
-
-      {
-        selectedIngredient &&
-        <Modal
-          title='Детали ингредиента'
-          closePopup={() => dispatch({ type: CLEAR_SELECTED_INGREDIENT })}
-        >
-          <IngredientDetails ingredient={selectedIngredient} />
-        </Modal>
-      }
 
       {
         orderNumber &&

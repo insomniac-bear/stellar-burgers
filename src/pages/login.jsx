@@ -30,6 +30,7 @@ export const LoginPage = () => {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
+  const pathname = location.state?.from.pathname || '/';
 
   const [ isEmail, setIsEmail ] = useState(true);
   const { email, password } = useSelector(state => state.user.input);
@@ -62,9 +63,9 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (data.isAuth) {
-      history.replace({ pathname: location.state.from.pathname });
+      history.replace({ pathname });
     }
-  }, [ data.isAuth, history, location.state.from.pathname ]);
+  }, [ data.isAuth, history, pathname ]);
 
   return (
     <main className='page'>

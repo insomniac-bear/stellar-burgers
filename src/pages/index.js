@@ -5,6 +5,7 @@ import { ForgotPasswordPage } from './forgot-password';
 import { ResetPasswordPage } from './reset-password';
 import { ProfilePage } from './profile';
 import { Page404 } from './404';
+import { IngredientPage } from './ingredient';
 
 export {
   HomePage,
@@ -13,5 +14,6 @@ export {
   ForgotPasswordPage,
   ResetPasswordPage,
   ProfilePage,
-  Page404
+  Page404,
+  IngredientPage
 };

@@ -1,8 +1,13 @@
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import IngredientProperty from '../ingredient-property/ingredient-property';
-import { ingredientDataTypes } from '../../utils/const';
 import detailsStyles from './ingredient-details.module.css';
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
+  const { id } = useParams();
+  const ingredients = useSelector(store => store.ingredients.items);
+  const ingredient = id ? ingredients.find((item => item._id === id)) : {};
+
   return(
     <div className={detailsStyles.container}>
       <img src={ingredient.image_large} className={'mb-4'} alt={ingredient.name} />
@@ -16,9 +21,5 @@ const IngredientDetails = ({ ingredient }) => {
     </div>
   );
 };
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientDataTypes.isRequired
-}
 
 export default IngredientDetails;
