@@ -34,6 +34,7 @@ function App () {
 
   const {
     authRequest,
+    message
   } = useSelector(store => store.user);
 
   const ingredientsError = useGetIngredients();
@@ -51,7 +52,7 @@ function App () {
     history.goBack();
   }
 
-  if (authRequest) {
+  if (authRequest || message === '') {
     return (<Preloader />);
   } else {
       return(

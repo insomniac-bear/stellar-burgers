@@ -159,6 +159,7 @@ export function authUser() {
         dispatch({
           type: GET_AUTH_SUCCESS,
           user: res.user,
+          message: res.success,
         })
       })
       .catch(err => {

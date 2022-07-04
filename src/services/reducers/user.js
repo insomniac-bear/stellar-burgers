@@ -170,6 +170,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         authRequest: false,
+        message: action.message,
         data: {
           name: action.user.name,
           email: action.user.email,

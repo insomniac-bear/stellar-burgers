@@ -5,7 +5,6 @@ import appHeaderStyles from './app-header.module.css';
 
 const AppHeader = () => {
   const location = useLocation();
-  console.log(location);
 
   return(
     <header className={`${appHeaderStyles.header} pt-4 pb-4`}>

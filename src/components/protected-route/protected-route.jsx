@@ -6,14 +6,14 @@ export function ProtectedRoute({ children, ...rest }) {
   return (
     <Route
       { ...rest }
-      render={({ location }) =>
-        isAuth ? (
+      render={({ location }) => isAuth
+        ? (
           children
         ) : (
               <Redirect
                 to={{
                   pathname: '/login',
-                  state: { from: location?.state?.from || '/' }
+                  state: { from: location }
                 }}
               />
             )

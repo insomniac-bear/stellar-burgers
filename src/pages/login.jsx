@@ -63,6 +63,7 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (data.isAuth) {
+      console.log(pathname)
       history.replace({ pathname });
     }
   }, [ data.isAuth, history, pathname ]);
