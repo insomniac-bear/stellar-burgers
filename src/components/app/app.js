@@ -26,6 +26,7 @@ import {
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { AnonimusRoute } from '../anonimus-route/anonimus-route';
 import Preloader from '../preloader/preloader';
+import { getCookie } from '../../utils/utils';
 
 function App () {
   const history = useHistory();
@@ -52,7 +53,7 @@ function App () {
     history.goBack();
   }
 
-  if (authRequest || message === '') {
+  if (authRequest || (message === '' && getCookie('token'))) {
     return (<Preloader />);
   } else {
       return(
