@@ -91,14 +91,6 @@ export const orderReducer = (state = initialState, action) => {
         order: {
           ...state.order,
           main: correctArr(state.order.main, action.hoverIndex, action.dragIndex),
-          // [].concat(
-          //   state.order.main
-          //     .slice(0, action.hoverIndex),
-          //   state.order.main[action.dragIndex],
-          //   state.order.main[action.hoverIndex],
-          //   state.order.main
-          //     .slice(action.dragIndex + 1, state.order.main.length)
-          // ),
         }
       }
     }

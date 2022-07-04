@@ -1,0 +1,45 @@
+.main {
+  display: flex;
+  gap: 60px;
+  margin: 0 auto;
+  padding-top: 120px;
+  width: 1240px;
+}
+
+.nav {
+  width: 320px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: block;
+  margin: 0;
+  padding: 18px 0;
+  text-decoration: none;
+  color: #8585ad;
+}
+
+.linkActive {
+  composes: link;
+  color: #f2f2f3;
+}
+
+.button {
+  display: block;
+  margin: 0;
+  padding: 18px 0;
+  text-decoration: none;
+  color: #8585ad;
+  border: none;
+  background-color: inherit;
+}
+
+.notes {
+  width: 318px;
+  color: #8585ad;
+}
