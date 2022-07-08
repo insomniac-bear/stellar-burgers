@@ -1,0 +1,14 @@
+.container {
+  width: 46.9%;
+  height:fit-content
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.number_active {
+  color: #00cccc;
+}

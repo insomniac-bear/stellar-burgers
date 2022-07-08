@@ -15,6 +15,7 @@ import {
   ProfilePage,
   Page404,
   IngredientPage,
+  Feed,
 } from '../../pages';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -68,6 +69,9 @@ function App () {
           <Switch location={background || location}>
             <Route path="/" exact={true}>
               <HomePage />
+            </Route>
+            <Route path="/feed" exact={true}>
+              <Feed />
             </Route>
             <AnonimusRoute path="/login" exact={true}>
               <LoginPage />
