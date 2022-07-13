@@ -7,6 +7,7 @@ import { ProfilePage } from './profile';
 import { Page404 } from './404';
 import { IngredientPage } from './ingredient';
 import { Feed } from './feed';
+import { FeedOrderDetailsPage } from './feed-order-details';
 
 export {
   HomePage,
@@ -18,4 +19,5 @@ export {
   Page404,
   IngredientPage,
   Feed,
+  FeedOrderDetailsPage
 };

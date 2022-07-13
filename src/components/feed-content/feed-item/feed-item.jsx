@@ -1,61 +1,82 @@
+import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { nanoid } from 'nanoid';
+import { intersection, formatDate } from '../../../utils/utils';
 import styles from './feed-item.module.css';
+import { getIngredients } from '../../../services/selectors';
+import IngredientImage from '../../ingredient-image/ingredient-image';
 
-const ingredients = [
-  {
-    imgSrc: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-    name: 'Краторная булка N-200i',
-  },
-  {
-    imgSrc: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-    name: 'Краторная булка N-200i',
-  },
-  {
-    imgSrc: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-    name: 'Краторная булка N-200i',
-  },
-  {
-    imgSrc: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-    name: 'Краторная булка N-200i',
-  },
-  {
-    imgSrc: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-    name: 'Краторная булка N-200i',
-  },
-  {
-    imgSrc: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-    name: 'Краторная булка N-200i',
-  },
-];
+const MAX_SHOWED_INGREDIENTS = 5;
 
-const FeedItem = () => {
+const FeedItem = ({ id, ingredientIdList, name, number, created }) => {
+  const location = useLocation();
+  const ingredientsList = useSelector(getIngredients);
+  const { bun, ingredientsArr } = intersection(ingredientIdList, ingredientsList);
+  const date = formatDate(created);
+
+  const showedIngredientsList = ingredientsArr.length <= MAX_SHOWED_INGREDIENTS
+    ? [ ...ingredientsArr ]
+    : ingredientsArr.slice(0, MAX_SHOWED_INGREDIENTS);
+
+  const bunPrice = bun.price ? bun.price * 2 : 0;
+  const price = ingredientsArr.reduce((prevValue, item) => prevValue += item.price, bunPrice);
+
+  const unshowedIngredientsCount = ingredientsArr.length - MAX_SHOWED_INGREDIENTS > 0
+    ? ingredientsArr.length - MAX_SHOWED_INGREDIENTS
+    : 0;
+
   return (
-    <li className={`${styles.item} pt-6 pr-6 pb-6 pl-6`}>
-      <p className={`${styles.number} text text_type_main-default`}>#034535</p>
-      <time className={`${styles.time} text text_type_main-default`}>Сегодня, 16:20 i-GMT+3</time>
-      <h3 className={`${styles.title} text text_type_main-medium`}>Death Star Starship Main бургер</h3>
-      <ul className={styles.ingredients_list}>
-        {
-          ingredients.map((ingredient, index) =>
-            (
-              <li
-                key={index}
+    <li className={`${styles.item} pt-6 pr-6 pb-6 pl-6 mb-4`}>
+      <Link
+        className={styles.link}
+        to={{
+          pathname: `/feed/${id}`,
+          state: { background: location }
+        }}
+      >
+          <p className={`${styles.number} text text_type_main-default`}>#{number}</p>
+          <time className={`${styles.time} text text_type_main-default`}>{date}</time>
+          <h3 className={`${styles.title} text text_type_main-medium`}>{name}</h3>
+          <ul className={styles.ingredients_list}>
+            {
+              bun._id && <li
                 className={styles.ingredients_item}
                 style={{
-                  zIndex: ingredients.length - index,
+                  zIndex: ingredientsArr.length + 2,
                 }}
               >
-                <img
-                  className={styles.ingredients_image}
-                  src={ingredient.imgSrc}
-                  alt={ingredient.name}
+                <IngredientImage
+                  ingredientUrl={bun.image_mobile}
+                  ingredientName={bun.name}
+                  unshowedIngredientsCount={unshowedIngredientsCount}
+                  isCountShow={false}
                 />
               </li>
-            )
-          )
-        }
-      </ul>
-      <p className={`${styles.price} text text_type_main-medium`}>480 <CurrencyIcon type='primary' /></p>
+            }
+            {
+              !!showedIngredientsList.length && showedIngredientsList.map((ingredient, index) =>
+                (
+                  <li
+                    key={nanoid()}
+                    className={styles.ingredients_item}
+                    style={{
+                      zIndex: ingredientsArr.length + 1 - index,
+                    }}
+                  >
+                    <IngredientImage
+                      ingredientUrl={ingredient.image_mobile}
+                      ingredientName={ingredient.name}
+                      unshowedIngredientsCount={unshowedIngredientsCount}
+                      isCountShow={showedIngredientsList.length - 1 === index}
+                    />
+                  </li>
+                )
+              )
+            }
+          </ul>
+          <p className={`${styles.price} text text_type_main-medium`}>{price} <CurrencyIcon type='primary' /></p>
+      </Link>
     </li>
   );
 };

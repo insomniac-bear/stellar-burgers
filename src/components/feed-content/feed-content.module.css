@@ -1,6 +1,6 @@
 .content {
   display: grid;
-  column-gap: 60px;
+  column-gap: 52px;
   grid-template-areas:
    "title title"
    "orders info";

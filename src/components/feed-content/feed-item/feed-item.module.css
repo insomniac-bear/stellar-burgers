@@ -1,15 +1,22 @@
 .item {
+  display: block;
+  width: 584px;
+  background-color: #1c1c21;
+  border-radius: 40px;
+  box-sizing: border-box;
+}
+
+.link {
   display: grid;
   grid-template-areas:
     "number time"
     "title title"
     "ingredients price";
   grid-template-columns: min-content max-content;
+  justify-content: space-between;
   gap: 24px;
-  width: 584px;
-  background-color: #1c1c21;
-  border-radius: 40px;
-  box-sizing: border-box;
+  text-decoration: none;
+  color: #f2f2f3;
 }
 
 .number {
@@ -18,20 +25,20 @@
 }
 
 .time {
+  display: inline;
   grid-area: time;
-  width: fit-content;
+  text-align: right;
   color: #8585ad;
 }
 
 .title {
   grid-area: title;
   width: fit-content;
-  font-weight: 400;
+  max-width: 536px;
 }
 
 .ingredients_list {
   grid-area: ingredients;
-  /* display: flex; */
   margin: 0;
   padding: 0;
   list-style: none;
@@ -41,42 +48,12 @@
 
 .ingredients_item {
   display: inline-block;
-  position: relative;
   margin-left: -16px;
-  width: 64px;
-  height: 64px;
-  background-image: linear-gradient(45deg, #801ab2, #4c4cff);
-  border-radius: 50%;
-  border-width: 2px;
-  box-sizing: border-box;
+  position: relative;
 }
 
 .ingredients_item:first-child {
   margin-left: 0;
-}
-
-.ingredients_item::after {
-  content: "";
-  z-index: 1;
-  position: absolute;
-  display: block;
-  width: 60px;
-  height: 60px;
-  top: 2px;
-  left: 2px;
-  background-color: #131316;
-  border-radius: 50%;
-}
-
-.ingredients_image {
-  z-index: 2;
-  position: absolute;
-  display: block;
-  top: 0;
-  left: -23px;
-  top: 4px;
-  width: 112px;
-  border-radius: 50px;
 }
 
 .price {

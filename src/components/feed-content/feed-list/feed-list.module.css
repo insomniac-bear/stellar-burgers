@@ -5,7 +5,7 @@
   list-style: none;
   box-sizing: border-box;
   overflow-y: auto;
-  height: calc(100vh - 178px);
+  height: calc(100vh - 180px);
 }
 
 .list::-webkit-scrollbar {
@@ -17,5 +17,7 @@
 }
 
 .list::-webkit-scrollbar-track {
+  margin-top: 20px;
+  margin-bottom: 20px;
   background-color: #2f2f37;
 }

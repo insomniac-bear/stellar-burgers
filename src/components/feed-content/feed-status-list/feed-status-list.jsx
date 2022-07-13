@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
 import styles from './feed-status-list.module.css';
 
 const FeedStatusList = ({ type, list }) => {
@@ -10,8 +9,8 @@ const FeedStatusList = ({ type, list }) => {
       <ul className={styles.list}>
         {
           list.map(it =>
-            <li key={nanoid()}>
-              <p className={`${type === 'completed' && styles.number_active} text text_type_digits-default mb-2`}>{it}</p>
+            <li key={it._id}>
+              <p className={`${type === 'completed' && styles.number_active} text text_type_digits-default`}>{it.number}</p>
             </li>
           )
         }
@@ -22,7 +21,7 @@ const FeedStatusList = ({ type, list }) => {
 
 FeedStatusList.propTypes = {
   type: PropTypes.oneOf(['completed', 'process']).isRequired,
-  list: PropTypes.arrayOf(PropTypes.string).isRequired,
+  list: PropTypes.arrayOf(PropTypes.shape).isRequired,
 };
 
 export default FeedStatusList;

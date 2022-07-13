@@ -16,6 +16,7 @@ import {
   Page404,
   IngredientPage,
   Feed,
+  FeedOrderDetailsPage
 } from '../../pages';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -28,6 +29,8 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 import { AnonimusRoute } from '../anonimus-route/anonimus-route';
 import Preloader from '../preloader/preloader';
 import { getCookie } from '../../utils/utils';
+import FeedOrderDetails from '../feed-content/feed-order-details/feed-order-details';
+import { getOrders } from '../../services/selectors';
 
 function App () {
   const history = useHistory();
@@ -54,6 +57,8 @@ function App () {
     history.goBack();
   }
 
+  const orders = useSelector(getOrders);
+
   if (authRequest || (message === '' && getCookie('token'))) {
     return (<Preloader />);
   } else {
@@ -73,6 +78,12 @@ function App () {
             <Route path="/feed" exact={true}>
               <Feed />
             </Route>
+            <Route path="/ingredients/:id" exact={true}>
+              <IngredientPage />
+            </Route>
+            <Route path="/feed/:id" exact={true}>
+              <FeedOrderDetailsPage />
+            </Route>
             <AnonimusRoute path="/login" exact={true}>
               <LoginPage />
             </AnonimusRoute>
@@ -85,9 +96,6 @@ function App () {
             <AnonimusRoute path="/reset-password" exact={true}>
               <ResetPasswordPage />
             </AnonimusRoute>
-            <Route path="/ingredients/:id" exact={true}>
-              <IngredientPage />
-            </Route>
             <ProtectedRoute path="/profile" exact={true}>
               <ProfilePage />
             </ProtectedRoute>
@@ -104,7 +112,19 @@ function App () {
               >
                 <IngredientDetails />
               </Modal>
-          </Route> }
+            </Route>
+          }
+          {
+            background && orders.length &&
+            <Route path="/feed/:id" exact={true}>
+              <Modal
+                title=''
+                closePopup={closeIngredientPopup}
+              >
+                <FeedOrderDetails />
+              </Modal>
+            </Route>
+          }
         </>
       );
     }
