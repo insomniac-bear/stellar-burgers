@@ -11,7 +11,7 @@ import {
   USER_FORM_SET_VALUE,
   CLEAR_REQUESTS_MESSAGE,
 } from '../services/actions/user';
-import { regEmail } from '../utils/const';
+import { regEmail, RequestStatus } from '../utils/const';
 
 const additionalItems = [
   {
@@ -34,7 +34,7 @@ export const LoginPage = () => {
 
   const [ isEmail, setIsEmail ] = useState(true);
   const { email, password } = useSelector(state => state.user.input);
-  const { data, loginRequest, loginError, message } = useSelector(state => state.user);
+  const { loginRequest, message } = useSelector(state => state.user);
 
   const onFormSubmit = (evt) => {
     evt.preventDefault();
@@ -62,11 +62,10 @@ export const LoginPage = () => {
   }
 
   useEffect(() => {
-    if (data.isAuth) {
-      console.log(pathname)
+    if (loginRequest === RequestStatus.success) {
       history.replace({ pathname });
     }
-  }, [ data.isAuth, history, pathname ]);
+  }, [ loginRequest, history, pathname ]);
 
   return (
     <main className='page'>
@@ -92,7 +91,7 @@ export const LoginPage = () => {
           placeholder='Пароль'
         />
         {
-          !loginRequest && <Button
+          loginRequest !== 'pending' && <Button
             type='primary'
             size='medium'
             disabled={!email || !password}
@@ -102,12 +101,12 @@ export const LoginPage = () => {
           </Button>
         }
         {
-          loginRequest && <Preloader />
+          loginRequest === RequestStatus.pending && <Preloader />
         }
       </form>
       <AdditionalActions additionalItems={additionalItems} />
       {
-        loginError &&
+        loginRequest === RequestStatus.failed &&
         <Modal title={'Ошибка'} closePopup={onCloseErrorPopup}>
           <p>{ message }</p>
         </Modal>

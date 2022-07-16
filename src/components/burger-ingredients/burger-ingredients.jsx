@@ -8,7 +8,7 @@ import Title from '../title/title';
 import Preloader from '../preloader/preloader';
 
 import { selectItemsOfType } from '../../utils/utils';
-import { ItemType } from '../../utils/const';
+import { ItemType, RequestStatus } from '../../utils/const';
 
 import ingredientsStyles from './burger-ingredients.module.css';
 
@@ -60,11 +60,11 @@ const BurgerIngredients = () => {
         onTabClick={onTabClick}
       />
       {
-        ingredientsRequest && <Preloader />
+        ingredientsRequest === RequestStatus.pending && <Preloader />
       }
 
       {
-        ingredients.length > 0
+        ingredientsRequest === RequestStatus.success
         && <div className={`${ingredientsStyles.ingredients} mt-10`}>
           <IngredientsList idTag={ItemType.Bun.TYPE} itemList={buns} itemType={ItemType.Bun} categoryRef={bunsRef} />
           <IngredientsList idTag={ItemType.Sauce.TYPE} itemList={sauce} itemType={ItemType.Sauce} categoryRef={saucesRef} />

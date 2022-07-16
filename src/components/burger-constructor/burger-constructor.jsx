@@ -12,13 +12,15 @@ import {
   SET_ORDER_ID_LIST
 } from '../../services/actions/order';
 import constructorStyles from './burger-constructor.module.css';
+import { RequestStatus } from '../../utils/const';
+import Preloader from '../preloader/preloader';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { order, orderIngredientsId } = useSelector(store => store.order);
-  const { isAuth } = useSelector(store => store.user.data);
+  const { order, orderIngredientsId, orderIngredientsIdRequest } = useSelector(store => store.order);
+  const { isAuth } = useSelector(store => store.user);
 
   const bun = order.bun;
   const main = order.main;
@@ -88,14 +90,19 @@ const BurgerConstructor = () => {
       </ul>
       <div className={`${constructorStyles.controls} mt-10`}>
         <p className='text text_type_digits-medium mr-10'>{price} <CurrencyIcon /></p>
-        <Button
-          type='primary'
-          size='medium'
-          onClick={handleOrderButton}
-          disabled={!bun || !main.length}
-        >
-          Оформить заказ
-        </Button>
+        {
+          orderIngredientsIdRequest !== RequestStatus.pending && <Button
+            type='primary'
+            size='medium'
+            onClick={handleOrderButton}
+            disabled={!bun || !main.length}
+          >
+            Оформить заказ
+          </Button>
+        }
+        {
+          orderIngredientsIdRequest === RequestStatus.pending && <Preloader />
+        }
       </div>
     </section>
   );

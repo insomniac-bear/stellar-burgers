@@ -1,3 +1,4 @@
+import { RequestStatus } from '../../utils/const';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -7,8 +8,7 @@ import {
 
 const initialState = {
   items: [],
-  ingredientsRequest: false,
-  ingredientsError: false,
+  ingredientsRequest: RequestStatus.idle,
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -16,27 +16,26 @@ export const ingredientsReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
-        ingredientsRequest: true,
+        ingredientsRequest: RequestStatus.pending,
       }
     }
     case GET_INGREDIENTS_FAILED: {
       return {
         ...state,
-        ingredientsRequest: false,
-        ingredientsError: true,
+        ingredientsRequest: RequestStatus.failed,
       }
     }
     case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
         items: action.items,
-        ingredientsRequest: false,
+        ingredientsRequest: RequestStatus.success,
       }
     }
     case RESET_INGREDIENTS_FAILED: {
       return {
         ...state,
-        ingredientsError: false,
+        ingredientsRequest: RequestStatus.idle,
       }
     }
     default:

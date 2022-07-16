@@ -5,12 +5,12 @@ import { getIngredients } from '../services/actions/ingredients';
 export const useGetIngredients = () => {
   const dispatch = useDispatch();
   const {
-    ingredientsError,
+    ingredientsRequest,
   } = useSelector(state => state.ingredients);
 
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
 
-  return ingredientsError;
+  return ingredientsRequest;
 };

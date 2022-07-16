@@ -36,6 +36,13 @@ export const itemDataTypes = PropTypes.shape({
   NAME: PropTypes.string.isRequired,
 });
 
+export const RequestStatus = {
+  idle: 'idle',
+  pending: 'pending',
+  success: 'success',
+  failed: 'failed',
+};
+
 export const OrderStatus = {
   done: 'Выполнен',
   created: 'Создан',

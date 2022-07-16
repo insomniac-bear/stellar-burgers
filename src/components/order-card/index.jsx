@@ -1,16 +1,18 @@
 import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
-import { intersection, formatDate } from '../../../utils/utils';
-import styles from './feed-item.module.css';
-import { getIngredients } from '../../../services/selectors';
-import IngredientImage from '../../ingredient-image/ingredient-image';
+import { intersection, formatDate } from '../../utils/utils';
+import { getIngredients } from '../../services/selectors';
+import IngredientImage from '../ingredient-image/ingredient-image';
+import styles from './order-card.module.css';
 
 const MAX_SHOWED_INGREDIENTS = 5;
 
-const FeedItem = ({ id, ingredientIdList, name, number, created }) => {
+const OrderCard = ({ id, ingredientIdList, name, number, created }) => {
   const location = useLocation();
+  const { url } = useRouteMatch();
+
   const ingredientsList = useSelector(getIngredients);
   const { bun, ingredientsArr } = intersection(ingredientIdList, ingredientsList);
   const date = formatDate(created);
@@ -31,7 +33,7 @@ const FeedItem = ({ id, ingredientIdList, name, number, created }) => {
       <Link
         className={styles.link}
         to={{
-          pathname: `/feed/${id}`,
+          pathname: `${url}/${id}`,
           state: { background: location }
         }}
       >
@@ -81,4 +83,4 @@ const FeedItem = ({ id, ingredientIdList, name, number, created }) => {
   );
 };
 
-export default FeedItem;
+export default OrderCard;

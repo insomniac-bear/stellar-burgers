@@ -3,10 +3,12 @@ import {
   WS_FEED_CONNECTION_ERROR,
   WS_GET_FEED,
   WS_FEED_CONNECTION_SUCCESS,
+  WS_FEED_CONNECTION_WITH_TOKEN,
 } from '../actions/feed';
 
 const initialState = {
   wsFeedConnection: false,
+  wsFeedError: false,
   orders: [],
   total: 0,
   totalToday: 0,
@@ -18,16 +20,27 @@ export const wsFeedReducer = (state = initialState, action) => {
       return {
         ...state,
         wsFeedConnection: true,
+        wsFeedError: false,
       };
+    case WS_FEED_CONNECTION_WITH_TOKEN:
+      return {
+        ...state,
+        wsFeedConnection: true,
+        wsFeedError: false,
+      }
     case WS_FEED_CONNECTION_ERROR:
       return {
         ...state,
         wsFeedConnection: false,
+        wsFeedError: true,
       };
     case WS_FEED_CONNECTION_CLOSED:
       return {
-        ...state,
         wsFeedConnection: false,
+        wsFeedError: false,
+        orders: [],
+        total: 0,
+        totalToday: 0,
       };
     case WS_GET_FEED:
       return {

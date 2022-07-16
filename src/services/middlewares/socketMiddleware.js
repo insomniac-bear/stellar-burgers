@@ -5,10 +5,20 @@ export const socketMiddleware = (wsUrl, wsActions) => {
     return next => action => {
       const { dispatch } = store;
       const { type, payload } = action;
-      const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
+      const { wsInit, wsInitWithToken, onOpen, onClose, onError, onMessage } = wsActions;
 
       if (type === wsInit) {
-        socket = new WebSocket(wsUrl);
+        socket = new WebSocket(`${wsUrl}/all`);
+      }
+
+      if (type === wsInitWithToken) {
+        console.log(payload)
+        socket = new WebSocket(`${wsUrl}?token=${payload}`);
+      }
+
+        // Закрытие соединения
+      if (type === onClose) {
+        socket.close();
       }
 
       if (socket) {
@@ -32,12 +42,6 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         socket.onclose = event => {
           dispatch({ type: onClose, payload: event });
         };
-
-        // Отправка сообщения
-        if (type === wsSendMessage) {
-          const message = { ...payload };
-          socket.send(JSON.stringify(message));
-        }
       }
 
       next(action);

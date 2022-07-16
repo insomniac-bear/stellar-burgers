@@ -1,7 +1,3 @@
-import dayjs from 'dayjs';
-import 'dayjs/locale/ru';
-import relativeTime from 'dayjs/plugin/relativeTime';
-
 export const selectItemsOfType = (itemType, arrayOfItems) => {
   return arrayOfItems.reduce((acc, item) => {
     if (item.type === itemType) {
@@ -70,12 +66,6 @@ export function intersection (shortArr, longArr) {
   };
 };
 
-export const dateFormat = (moment) => {
-  dayjs.extend(relativeTime);
-  dayjs.locale('ru');
-  return dayjs(moment).fromNow();
-};
-
 export const formatDate = (date) => {
   const orderDate = Number(
     date
@@ -102,11 +92,11 @@ export const formatDate = (date) => {
   if (orderDate === dateNow - 1) {
     formattedDate = `Вчера, ${orderTime} ${prefixOfGmt}`;
   }
-  if (orderDate < dateNow - 4) {
-    formattedDate = `${dateNow - orderDate} дня назад, ${orderTime} ${prefixOfGmt}`;
-  }
   if (orderDate < dateNow - 5) {
     formattedDate = `${dateNow - orderDate} дней назад, ${orderTime} ${prefixOfGmt}`;
+  }
+  if (orderDate < dateNow - 1) {
+    formattedDate = `${dateNow - orderDate} дня назад, ${orderTime} ${prefixOfGmt}`;
   }
 
   return formattedDate;

@@ -18,7 +18,7 @@ export function getIngredients() {
           items: res.data,
         })
       })
-      .catch(err => {
+      .catch(() => {
         dispatch({
           type: GET_INGREDIENTS_FAILED,
         })
