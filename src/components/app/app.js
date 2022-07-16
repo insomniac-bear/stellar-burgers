@@ -31,11 +31,13 @@ import { AnonimusRoute } from '../anonimus-route/anonimus-route';
 import FeedOrderDetails from '../feed-content/feed-order-details/feed-order-details';
 import { getOrders } from '../../services/selectors';
 import { RequestStatus } from '../../utils/const';
+import { useAuth } from '../../hooks/use-auth-hook';
 
 function App () {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
+  useAuth();
 
   const ingredientsRequestStatus = useGetIngredients();
 

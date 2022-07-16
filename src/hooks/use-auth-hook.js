@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   authUser,
 } from '../services/actions/user';
-import { RequestStatus } from '../utils/const';
+import { getCookie } from '../utils/utils';
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -14,11 +14,11 @@ export const useAuth = () => {
     isAuth
   } = useSelector(store => store.user);
 
+  const token = getCookie('token');
+
   useEffect(() => {
-    if (!isAuth && authRequest !== RequestStatus.pending) {
-      dispatch(authUser());
-    }
-  }, [authRequest, isAuth, dispatch]);
+    dispatch(authUser());
+  }, [token, dispatch]);
 
   return { isAuth, authRequest }
 };
