@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -6,10 +7,11 @@ import { intersection, formatDate } from '../../utils/utils';
 import { getIngredients } from '../../services/selectors';
 import IngredientImage from '../ingredient-image/ingredient-image';
 import styles from './order-card.module.css';
+import { OrderStatus } from '../../utils/const';
 
 const MAX_SHOWED_INGREDIENTS = 5;
 
-const OrderCard = ({ id, ingredientIdList, name, number, created }) => {
+const OrderCard = ({ id, ingredientIdList, name, number, created, status = undefined }) => {
   const location = useLocation();
   const { url } = useRouteMatch();
 
@@ -39,8 +41,9 @@ const OrderCard = ({ id, ingredientIdList, name, number, created }) => {
       >
           <p className={`${styles.number} text text_type_main-default`}>#{number}</p>
           <time className={`${styles.time} text text_type_main-default`}>{date}</time>
-          <h3 className={`${styles.title} text text_type_main-medium`}>{name}</h3>
-          <ul className={styles.ingredients_list}>
+          <h3 className={`${styles.title} text text_type_main-medium mt-6`}>{name}</h3>
+          {status && <p className='text text_type_main-default mt-2'>{OrderStatus[status]}</p>}
+          <ul className={`${styles.ingredients_list} mt-6`}>
             {
               bun._id && <li
                 className={styles.ingredients_item}
@@ -84,3 +87,12 @@ const OrderCard = ({ id, ingredientIdList, name, number, created }) => {
 };
 
 export default OrderCard;
+
+OrderCard.propTypes = {
+  id: PropTypes.string.isRequired,
+  ingredientIdList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
+  created: PropTypes.string.isRequired,
+  status: PropTypes.string
+};

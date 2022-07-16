@@ -7,14 +7,12 @@ import {
   WS_FEED_CONNECTION_ERROR,
   WS_FEED_CONNECTION_START,
   WS_FEED_CONNECTION_SUCCESS,
-  WS_FEED_CONNECTION_WITH_TOKEN,
   WS_GET_FEED
 } from './actions/feed';
 
 const wsFeedUrl = 'wss://norma.nomoreparties.space/orders';
 const wsFeedActions = {
   wsInit: WS_FEED_CONNECTION_START,
-  wsInitWithToken: WS_FEED_CONNECTION_WITH_TOKEN,
   onOpen: WS_FEED_CONNECTION_SUCCESS,
   onClose: WS_FEED_CONNECTION_CLOSED,
   onError: WS_FEED_CONNECTION_ERROR,

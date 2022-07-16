@@ -3,7 +3,6 @@ import {
   WS_FEED_CONNECTION_ERROR,
   WS_GET_FEED,
   WS_FEED_CONNECTION_SUCCESS,
-  WS_FEED_CONNECTION_WITH_TOKEN,
 } from '../actions/feed';
 
 const initialState = {
@@ -22,12 +21,6 @@ export const wsFeedReducer = (state = initialState, action) => {
         wsFeedConnection: true,
         wsFeedError: false,
       };
-    case WS_FEED_CONNECTION_WITH_TOKEN:
-      return {
-        ...state,
-        wsFeedConnection: true,
-        wsFeedError: false,
-      }
     case WS_FEED_CONNECTION_ERROR:
       return {
         ...state,

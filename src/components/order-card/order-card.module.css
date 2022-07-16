@@ -10,10 +10,10 @@
   grid-template-areas:
     "number time"
     "title title"
+    "status status"
     "ingredients price";
   grid-template-columns: min-content max-content;
   justify-content: space-between;
-  gap: 24px;
   text-decoration: none;
   color: #f2f2f3;
 }
@@ -38,7 +38,6 @@
 
 .ingredients_list {
   grid-area: ingredients;
-  margin: 0;
   padding: 0;
   list-style: none;
   width: 306px;

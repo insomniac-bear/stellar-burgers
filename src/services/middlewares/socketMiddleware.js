@@ -5,15 +5,10 @@ export const socketMiddleware = (wsUrl, wsActions) => {
     return next => action => {
       const { dispatch } = store;
       const { type, payload } = action;
-      const { wsInit, wsInitWithToken, onOpen, onClose, onError, onMessage } = wsActions;
+      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
 
       if (type === wsInit) {
-        socket = new WebSocket(`${wsUrl}/all`);
-      }
-
-      if (type === wsInitWithToken) {
-        console.log(payload)
-        socket = new WebSocket(`${wsUrl}?token=${payload}`);
+        socket = new WebSocket(`${wsUrl}${payload}`);
       }
 
         // Закрытие соединения

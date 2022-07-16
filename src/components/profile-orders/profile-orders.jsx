@@ -21,6 +21,7 @@ const ProfileOrders = () => {
               name={order.name}
               number={order.number}
               created={order.createdAt}
+              status={order.status}
             />
         )
       }

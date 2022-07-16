@@ -7,7 +7,10 @@ export const Feed = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: WS_FEED_CONNECTION_START });
+    dispatch({
+      type: WS_FEED_CONNECTION_START,
+      payload: '/all'
+    });
 
     return () => {
       console.log('socket was close')

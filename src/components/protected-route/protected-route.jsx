@@ -6,7 +6,7 @@ import Preloader from '../preloader/preloader';
 export function ProtectedRoute({ children, ...rest }) {
   const { isAuth, authRequest } = useAuth();
 
-  if (authRequest !== RequestStatus.success) {
+  if (authRequest !== RequestStatus.success && authRequest !== RequestStatus.failed) {
     return <Preloader />;
   }
 
