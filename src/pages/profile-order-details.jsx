@@ -26,7 +26,7 @@ export const ProfileOrderDetailsPage = () => {
   return (
     <main className="page">
       {
-        isConnected && orders.length && <div className={styles.container}>
+        isConnected && !!orders.length && <div className={styles.container}>
           <FeedOrderDetails />
         </div>
       }

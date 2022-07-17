@@ -158,7 +158,6 @@ export function authUser() {
         })
       })
       .catch((err) => {
-        console.log(err)
         dispatch({
           type: GET_AUTH_FAILED,
         });

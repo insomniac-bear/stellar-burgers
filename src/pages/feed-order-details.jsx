@@ -11,7 +11,10 @@ export const FeedOrderDetailsPage = () => {
   const isConnected = useSelector(getWsFeedConnected);
 
   useEffect(() => {
-    dispatch({ type: WS_FEED_CONNECTION_START });
+    dispatch({
+      type: WS_FEED_CONNECTION_START,
+      payload: '/all'
+    });
 
     return () => {
       dispatch({ type: WS_FEED_CONNECTION_CLOSED });
@@ -22,7 +25,7 @@ export const FeedOrderDetailsPage = () => {
   return (
     <main className="page">
       {
-        isConnected && orders.length && <div className={styles.container}>
+        isConnected && !!orders.length && <div className={styles.container}>
           <FeedOrderDetails />
         </div>
       }
