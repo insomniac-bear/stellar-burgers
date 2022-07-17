@@ -1,8 +1,15 @@
-import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import { useAuth } from '../../hooks/use-auth-hook';
+import { RequestStatus } from '../../utils/const';
+import Preloader from '../preloader/preloader';
 
 export function ProtectedRoute({ children, ...rest }) {
-  const { isAuth } = useSelector(state => state.user.data);
+  const { isAuth, authRequest } = useAuth();
+
+  if (authRequest !== RequestStatus.success && authRequest !== RequestStatus.failed) {
+    return <Preloader />;
+  }
+
   return (
     <Route
       { ...rest }

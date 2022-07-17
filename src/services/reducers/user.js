@@ -1,3 +1,4 @@
+import { RequestStatus } from '../../utils/const';
 import {
   GET_REGISTRATION_FAILED,
   GET_REGISTRATION_REQUEST,
@@ -14,9 +15,6 @@ import {
   GET_AUTH_FAILED,
   GET_AUTH_REQUEST,
   GET_AUTH_SUCCESS,
-  GET_REFRESH_TOKEN_FAILED,
-  GET_REFRESH_TOKEN_REQUEST,
-  GET_REFRESH_TOKEN_SUCCESS,
   GET_LOGOUT_FAILED,
   GET_LOGOUT_REQUEST,
   GET_LOGOUT_SUCCESS,
@@ -31,7 +29,6 @@ const initialState = {
   data: {
     name: '',
     email: '',
-    isAuth: false,
   },
 
   input: {
@@ -41,31 +38,16 @@ const initialState = {
     code: '',
   },
 
+  isAuth: false,
   message: '',
+  authRequest: RequestStatus.idle,
+  loginRequest: RequestStatus.idle,
+  logoutRequest: RequestStatus.idle,
+  updateUserRequest: RequestStatus.idle,
 
-  authRequest: false,
-  authError: false,
-
-  registerRequest: false,
-  registerError: false,
-
-  loginRequest: false,
-  loginError: false,
-
-  logoutRequest: false,
-  logoutError: false,
-
-  forgotPassRequest: false,
-  forgotPassError: false,
-
-  resetPassRequest: false,
-  resetPassError: false,
-
-  refreshTokenRequest: false,
-  refreshTokenError: false,
-
-  updateUserRequest: false,
-  updateUserError: false,
+  registerRequest: RequestStatus.idle,
+  forgotPassRequest: RequestStatus.idle,
+  resetPassRequest: RequestStatus.idle,
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -82,14 +64,13 @@ export const userReducer = (state = initialState, action) => {
     case GET_REGISTRATION_REQUEST: {
       return {
         ...state,
-        registerRequest: true,
+        registerRequest: RequestStatus.pending,
       }
     }
     case GET_REGISTRATION_FAILED: {
       return {
         ...state,
-        registerRequest: false,
-        registerError: true,
+        registerRequest: RequestStatus.failed,
         input: {
           ...state.input,
           name: '',
@@ -102,7 +83,8 @@ export const userReducer = (state = initialState, action) => {
     case GET_REGISTRATION_SUCCESS: {
       return {
         ...state,
-        registerRequest: false,
+        registerRequest: RequestStatus.success,
+        isAuth: true,
         input: {
           ...state.input,
           name: '',
@@ -112,21 +94,19 @@ export const userReducer = (state = initialState, action) => {
         data: {
           email: action.user.email,
           name: action.user.name,
-          isAuth: true,
         },
       }
     }
     case GET_LOGIN_REQUEST: {
       return {
         ...state,
-        loginRequest: true,
+        loginRequest: RequestStatus.pending,
       }
     }
     case GET_LOGIN_FAILED: {
       return {
         ...state,
-        loginRequest: false,
-        loginError: true,
+        loginRequest: RequestStatus.failed,
         input: {
           ...state.input,
           email: '',
@@ -138,8 +118,8 @@ export const userReducer = (state = initialState, action) => {
     case GET_LOGIN_SUCCESS: {
       return {
         ...state,
-        loginRequest: false,
-        refreshTokenError: false,
+        isAuth: true,
+        loginRequest: RequestStatus.success,
         input: {
           ...state.input,
           email: '',
@@ -148,102 +128,69 @@ export const userReducer = (state = initialState, action) => {
         data: {
           name: action.user.name,
           email: action.user.email,
-          isAuth: true,
         },
       }
     }
     case GET_AUTH_REQUEST: {
       return {
         ...state,
-        authRequest: true,
+        authRequest: RequestStatus.pending,
       }
     }
     case GET_AUTH_FAILED: {
       return {
         ...state,
-        authRequest: false,
-        authError: true,
-        message: action.message,
+        isAuth: false,
+        authRequest: RequestStatus.failed,
       }
     }
     case GET_AUTH_SUCCESS: {
       return {
         ...state,
-        authRequest: false,
+        isAuth: true,
+        authRequest: RequestStatus.success,
         message: action.message,
         data: {
           name: action.user.name,
           email: action.user.email,
-          isAuth: true,
         },
       }
     }
     case GET_UPDATE_USER_REQUEST: {
       return {
         ...state,
-        updateUserRequest: true,
+        updateUserRequest: RequestStatus.pending,
       }
     }
     case GET_UPDATE_USER_FAILED: {
       return {
         ...state,
-        updateUserRequest: false,
-        updateUserError: true,
+        updateUserRequest: RequestStatus.failed,
         message: action.message,
       }
     }
     case GET_UPDATE_USER_SUCCESS: {
       return {
         ...state,
-        updateUserRequest: false,
+        isAuth: true,
+        updateUserRequest: RequestStatus.success,
         data: {
           name: action.user.name,
           email: action.user.email,
-          isAuth: true,
-        },
-      }
-    }
-    case GET_REFRESH_TOKEN_REQUEST: {
-      return {
-        ...state,
-        refreshTokenRequest: true,
-      }
-    }
-    case GET_REFRESH_TOKEN_FAILED: {
-      return {
-        ...state,
-        refreshTokenRequest: false,
-        refreshTokenError: true,
-        message: action.message,
-        data: {
-          name: '',
-          email: '',
-          isAuth: false,
-        }
-      }
-    }
-    case GET_REFRESH_TOKEN_SUCCESS: {
-      return {
-        ...state,
-        refreshTokenRequest: false,
-        authError: false,
-        data: {
-          ...state.data,
-          isAuth: false,
         },
       }
     }
     case GET_LOGOUT_REQUEST: {
       return {
         ...state,
-        logoutRequest: true,
+        isAuth: false,
+        logoutRequest: RequestStatus.pending,
       }
     }
     case GET_LOGOUT_FAILED: {
       return {
         ...state,
-        logoutRequest: false,
-        logoutError: true,
+        logoutRequest: RequestStatus.failed,
         message: action.message,
       }
     }
@@ -253,14 +200,13 @@ export const userReducer = (state = initialState, action) => {
     case GET_FORGOT_PASS_REQUEST: {
       return {
         ...state,
-        forgotPassRequest: true,
+        forgotPassRequest: RequestStatus.pending,
       }
     }
     case GET_FORGOT_PASS_FAILED: {
       return {
         ...state,
-        forgotPassRequest: false,
-        forgotPassError: true,
+        forgotPassRequest: RequestStatus.failed,
         input: {
           ...state.input,
           email: '',
@@ -271,7 +217,7 @@ export const userReducer = (state = initialState, action) => {
     case GET_FORGOT_PASS_SUCCESS: {
       return {
         ...state,
-        forgotPassRequest: false,
+        forgotPassRequest: RequestStatus.success,
         input: {
           ...state.input,
           email: '',
@@ -282,14 +228,13 @@ export const userReducer = (state = initialState, action) => {
     case GET_RESET_PASS_REQUEST: {
       return {
         ...state,
-        resetPassRequest: true,
+        resetPassRequest: RequestStatus.pending,
       }
     }
     case GET_RESET_PASS_FAILED: {
       return {
         ...state,
-        resetPassRequest: false,
-        resetPassError: true,
+        resetPassRequest: RequestStatus.failed,
         input: {
           ...state.input,
           password: '',
@@ -301,7 +246,7 @@ export const userReducer = (state = initialState, action) => {
     case GET_RESET_PASS_SUCCESS: {
       return {
         ...state,
-        resetPassRequest: false,
+        resetPassRequest: RequestStatus.success,
         input: {
           ...state.input,
           password: '',
@@ -313,12 +258,14 @@ export const userReducer = (state = initialState, action) => {
     case CLEAR_REQUESTS_MESSAGE: {
       return {
         ...state,
-        authError: false,
-        loginError: false,
-        registerError: false,
-        forgotPassError: false,
-        resetPassError: false,
-        updateUserError: false,
+        authRequest: RequestStatus.idle,
+        loginRequest: RequestStatus.idle,
+        logoutRequest: RequestStatus.idle,
+        updateUserRequest: RequestStatus.idle,
+
+        registerRequest: RequestStatus.idle,
+        forgotPassRequest: RequestStatus.idle,
+        resetPassRequest: RequestStatus.idle,
         message: '',
       }
     }

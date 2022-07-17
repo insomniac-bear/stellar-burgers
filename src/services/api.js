@@ -1,4 +1,4 @@
-import { getCookie } from '../utils/utils';
+import { getCookie, setCookie } from '../utils/utils';
 
 const config = {
   baseUrl: 'https://norma.nomoreparties.space/api',
@@ -14,16 +14,63 @@ function baseResponseHandler (res) {
       .then(err => Promise.reject(err));
 };
 
+function refreshTokenRequest () {
+  return fetch(`${config.baseUrl}/auth/token`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({
+      token: localStorage.getItem('refreshToken')
+    })
+  }).then(baseResponseHandler);
+};
+
+async function fetchWithRefresh (url, options) {
+  try {
+    const res = await fetch (url, options);
+    const data = await baseResponseHandler(res);
+    return data;
+  } catch (err) {
+//    if (err.message === 'jwt expired') {
+    if (!err.success) {
+        const refreshData = await refreshTokenRequest();
+      if (!refreshData.success) {
+        return Promise.reject(refreshData);
+      }
+      const accessToken = refreshData.accessToken.split('Bearer ')[1];
+
+      localStorage.setItem('refreshToken', refreshData.refreshToken);
+      setCookie('token', accessToken);
+
+      options.headers.authorization = refreshData.accessToken;
+      const res = await fetch(url, {
+        ...options,
+        headers: {
+          ...options.headers,
+          authorization: refreshData.accessToken,
+        }
+      });
+
+      const data = await baseResponseHandler(res);
+      return data;
+    } else {
+      return Promise.reject(err);
+    }
+  }
+};
+
 export const ingredientsRequest = () => {
   return fetch(`${config.baseUrl}/ingredients`).then(baseResponseHandler);
 };
 
 export const sendOrder = (ingredients) => {
-  return fetch(`${config.baseUrl}/orders`, {
+  return fetchWithRefresh(`${config.baseUrl}/orders`, {
     method: 'POST',
-    headers: config.headers,
+    headers: {
+      ...config.headers,
+      authorization: 'Bearer ' + getCookie('token')
+    },
     body: JSON.stringify({ ingredients })
-  }).then(baseResponseHandler);
+  });
 };
 
 export const registrationRequest = (user) => {
@@ -61,36 +108,26 @@ export const resetPassRequest = ({password, token}) => {
   }).then(baseResponseHandler);
 };
 
-export const refreshTokenRequest = (refreshToken) => {
-  return fetch(`${config.baseUrl}/auth/token`, {
+export const logoutRequest = () => {
+  return fetchWithRefresh(`${config.baseUrl}/auth/logout`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
-      token: refreshToken
+      token: localStorage.getItem('refreshToken')
     })
-  }).then(baseResponseHandler);
-};
-
-export const logoutRequest = (refreshToken) => {
-  return fetch(`${config.baseUrl}/auth/logout`, {
-    method: 'POST',
-    headers: config.headers,
-    body: JSON.stringify({
-      token: refreshToken
-    })
-  }).then(baseResponseHandler);
+  });
 };
 
 export const authUserRequest = () => {
-  return fetch(`${config.baseUrl}/auth/user`, {
+  return fetchWithRefresh(`${config.baseUrl}/auth/user`, {
     headers: {
       authorization: 'Bearer ' + getCookie('token'),
     }
-  }).then(baseResponseHandler);
+  });
 };
 
 export const updateUserRequest = (userData) => {
-  return fetch(`${config.baseUrl}/auth/user`, {
+  return fetchWithRefresh(`${config.baseUrl}/auth/user`, {
     method: 'PATCH',
     headers: {
       ...config.headers,
@@ -101,5 +138,5 @@ export const updateUserRequest = (userData) => {
       email: userData?.email,
       password: userData?.password
     }),
-  }).then(baseResponseHandler);
+  });
 }

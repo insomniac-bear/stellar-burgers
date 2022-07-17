@@ -1,0 +1,35 @@
+.container {
+  width: 46.9%;
+  height:fit-content
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0 0 5px 0;
+  list-style: none;
+  max-height: 330px;
+  overflow-x: auto;
+}
+
+.list::-webkit-scrollbar {
+  height: 8px;
+  width: 0px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.list::-webkit-scrollbar-track {
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: #2f2f37;
+}
+
+.number_active {
+  color: #00cccc;
+}

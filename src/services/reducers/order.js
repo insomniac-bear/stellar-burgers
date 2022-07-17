@@ -1,3 +1,4 @@
+import { RequestStatus } from '../../utils/const';
 import { correctArr } from '../../utils/utils';
 
 import {
@@ -17,8 +18,7 @@ const initialState = {
     main: [],
   },
   orderIngredientsId: [],
-  orderIngredientsIdRequest: false,
-  orderIngredientsIdError: false,
+  orderIngredientsIdRequest: RequestStatus.idle,
   number: null,
   price: 0,
 };
@@ -65,20 +65,19 @@ export const orderReducer = (state = initialState, action) => {
     case POST_ORDER_REQUEST: {
       return {
         ...state,
-        orderIngredientsIdRequest: true,
+        orderIngredientsIdRequest: RequestStatus.pending,
       }
     }
     case POST_ORDER_FAILED: {
       return {
         ...state,
-        orderIngredientsIdRequest: false,
-        orderIngredientsIdError: true,
+        orderIngredientsIdRequest: RequestStatus.failed,
       }
     }
     case POST_ORDER_SUCCESS: {
       return {
         ...state,
-        orderIngredientsIdRequest: false,
+        orderIngredientsIdRequest: RequestStatus.success,
         number: action.number
       }
     }

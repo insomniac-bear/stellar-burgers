@@ -2,53 +2,23 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  authUser, updateRefreshToken,
+  authUser,
 } from '../services/actions/user';
 import { getCookie } from '../utils/utils';
 
 export const useAuth = () => {
   const dispatch = useDispatch();
 
-  const { isAuth } = useSelector(store => store.user.data);
   const {
     authRequest,
-    authError,
-    refreshTokenRequest,
-    refreshTokenError,
+    isAuth
   } = useSelector(store => store.user);
 
-  const accessToken = getCookie('token');
-  const refreshToken = localStorage.getItem('refreshToken');
+  const token = getCookie('token');
 
   useEffect(() => {
-    if (
-      !isAuth
-      && !!accessToken
-      && !authRequest
-      && !authError
-      && !refreshTokenRequest
-      && !refreshTokenError
-    ) {
-      dispatch(authUser());
-    }
+    dispatch(authUser());
+  }, [token, dispatch]);
 
-    if (
-      !isAuth
-      && !!refreshToken
-      && authError
-      && !refreshTokenRequest
-      && !refreshTokenError
-    ) {
-      dispatch(updateRefreshToken());
-    }
-  }, [
-    dispatch,
-    isAuth,
-    authRequest,
-    authError,
-    refreshTokenRequest,
-    refreshTokenError,
-    accessToken,
-    refreshToken
-  ]);
+  return { isAuth, authRequest }
 };

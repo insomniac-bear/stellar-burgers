@@ -1,0 +1,17 @@
+.content {
+  display: grid;
+  column-gap: 52px;
+  grid-template-areas:
+   "title title"
+   "orders info";
+  grid-template-columns: repeat(2, 1fr);
+
+  margin: 0 auto;
+
+  width: 1248px;
+}
+
+.title {
+  grid-area: title;
+  margin-bottom: 20px;
+}

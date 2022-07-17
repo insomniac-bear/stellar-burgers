@@ -14,6 +14,7 @@ const AppHeader = () => {
             <li className={`${appHeaderStyles.navItem} pt-4 pr-5 pb-4 pl-5`}>
               <NavLink
                 to='/'
+                exact={true}
                 className={`${appHeaderStyles.link} text text_type_main-default`}
                 activeClassName={`${appHeaderStyles.linkActive} text text_type_main-default`}
               >
@@ -23,11 +24,11 @@ const AppHeader = () => {
             </li>
             <li className={`${appHeaderStyles.navItem} pt-4 pr-5 pb-4 pl-5 ml-2`}>
               <NavLink
-               to='/order-list'
+               to='/feed'
                 className={`${appHeaderStyles.link} text text_type_main-default`}
                 activeClassName={`${appHeaderStyles.linkActive} text text_type_main-default`}
               >
-                <ListIcon type={location.pathname === '/order-list' ? 'primary' : 'secondary'} />
+                <ListIcon type={location.pathname.indexOf('/feed') >= 0 ? 'primary' : 'secondary'} />
                 <span className='ml-2'>Лента заказов</span>
               </NavLink>
             </li>
@@ -44,7 +45,7 @@ const AppHeader = () => {
             className={`${appHeaderStyles.link} text text_type_main-default`}
             activeClassName={appHeaderStyles.linkActive}
             >
-            <ProfileIcon type={location.pathname === '/profile' ? 'primary' : 'secondary'} />
+            <ProfileIcon type={location.pathname.indexOf('/profile') >= 0 ? 'primary' : 'secondary'} />
             <span className='ml-2'>Личный кабинет</span>
           </NavLink>
         </div>

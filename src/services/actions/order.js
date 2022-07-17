@@ -1,4 +1,5 @@
 import { sendOrder } from '../api';
+import { GET_AUTH_FAILED } from './user';
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
@@ -20,8 +21,13 @@ export function postOrder(ingredients) {
         type: POST_ORDER_SUCCESS,
         number: res.order.number
       }))
-      .catch(err => dispatch({
-        type: POST_ORDER_FAILED
-      }));
+      .catch(() => {
+        dispatch({
+          type: POST_ORDER_FAILED
+        });
+        dispatch({
+          type: GET_AUTH_FAILED
+        });
+      });
   }
 }

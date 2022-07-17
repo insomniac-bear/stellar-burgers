@@ -43,4 +43,61 @@ export function getCookie(name) {
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
-}
+};
+
+export function intersection (shortArr, longArr) {
+  const ingredientsArr = [];
+  let bun = {};
+
+  for (let i = 0; i < shortArr.length; i++) {
+    const item = longArr.find(longArrItem =>
+      longArrItem._id === shortArr[i]
+    );
+    if (item.type !== 'bun') {
+      ingredientsArr.push(item);
+    }
+    if (!bun._id && item.type === 'bun') {
+      bun = { ...item }
+    }
+  }
+  return {
+    bun,
+    ingredientsArr,
+  };
+};
+
+export const formatDate = (date) => {
+  const orderDate = Number(
+    date
+      .split('T')[0]
+      .split('-')[2]
+      .split('')
+      .filter((i) => i !== '0')
+      .join('')
+  );
+  const orderTime = date.split('T')[1].split('.')[0].split(':', 2).join(':');
+  const dateNow = new Date().getDate();
+  const valueOfGMT = new Date().getTimezoneOffset() / 60;
+  let prefixOfGmt = 'i-GMT'
+  if (valueOfGMT < 0) {
+    prefixOfGmt = prefixOfGmt + '+' + Math.abs(valueOfGMT);
+  } else {
+    prefixOfGmt = prefixOfGmt + Math.abs(valueOfGMT);
+  }
+  let formattedDate = '';
+
+  if (orderDate === dateNow) {
+    formattedDate = `Сегодня, ${orderTime} ${prefixOfGmt}`;
+  }
+  if (orderDate === dateNow - 1) {
+    formattedDate = `Вчера, ${orderTime} ${prefixOfGmt}`;
+  }
+  if (orderDate < dateNow - 5) {
+    formattedDate = `${dateNow - orderDate} дней назад, ${orderTime} ${prefixOfGmt}`;
+  }
+  if (orderDate < dateNow - 1) {
+    formattedDate = `${dateNow - orderDate} дня назад, ${orderTime} ${prefixOfGmt}`;
+  }
+
+  return formattedDate;
+};
