@@ -1,3 +1,4 @@
+import { IIngredient } from '../utils/types';
 import { getCookie, setCookie } from '../utils/utils';
 
 const config = {
@@ -7,14 +8,20 @@ const config = {
   },
 };
 
-function baseResponseHandler (res) {
+function baseResponseHandler (res: Response) {
   return res.ok ?
     res.json() :
     res.json()
       .then(err => Promise.reject(err));
 };
 
-function refreshTokenRequest () {
+interface IRefreshResponse {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+};
+
+function refreshTokenRequest (): Promise<IRefreshResponse> {
   return fetch(`${config.baseUrl}/auth/token`, {
     method: 'POST',
     headers: config.headers,
@@ -24,13 +31,12 @@ function refreshTokenRequest () {
   }).then(baseResponseHandler);
 };
 
-async function fetchWithRefresh (url, options) {
+async function fetchWithRefresh (url: string, options: any) {
   try {
     const res = await fetch (url, options);
     const data = await baseResponseHandler(res);
     return data;
-  } catch (err) {
-//    if (err.message === 'jwt expired') {
+  } catch (err: any) {
     if (!err.success) {
         const refreshData = await refreshTokenRequest();
       if (!refreshData.success) {
@@ -62,7 +68,7 @@ export const ingredientsRequest = () => {
   return fetch(`${config.baseUrl}/ingredients`).then(baseResponseHandler);
 };
 
-export const sendOrder = (ingredients) => {
+export const sendOrder = (ingredients: ReadonlyArray<IIngredient>) => {
   return fetchWithRefresh(`${config.baseUrl}/orders`, {
     method: 'POST',
     headers: {
@@ -73,7 +79,12 @@ export const sendOrder = (ingredients) => {
   });
 };
 
-export const registrationRequest = (user) => {
+interface IUserData {
+  email: string;
+  password: string;
+}
+
+export const registrationRequest = (user: IUserData & { name: string }) => {
   return fetch(`${config.baseUrl}/auth/register`, {
     method: 'POST',
     headers: config.headers,
@@ -81,7 +92,7 @@ export const registrationRequest = (user) => {
   }).then(baseResponseHandler);
 };
 
-export const loginRequest = (authData) => {
+export const loginRequest = (authData: IUserData) => {
   return fetch(`${config.baseUrl}/auth/login`, {
     method: 'POST',
     headers: config.headers,
@@ -89,7 +100,7 @@ export const loginRequest = (authData) => {
   }).then(baseResponseHandler);
 };
 
-export const forgotPassRequest = (email) => {
+export const forgotPassRequest = (email: string) => {
   return fetch(`${config.baseUrl}/password-reset`, {
     method: 'POST',
     headers: config.headers,
@@ -97,7 +108,12 @@ export const forgotPassRequest = (email) => {
   }).then(baseResponseHandler);
 };
 
-export const resetPassRequest = ({password, token}) => {
+interface IResetPasswordData {
+  password: string;
+  token: string;
+};
+
+export const resetPassRequest = ({password, token}: IResetPasswordData) => {
   return fetch(`${config.baseUrl}/password-reset/reset`, {
     method: 'POST',
     headers: config.headers,
@@ -126,7 +142,13 @@ export const authUserRequest = () => {
   });
 };
 
-export const updateUserRequest = (userData) => {
+interface IUpdateUserData {
+  name?: string;
+  email?: string;
+  password?: string;
+};
+
+export const updateUserRequest = (userData: IUpdateUserData) => {
   return fetchWithRefresh(`${config.baseUrl}/auth/user`, {
     method: 'PATCH',
     headers: {

@@ -1,5 +1,7 @@
-export const selectItemsOfType = (itemType, arrayOfItems) => {
-  return arrayOfItems.reduce((acc, item) => {
+import { IIngredient } from './types';
+
+export const selectItemsOfType = (itemType: string, arrayOfItems: ReadonlyArray<IIngredient>) => {
+  return arrayOfItems.reduce((acc: Array<IIngredient>, item) => {
     if (item.type === itemType) {
       acc.push(item);
     }
@@ -7,14 +9,14 @@ export const selectItemsOfType = (itemType, arrayOfItems) => {
   }, []);
 };
 
-export const correctArr = (arr, prevIndex, newIndex) => {
-  const correctedArr = [].concat(arr);
+export const correctArr = (arr: ReadonlyArray<IIngredient>, prevIndex: number, newIndex: number) => {
+  const correctedArr: Array<IIngredient> = [ ...arr ];
   correctedArr[prevIndex] = arr[newIndex];
   correctedArr[newIndex] = arr[prevIndex];
   return correctedArr;
 };
 
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string, props?: any) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -37,7 +39,7 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie;
 };
 
-export function getCookie(name) {
+export function getCookie(name: string) {
   const matches = document.cookie.match(
     // eslint-disable-next-line no-useless-escape
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
@@ -45,18 +47,18 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
-export function intersection (shortArr, longArr) {
+export function intersection (shortArr: string[], longArr: ReadonlyArray<IIngredient>) {
   const ingredientsArr = [];
-  let bun = {};
+  let bun = null;
 
   for (let i = 0; i < shortArr.length; i++) {
     const item = longArr.find(longArrItem =>
       longArrItem._id === shortArr[i]
     );
-    if (item.type !== 'bun') {
+    if (!!item && item.type !== 'bun') {
       ingredientsArr.push(item);
     }
-    if (!bun._id && item.type === 'bun') {
+    if (!bun && !!item && item.type === 'bun') {
       bun = { ...item }
     }
   }
@@ -66,7 +68,7 @@ export function intersection (shortArr, longArr) {
   };
 };
 
-export const formatDate = (date) => {
+export const formatDate = (date: string) => {
   const orderDate = Number(
     date
       .split('T')[0]
