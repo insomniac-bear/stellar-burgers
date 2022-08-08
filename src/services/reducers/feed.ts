@@ -3,9 +3,18 @@ import {
   WS_FEED_CONNECTION_ERROR,
   WS_GET_FEED,
   WS_FEED_CONNECTION_SUCCESS,
+  TWsFeedActions,
 } from '../actions/feed';
 
-const initialState = {
+type TFeedState = {
+  wsFeedConnection: boolean;
+  wsFeedError: boolean;
+  orders: string[] | [];
+  total: number;
+  totalToday: number;
+};
+
+const initialState: TFeedState = {
   wsFeedConnection: false,
   wsFeedError: false,
   orders: [],
@@ -13,7 +22,7 @@ const initialState = {
   totalToday: 0,
 }
 
-export const wsFeedReducer = (state = initialState, action) => {
+export const wsFeedReducer = (state = initialState, action: TWsFeedActions) => {
   switch (action.type) {
     case WS_FEED_CONNECTION_SUCCESS:
       return {

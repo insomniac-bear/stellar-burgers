@@ -1,4 +1,5 @@
 import { RequestStatus } from '../../utils/const';
+import { IIngredient, TRequestStatus } from '../../utils/types';
 import { correctArr } from '../../utils/utils';
 
 import {
@@ -10,20 +11,32 @@ import {
   POST_ORDER_SUCCESS,
   CLEAR_ORDER,
   SORT_ORDER,
+  TOrderActions,
 } from '../actions/order';
 
-const initialState = {
+type TOrderState = {
+  order: {
+    bun: IIngredient | null,
+    main: IIngredient[] | [],
+  },
+  orderIngredientsId: string[] | undefined[],
+  orderIngredientsIdRequest: TRequestStatus,
+  number: number | null,
+  price: number,
+};
+
+const initialState: TOrderState = {
   order: {
     bun: null,
     main: [],
   },
   orderIngredientsId: [],
-  orderIngredientsIdRequest: RequestStatus.idle,
+  orderIngredientsIdRequest: 'idle',
   number: null,
   price: 0,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: TOrderActions) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {
@@ -49,7 +62,7 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         order: {
           ...state.order,
-          main: [].concat(state.order.main.slice(0, action.index), state.order.main.slice(action.index + 1, state.order.main.length)),
+          main: state.order.main.filter(item => item !== state.order.main[action.index])
         },
         price: state.price - state.order.main[action.index].price,
       }
@@ -58,8 +71,8 @@ export const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         orderIngredientsId: state.order.bun
-          ? [].concat(state.order.bun._id, state.order.main.map(it => it._id), state.order.bun._id)
-          : [].concat(undefined, state.order.main.map(it => it._id), undefined)
+          ? [state.order.bun._id, state.order.main.map(it => it._id), state.order.bun._id]
+          : [undefined, state.order.main.map(it => it._id), undefined]
       }
     }
     case POST_ORDER_REQUEST: {

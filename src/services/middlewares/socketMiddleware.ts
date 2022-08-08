@@ -1,19 +1,16 @@
-export const socketMiddleware = (wsUrl, wsActions) => {
-  return store => {
-    let socket = null;
+import { MiddlewareAPI } from 'redux';
 
-    return next => action => {
+export const socketMiddleware = (wsUrl: string, wsActions: any) => {
+  return (store: MiddlewareAPI) => {
+    let socket: WebSocket | null = null;
+
+    return (next: any) => (action: { type: string, payload: string }) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
 
       if (type === wsInit) {
         socket = new WebSocket(`${wsUrl}${payload}`);
-      }
-
-        // Закрытие соединения
-      if (type === onClose) {
-        socket.close();
       }
 
       if (socket) {
@@ -38,6 +35,11 @@ export const socketMiddleware = (wsUrl, wsActions) => {
           dispatch({ type: onClose, payload: event });
         };
       }
+
+        // Закрытие соединения
+        if (type === onClose) {
+          socket.close();
+        }
 
       next(action);
     }

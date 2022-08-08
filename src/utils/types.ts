@@ -15,3 +15,5 @@ export interface IIngredient {
   image_large: string;
   __v: number;
 };
+
+export type TRequestStatus = 'idle' | 'pending' | 'success' | 'failed';

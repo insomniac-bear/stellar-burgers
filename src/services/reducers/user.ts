@@ -1,4 +1,7 @@
 import { RequestStatus } from '../../utils/const';
+import { TRequestStatus } from '../../utils/types';
+import { TUserActions } from '../actions/user.types';
+
 import {
   GET_REGISTRATION_FAILED,
   GET_REGISTRATION_REQUEST,
@@ -23,9 +26,35 @@ import {
   GET_UPDATE_USER_SUCCESS,
   USER_FORM_SET_VALUE,
   CLEAR_REQUESTS_MESSAGE,
-} from '../actions/user';
+} from '../actions/user.types';
 
-const initialState = {
+type TUserState = {
+  data: {
+    name: string;
+    email: string;
+  };
+
+  input: {
+    name: string;
+    email: string;
+    password: string;
+    code: string;
+  };
+
+  isAuth: boolean;
+  message: string;
+
+  authRequest: TRequestStatus;
+  loginRequest: TRequestStatus;
+  logoutRequest: TRequestStatus;
+  updateUserRequest: TRequestStatus;
+
+  registerRequest: TRequestStatus;
+  forgotPassRequest: TRequestStatus;
+  resetPassRequest: TRequestStatus;
+}
+
+const initialState: TUserState = {
   data: {
     name: '',
     email: '',
@@ -40,17 +69,17 @@ const initialState = {
 
   isAuth: false,
   message: '',
-  authRequest: RequestStatus.idle,
-  loginRequest: RequestStatus.idle,
-  logoutRequest: RequestStatus.idle,
-  updateUserRequest: RequestStatus.idle,
+  authRequest: 'idle',
+  loginRequest: 'idle',
+  logoutRequest: 'idle',
+  updateUserRequest: 'idle',
 
-  registerRequest: RequestStatus.idle,
-  forgotPassRequest: RequestStatus.idle,
-  resetPassRequest: RequestStatus.idle,
+  registerRequest: 'idle',
+  forgotPassRequest: 'idle',
+  resetPassRequest: 'idle',
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions) => {
   switch (action.type) {
     case USER_FORM_SET_VALUE: {
       return {
@@ -92,8 +121,8 @@ export const userReducer = (state = initialState, action) => {
           password: '',
         },
         data: {
-          email: action.user.email,
-          name: action.user.name,
+          email: action.email,
+          name: action.name,
         },
       }
     }
@@ -126,8 +155,8 @@ export const userReducer = (state = initialState, action) => {
           password: '',
         },
         data: {
-          name: action.user.name,
-          email: action.user.email,
+          name: action.name,
+          email: action.email,
         },
       }
     }
@@ -151,8 +180,8 @@ export const userReducer = (state = initialState, action) => {
         authRequest: RequestStatus.success,
         message: action.message,
         data: {
-          name: action.user.name,
-          email: action.user.email,
+          name: action.name,
+          email: action.email,
         },
       }
     }
@@ -175,8 +204,8 @@ export const userReducer = (state = initialState, action) => {
         isAuth: true,
         updateUserRequest: RequestStatus.success,
         data: {
-          name: action.user.name,
-          email: action.user.email,
+          name: action.name,
+          email: action.email,
         },
       }
     }

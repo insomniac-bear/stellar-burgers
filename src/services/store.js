@@ -26,8 +26,7 @@ const enhancer = composeEnhancers(
   applyMiddleware(socketMiddleware(wsFeedUrl, wsFeedActions))
 );
 
-  export const initStore = () =>
-    createStore(
-      rootReducer,
-      enhancer
-    );
+export const store = createStore(
+  rootReducer,
+  enhancer
+);

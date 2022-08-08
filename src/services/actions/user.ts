@@ -8,41 +8,43 @@ import {
   logoutRequest,
   updateUserRequest,
 } from '../api';
+import { AppDispatch, AppThunk } from '../types';
+import {
+  GET_REGISTRATION_FAILED,
+  GET_REGISTRATION_REQUEST,
+  GET_REGISTRATION_SUCCESS,
 
-export const USER_FORM_SET_VALUE = 'USER_FORM_SET_VALUE';
+  GET_LOGIN_FAILED,
+  GET_LOGIN_REQUEST,
+  GET_LOGIN_SUCCESS,
 
-export const GET_REGISTRATION_REQUEST = 'GET_REGISTRATION_REQUEST';
-export const GET_REGISTRATION_SUCCESS = 'GET_REGISTRATION_SUCCESS';
-export const GET_REGISTRATION_FAILED = 'GET_REGISTRATION_FAILED';
+  GET_FORGOT_PASS_FAILED,
+  GET_FORGOT_PASS_REQUEST,
+  GET_FORGOT_PASS_SUCCESS,
 
-export const GET_LOGIN_REQUEST = 'GET_LOGIN_REQUEST';
-export const GET_LOGIN_SUCCESS = 'GET_LOGIN_SUCCESS';
-export const GET_LOGIN_FAILED = 'GET_LOGIN_FAILED';
+  GET_RESET_PASS_FAILED,
+  GET_RESET_PASS_REQUEST,
+  GET_RESET_PASS_SUCCESS,
 
-export const GET_FORGOT_PASS_REQUEST = 'GET_FORGOT_PASS_REQUEST';
-export const GET_FORGOT_PASS_SUCCESS = 'GET_FORGOT_PASS_SUCCESS';
-export const GET_FORGOT_PASS_FAILED = 'GET_FORGOT_PASS_FAILED';
+  GET_AUTH_FAILED,
+  GET_AUTH_REQUEST,
+  GET_AUTH_SUCCESS,
 
-export const GET_RESET_PASS_REQUEST = 'GET_RESET_PASS_REQUEST';
-export const GET_RESET_PASS_SUCCESS = 'GET_RESET_PASS_SUCCESS';
-export const GET_RESET_PASS_FAILED = 'GET_RESET_PASS_FAILED';
+  GET_LOGOUT_FAILED,
+  GET_LOGOUT_REQUEST,
+  GET_LOGOUT_SUCCESS,
 
-export const GET_AUTH_REQUEST = 'GET_AUTH_REQUEST';
-export const GET_AUTH_SUCCESS = 'GET_AUTH_SUCCESS';
-export const GET_AUTH_FAILED = 'GET_AUTH_FAILED';
+  GET_UPDATE_USER_FAILED,
+  GET_UPDATE_USER_REQUEST,
+  GET_UPDATE_USER_SUCCESS,
+} from './user.types';
 
-export const GET_LOGOUT_REQUEST = 'GET_LOGOUT_REQUEST';
-export const GET_LOGOUT_SUCCESS = 'GET_LOGOUT_SUCCESS';
-export const GET_LOGOUT_FAILED = 'GET_LOGOUT_FAILED';
+export interface IRegistrationUserActions {
+  readonly type: typeof GET_REGISTRATION_REQUEST
+}
 
-export const GET_UPDATE_USER_REQUEST = 'GET_UPDATE_USER_REQUEST';
-export const GET_UPDATE_USER_SUCCESS = 'GET_UPDATE_USER_SUCCESS';
-export const GET_UPDATE_USER_FAILED = 'GET_UPDATE_USER_FAILED';
-
-export const CLEAR_REQUESTS_MESSAGE = 'CLEAR_REQUESTS_MESSAGE';
-
-export function registerUser(newUser) {
-  return function(dispatch) {
+export const registerUser: AppThunk = (newUser: {name: string, email: string, password: string}) => {
+  return function(dispatch: AppDispatch) {
     dispatch({
       type: GET_REGISTRATION_REQUEST,
     });
@@ -70,8 +72,8 @@ export function registerUser(newUser) {
   }
 };
 
-export function loginUser(authData) {
-  return function (dispatch) {
+export const loginUser: AppThunk = (authData) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_LOGIN_REQUEST,
     });
@@ -99,8 +101,8 @@ export function loginUser(authData) {
   }
 };
 
-export function recoveryPassword(email) {
-  return function (dispatch) {
+export const recoveryPassword: AppThunk = (email) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_FORGOT_PASS_REQUEST,
     });
@@ -121,8 +123,8 @@ export function recoveryPassword(email) {
   }
 };
 
-export function resetPassword({ password, token }) {
-  return function (dispatch) {
+export const resetPassword: AppThunk = ({ password, token }) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_RESET_PASS_REQUEST,
     });
@@ -143,8 +145,8 @@ export function resetPassword({ password, token }) {
   }
 };
 
-export function authUser() {
-  return function (dispatch) {
+export const authUser: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_AUTH_REQUEST,
     });
@@ -165,8 +167,8 @@ export function authUser() {
    }
 };
 
-export function logoutUser() {
-  return function (dispatch) {
+export const logoutUser: AppThunk =() => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_LOGOUT_REQUEST,
     });
@@ -188,8 +190,8 @@ export function logoutUser() {
   }
 };
 
-export function updateUser (userData) {
-  return function (dispatch) {
+export const updateUser: AppThunk = (userData) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_UPDATE_USER_REQUEST,
     });

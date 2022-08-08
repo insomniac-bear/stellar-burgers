@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { initStore } from './services/store';
+import { store } from './services/store';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
@@ -13,9 +13,6 @@ declare global {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
 }
-
-const store = initStore();
-
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
