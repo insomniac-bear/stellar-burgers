@@ -1,48 +1,47 @@
-import { RequestStatus } from '../../utils/const';
-import { IIngredient } from '../../utils/types';
+import { IIngredient, TRequestStatus } from '../../utils/types';
+import { TIngredientsAction } from '../actions/ingredients';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
   RESET_INGREDIENTS_FAILED,
-  TIngredientsAction,
-} from '../actions/ingredients';
+} from '../constants';
 
-type TIngredientsState = {
-  items: [] | IIngredient[],
-  ingredientsRequest: string,
+export type TIngredientsState = {
+  items: IIngredient[] | [];
+  ingredientsRequest: TRequestStatus;
 }
 
 const initialState: TIngredientsState = {
   items: [],
-  ingredientsRequest: RequestStatus.idle,
+  ingredientsRequest: 'idle',
 };
 
-export const ingredientsReducer = (state = initialState, action: TIngredientsAction) => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsAction): TIngredientsState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
-        ingredientsRequest: RequestStatus.pending,
+        ingredientsRequest: 'pending',
       }
     }
     case GET_INGREDIENTS_FAILED: {
       return {
         ...state,
-        ingredientsRequest: RequestStatus.failed,
+        ingredientsRequest: 'pending',
       }
     }
     case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
         items: action.items,
-        ingredientsRequest: RequestStatus.success,
+        ingredientsRequest: 'success',
       }
     }
     case RESET_INGREDIENTS_FAILED: {
       return {
         ...state,
-        ingredientsRequest: RequestStatus.idle,
+        ingredientsRequest: 'idle',
       }
     }
     default:

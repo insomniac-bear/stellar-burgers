@@ -23,9 +23,10 @@
 1. Методология - БЭМ
 2. HTML5
 3. CSS3 - с использованием flexbox, grid и [React Developer Burger UI Components](https://yandex-praktikum.github.io/react-developer-burger-ui-components/docs/)
-4. JavaScript с использованием библиотеки React, Redux, React-DnD
-5. Сборщик Webpack
-6. Код разделен на модули
+4. TypeScript с использованием библиотеки React, Redux, React-DnD, React-Router
+5. Реализовано получение данных по WebSocket
+6. Сборщик Webpack
+7. Код разделен на модули
 
 **Опубликованная версия**
 *[Опубликованная версия сайта](https://insomniac-bear.github.io/stellar-burgers/)

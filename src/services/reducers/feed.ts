@@ -1,15 +1,18 @@
+import { IOrder } from '../../utils/types';
+import {
+  TWsFeedActions,
+} from '../actions/feed';
 import {
   WS_FEED_CONNECTION_CLOSED,
   WS_FEED_CONNECTION_ERROR,
   WS_GET_FEED,
   WS_FEED_CONNECTION_SUCCESS,
-  TWsFeedActions,
-} from '../actions/feed';
+} from '../constants'
 
 type TFeedState = {
   wsFeedConnection: boolean;
   wsFeedError: boolean;
-  orders: string[] | [];
+  orders: IOrder[];
   total: number;
   totalToday: number;
 };
@@ -22,7 +25,7 @@ const initialState: TFeedState = {
   totalToday: 0,
 }
 
-export const wsFeedReducer = (state = initialState, action: TWsFeedActions) => {
+export const wsFeedReducer = (state = initialState, action: TWsFeedActions): TFeedState => {
   switch (action.type) {
     case WS_FEED_CONNECTION_SUCCESS:
       return {

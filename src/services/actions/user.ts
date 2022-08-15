@@ -8,8 +8,10 @@ import {
   logoutRequest,
   updateUserRequest,
 } from '../api';
-import { AppDispatch, AppThunk } from '../types';
+import { AppThunk } from '../types';
 import {
+  USER_FORM_SET_VALUE,
+  CLEAR_REQUESTS_MESSAGE,
   GET_REGISTRATION_FAILED,
   GET_REGISTRATION_REQUEST,
   GET_REGISTRATION_SUCCESS,
@@ -37,14 +39,147 @@ import {
   GET_UPDATE_USER_FAILED,
   GET_UPDATE_USER_REQUEST,
   GET_UPDATE_USER_SUCCESS,
-} from './user.types';
+} from '../constants';
+import { IRegistrationUserData, IResetPasswordData, IUpdateUserData, IUserData } from '../../utils/types';
 
-export interface IRegistrationUserActions {
-  readonly type: typeof GET_REGISTRATION_REQUEST
+type TUser = {
+  name: string;
+  email: string;
+};
+
+export interface IUserFormAction {
+  readonly type: typeof USER_FORM_SET_VALUE;
+  [key: string]: string;
 }
 
-export const registerUser: AppThunk = (newUser: {name: string, email: string, password: string}) => {
-  return function(dispatch: AppDispatch) {
+export interface IGetAuthAction {
+  readonly type: typeof GET_AUTH_REQUEST;
+}
+
+export interface IGetAuthSuccessAction {
+  readonly type: typeof GET_AUTH_SUCCESS;
+  readonly message: string;
+  readonly user: TUser;
+}
+
+export interface IGetAuthFailedAction {
+  readonly type: typeof GET_AUTH_FAILED;
+}
+
+export interface IGetForgotPassAction {
+  readonly type: typeof GET_FORGOT_PASS_REQUEST;
+}
+
+export interface IGetForgotPassSuccessAction {
+  readonly type: typeof GET_FORGOT_PASS_SUCCESS;
+  readonly message: string;
+}
+
+export interface IGetForgotPassFailedAction {
+  readonly type: typeof GET_FORGOT_PASS_FAILED;
+  readonly message: string;
+}
+
+export interface IGetLoginAction {
+  readonly type: typeof GET_LOGIN_REQUEST;
+}
+
+export interface IGetLoginSuccessAction {
+  readonly type: typeof GET_LOGIN_SUCCESS;
+  readonly user: TUser;
+}
+
+export interface IGetLoginFailedAction {
+  readonly type: typeof GET_LOGIN_FAILED;
+  readonly message: string;
+}
+
+export interface IGetLogoutAction {
+  readonly type: typeof GET_LOGOUT_REQUEST;
+}
+
+export interface IGetLogoutSuccessAction {
+  readonly type: typeof GET_LOGOUT_SUCCESS;
+}
+
+export interface IGetLogoutFailedAction {
+  readonly type: typeof GET_LOGOUT_FAILED;
+  readonly message: string;
+}
+
+export interface IGetRegistrationAction {
+  readonly type: typeof GET_REGISTRATION_REQUEST;
+}
+
+export interface IGetRegistrationSuccessAction {
+  readonly type: typeof GET_REGISTRATION_SUCCESS;
+  readonly user: TUser;
+}
+
+export interface IGetRegistrationFailedAction {
+  readonly type: typeof GET_REGISTRATION_FAILED;
+  readonly message: string;
+}
+
+export interface IGetResetPassAction {
+  readonly type: typeof GET_RESET_PASS_REQUEST;
+}
+
+export interface IGetResetPassSuccessAction {
+  readonly type: typeof GET_RESET_PASS_SUCCESS;
+  readonly message: string;
+}
+
+export interface IGetResetPassFaileAction {
+  readonly type: typeof GET_RESET_PASS_FAILED;
+  readonly message: string;
+}
+
+export interface IGetUpdateUserAction {
+  readonly type: typeof GET_UPDATE_USER_REQUEST;
+}
+
+export interface IGetUpdateUserSuccessAction {
+  readonly type: typeof GET_UPDATE_USER_SUCCESS;
+  readonly user: TUser;
+}
+
+export interface IGetUpdateUserFailedAction {
+  readonly type: typeof GET_UPDATE_USER_FAILED;
+  readonly message: string;
+}
+
+export interface IClearRequestMessageAction {
+  readonly type: typeof CLEAR_REQUESTS_MESSAGE;
+}
+
+export type TUserActions =
+  | IUserFormAction
+  | IGetAuthAction
+  | IGetAuthFailedAction
+  | IGetAuthSuccessAction
+  | IGetForgotPassAction
+  | IGetForgotPassFailedAction
+  | IGetForgotPassSuccessAction
+  | IGetLoginAction
+  | IGetLoginFailedAction
+  | IGetLoginSuccessAction
+  | IGetLogoutAction
+  | IGetLogoutFailedAction
+  | IGetLogoutSuccessAction
+  | IGetRegistrationAction
+  | IGetRegistrationFailedAction
+  | IGetRegistrationSuccessAction
+  | IGetResetPassAction
+  | IGetResetPassFaileAction
+  | IGetResetPassSuccessAction
+  | IGetUpdateUserAction
+  | IGetUpdateUserFailedAction
+  | IGetUpdateUserSuccessAction
+  | IClearRequestMessageAction;
+
+export const registerUser = (newUser: IRegistrationUserData): AppThunk => {
+  return function(dispatch) {
     dispatch({
       type: GET_REGISTRATION_REQUEST,
     });
@@ -72,8 +207,8 @@ export const registerUser: AppThunk = (newUser: {name: string, email: string, pa
   }
 };
 
-export const loginUser: AppThunk = (authData) => {
-  return function (dispatch: AppDispatch) {
+export const loginUser = (authData: IUserData): AppThunk => {
+  return function (dispatch) {
     dispatch({
       type: GET_LOGIN_REQUEST,
     });
@@ -101,8 +236,8 @@ export const loginUser: AppThunk = (authData) => {
   }
 };
 
-export const recoveryPassword: AppThunk = (email) => {
-  return function (dispatch: AppDispatch) {
+export const recoveryPassword = (email: string): AppThunk => {
+  return function (dispatch) {
     dispatch({
       type: GET_FORGOT_PASS_REQUEST,
     });
@@ -123,8 +258,8 @@ export const recoveryPassword: AppThunk = (email) => {
   }
 };
 
-export const resetPassword: AppThunk = ({ password, token }) => {
-  return function (dispatch: AppDispatch) {
+export const resetPassword = ({ password, token }: IResetPasswordData): AppThunk => {
+  return function (dispatch) {
     dispatch({
       type: GET_RESET_PASS_REQUEST,
     });
@@ -145,8 +280,8 @@ export const resetPassword: AppThunk = ({ password, token }) => {
   }
 };
 
-export const authUser: AppThunk = () => {
-  return function (dispatch: AppDispatch) {
+export const authUser = (): AppThunk => {
+  return function (dispatch) {
     dispatch({
       type: GET_AUTH_REQUEST,
     });
@@ -167,8 +302,8 @@ export const authUser: AppThunk = () => {
    }
 };
 
-export const logoutUser: AppThunk =() => {
-  return function (dispatch: AppDispatch) {
+export const logoutUser =(): AppThunk => {
+  return function (dispatch) {
     dispatch({
       type: GET_LOGOUT_REQUEST,
     });
@@ -190,8 +325,8 @@ export const logoutUser: AppThunk =() => {
   }
 };
 
-export const updateUser: AppThunk = (userData) => {
-  return function (dispatch: AppDispatch) {
+export const updateUser = (userData: IUpdateUserData): AppThunk => {
+  return function (dispatch) {
     dispatch({
       type: GET_UPDATE_USER_REQUEST,
     });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './services/store';
@@ -14,15 +14,13 @@ declare global {
   }
 }
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
+ReactDOM.render(
   <Provider store={store}>
     <Router>
       <App />
     </Router>
-  </Provider>
+  </Provider>,
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

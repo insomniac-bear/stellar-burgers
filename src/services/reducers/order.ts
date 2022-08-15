@@ -1,4 +1,3 @@
-import { RequestStatus } from '../../utils/const';
 import { IIngredient, TRequestStatus } from '../../utils/types';
 import { correctArr } from '../../utils/utils';
 
@@ -11,18 +10,21 @@ import {
   POST_ORDER_SUCCESS,
   CLEAR_ORDER,
   SORT_ORDER,
-  TOrderActions,
-} from '../actions/order';
+} from '../constants';
+
+import { TOrderActions } from '../actions/order';
+
+interface IOrder {
+  bun: IIngredient | null;
+  main: IIngredient[];
+};
 
 type TOrderState = {
-  order: {
-    bun: IIngredient | null,
-    main: IIngredient[] | [],
-  },
-  orderIngredientsId: string[] | undefined[],
-  orderIngredientsIdRequest: TRequestStatus,
-  number: number | null,
-  price: number,
+  order: IOrder;
+  orderIngredientsId: string[];
+  orderIngredientsIdRequest: TRequestStatus;
+  number: number | null;
+  price: number;
 };
 
 const initialState: TOrderState = {
@@ -32,11 +34,11 @@ const initialState: TOrderState = {
   },
   orderIngredientsId: [],
   orderIngredientsIdRequest: 'idle',
-  number: null,
+  number: 0,
   price: 0,
 };
 
-export const orderReducer = (state = initialState, action: TOrderActions) => {
+export const orderReducer = (state = initialState, action: TOrderActions): TOrderState => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {
@@ -71,26 +73,26 @@ export const orderReducer = (state = initialState, action: TOrderActions) => {
       return {
         ...state,
         orderIngredientsId: state.order.bun
-          ? [state.order.bun._id, state.order.main.map(it => it._id), state.order.bun._id]
-          : [undefined, state.order.main.map(it => it._id), undefined]
+          ? [state.order.bun._id, ...state.order.main.map(it => it._id), state.order.bun._id]
+          : [...state.order.main.map(it => it._id)]
       }
     }
     case POST_ORDER_REQUEST: {
       return {
         ...state,
-        orderIngredientsIdRequest: RequestStatus.pending,
+        orderIngredientsIdRequest: 'pending',
       }
     }
     case POST_ORDER_FAILED: {
       return {
         ...state,
-        orderIngredientsIdRequest: RequestStatus.failed,
+        orderIngredientsIdRequest: 'failed',
       }
     }
     case POST_ORDER_SUCCESS: {
       return {
         ...state,
-        orderIngredientsIdRequest: RequestStatus.success,
+        orderIngredientsIdRequest: 'success',
         number: action.number
       }
     }

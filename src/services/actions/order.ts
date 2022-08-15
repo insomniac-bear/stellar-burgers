@@ -1,16 +1,17 @@
 import { IIngredient } from '../../utils/types';
 import { sendOrder } from '../api';
-import { AppDispatch } from '../types';
-import { GET_AUTH_FAILED } from './user.types';
-
-export const ADD_INGREDIENT: 'ADD_INGREDIENT' = 'ADD_INGREDIENT';
-export const REMOVE_INGREDIENT: 'REMOVE_INGREDIENT' = 'REMOVE_INGREDIENT';
-export const SET_ORDER_ID_LIST: 'SET_ORDER_ID_LIST' = 'SET_ORDER_ID_LIST';
-export const POST_ORDER_REQUEST: 'POST_ORDER_REQUEST' = 'POST_ORDER_REQUEST';
-export const POST_ORDER_SUCCESS: 'POST_ORDER_SUCCESS' = 'POST_ORDER_SUCCESS';
-export const POST_ORDER_FAILED: 'POST_ORDER_FAILED' = 'POST_ORDER_FAILED';
-export const CLEAR_ORDER: 'CLEAR_ORDER' = 'CLEAR_ORDER';
-export const SORT_ORDER: 'SORT_ORDER' = 'SORT_ORDER';
+import { AppThunk } from '../types';
+import {
+  GET_AUTH_FAILED,
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+  SET_ORDER_ID_LIST,
+  POST_ORDER_FAILED,
+  POST_ORDER_REQUEST,
+  POST_ORDER_SUCCESS,
+  CLEAR_ORDER,
+  SORT_ORDER,
+} from '../constants';
 
 export interface IAddIngredientAction {
   readonly type: typeof ADD_INGREDIENT;
@@ -59,8 +60,8 @@ export type TOrderActions =
   | ISetOrderIdListAction
   | ISortOrderAction;
 
-export function postOrder(ingredients: IIngredient[]) {
-  return function(dispatch: AppDispatch) {
+export function postOrder(ingredients: string[]): AppThunk {
+  return function(dispatch) {
     dispatch({
       type: POST_ORDER_REQUEST,
     });

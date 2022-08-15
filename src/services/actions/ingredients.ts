@@ -1,14 +1,15 @@
-import { IIngredient } from '../../utils/types';
 import { ingredientsRequest } from '../api';
-import { AppDispatch } from '../types';
+import { IIngredient } from '../../utils/types';
+import {
+  GET_INGREDIENTS_FAILED,
+  GET_INGREDIENTS_REQUEST,
+  GET_INGREDIENTS_SUCCESS,
+  RESET_INGREDIENTS_FAILED,
+} from '../constants';
+import { AppThunk } from '../types';
 
-export const GET_INGREDIENTS_REQUEST: 'GET_INGREDIENTS_REQUEST' = 'GET_INGREDIENTS_REQUEST';
-export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIENTS_SUCCESS';
-export const GET_INGREDIENTS_FAILED: 'GET_INGREDIENTS_FAILED' = 'GET_INGREDIENTS_FAILED';
-export const RESET_INGREDIENTS_FAILED: 'RESET_INGREDIENTS_FAILED' = 'RESET_INGREDIENTS_FAILED';
-
-export function getIngredients() {
-  return function (dispatch: AppDispatch) {
+export function getIngredients(): AppThunk {
+  return function (dispatch) {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });

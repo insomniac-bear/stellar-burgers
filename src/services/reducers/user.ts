@@ -1,6 +1,5 @@
-import { RequestStatus } from '../../utils/const';
 import { TRequestStatus } from '../../utils/types';
-import { TUserActions } from '../actions/user.types';
+import { TUserActions } from '../actions/user';
 
 import {
   GET_REGISTRATION_FAILED,
@@ -26,20 +25,24 @@ import {
   GET_UPDATE_USER_SUCCESS,
   USER_FORM_SET_VALUE,
   CLEAR_REQUESTS_MESSAGE,
-} from '../actions/user.types';
+} from '../constants';
+
+interface IUserData {
+  name: string;
+  email: string;
+};
+
+interface IUserInput {
+  name: string;
+  email: string;
+  password: string;
+  code: string;
+}
 
 type TUserState = {
-  data: {
-    name: string;
-    email: string;
-  };
+  data: IUserData;
 
-  input: {
-    name: string;
-    email: string;
-    password: string;
-    code: string;
-  };
+  input: IUserInput;
 
   isAuth: boolean;
   message: string;
@@ -79,7 +82,7 @@ const initialState: TUserState = {
   resetPassRequest: 'idle',
 }
 
-export const userReducer = (state = initialState, action: TUserActions) => {
+export const userReducer = (state = initialState, action: TUserActions): TUserState => {
   switch (action.type) {
     case USER_FORM_SET_VALUE: {
       return {
@@ -93,13 +96,13 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     case GET_REGISTRATION_REQUEST: {
       return {
         ...state,
-        registerRequest: RequestStatus.pending,
+        registerRequest: 'pending',
       }
     }
     case GET_REGISTRATION_FAILED: {
       return {
         ...state,
-        registerRequest: RequestStatus.failed,
+        registerRequest: 'failed',
         input: {
           ...state.input,
           name: '',
@@ -112,7 +115,7 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     case GET_REGISTRATION_SUCCESS: {
       return {
         ...state,
-        registerRequest: RequestStatus.success,
+        registerRequest: 'success',
         isAuth: true,
         input: {
           ...state.input,
@@ -121,21 +124,21 @@ export const userReducer = (state = initialState, action: TUserActions) => {
           password: '',
         },
         data: {
-          email: action.email,
-          name: action.name,
+          email: action.user.email,
+          name: action.user.name,
         },
       }
     }
     case GET_LOGIN_REQUEST: {
       return {
         ...state,
-        loginRequest: RequestStatus.pending,
+        loginRequest: 'pending',
       }
     }
     case GET_LOGIN_FAILED: {
       return {
         ...state,
-        loginRequest: RequestStatus.failed,
+        loginRequest: 'failed',
         input: {
           ...state.input,
           email: '',
@@ -148,53 +151,53 @@ export const userReducer = (state = initialState, action: TUserActions) => {
       return {
         ...state,
         isAuth: true,
-        loginRequest: RequestStatus.success,
+        loginRequest: 'success',
         input: {
           ...state.input,
           email: '',
           password: '',
         },
         data: {
-          name: action.name,
-          email: action.email,
+          name: action.user.name,
+          email: action.user.email,
         },
       }
     }
     case GET_AUTH_REQUEST: {
       return {
         ...state,
-        authRequest: RequestStatus.pending,
+        authRequest: 'pending',
       }
     }
     case GET_AUTH_FAILED: {
       return {
         ...state,
         isAuth: false,
-        authRequest: RequestStatus.failed,
+        authRequest: 'failed',
       }
     }
     case GET_AUTH_SUCCESS: {
       return {
         ...state,
         isAuth: true,
-        authRequest: RequestStatus.success,
+        authRequest: 'success',
         message: action.message,
         data: {
-          name: action.name,
-          email: action.email,
+          name: action.user.name,
+          email: action.user.email,
         },
       }
     }
     case GET_UPDATE_USER_REQUEST: {
       return {
         ...state,
-        updateUserRequest: RequestStatus.pending,
+        updateUserRequest: 'pending',
       }
     }
     case GET_UPDATE_USER_FAILED: {
       return {
         ...state,
-        updateUserRequest: RequestStatus.failed,
+        updateUserRequest: 'failed',
         message: action.message,
       }
     }
@@ -202,10 +205,10 @@ export const userReducer = (state = initialState, action: TUserActions) => {
       return {
         ...state,
         isAuth: true,
-        updateUserRequest: RequestStatus.success,
+        updateUserRequest: 'success',
         data: {
-          name: action.name,
-          email: action.email,
+          name: action.user.name,
+          email: action.user.email,
         },
       }
     }
@@ -213,13 +216,13 @@ export const userReducer = (state = initialState, action: TUserActions) => {
       return {
         ...state,
         isAuth: false,
-        logoutRequest: RequestStatus.pending,
+        logoutRequest: 'pending',
       }
     }
     case GET_LOGOUT_FAILED: {
       return {
         ...state,
-        logoutRequest: RequestStatus.failed,
+        logoutRequest: 'failed',
         message: action.message,
       }
     }
@@ -229,13 +232,13 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     case GET_FORGOT_PASS_REQUEST: {
       return {
         ...state,
-        forgotPassRequest: RequestStatus.pending,
+        forgotPassRequest: 'pending',
       }
     }
     case GET_FORGOT_PASS_FAILED: {
       return {
         ...state,
-        forgotPassRequest: RequestStatus.failed,
+        forgotPassRequest: 'failed',
         input: {
           ...state.input,
           email: '',
@@ -246,7 +249,7 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     case GET_FORGOT_PASS_SUCCESS: {
       return {
         ...state,
-        forgotPassRequest: RequestStatus.success,
+        forgotPassRequest: 'success',
         input: {
           ...state.input,
           email: '',
@@ -257,13 +260,13 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     case GET_RESET_PASS_REQUEST: {
       return {
         ...state,
-        resetPassRequest: RequestStatus.pending,
+        resetPassRequest: 'pending',
       }
     }
     case GET_RESET_PASS_FAILED: {
       return {
         ...state,
-        resetPassRequest: RequestStatus.failed,
+        resetPassRequest: 'failed',
         input: {
           ...state.input,
           password: '',
@@ -275,7 +278,7 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     case GET_RESET_PASS_SUCCESS: {
       return {
         ...state,
-        resetPassRequest: RequestStatus.success,
+        resetPassRequest: 'success',
         input: {
           ...state.input,
           password: '',
@@ -287,14 +290,14 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     case CLEAR_REQUESTS_MESSAGE: {
       return {
         ...state,
-        authRequest: RequestStatus.idle,
-        loginRequest: RequestStatus.idle,
-        logoutRequest: RequestStatus.idle,
-        updateUserRequest: RequestStatus.idle,
+        authRequest: 'idle',
+        loginRequest: 'idle',
+        logoutRequest: 'idle',
+        updateUserRequest: 'idle',
 
-        registerRequest: RequestStatus.idle,
-        forgotPassRequest: RequestStatus.idle,
-        resetPassRequest: RequestStatus.idle,
+        registerRequest: 'idle',
+        forgotPassRequest: 'idle',
+        resetPassRequest: 'idle',
         message: '',
       }
     }
