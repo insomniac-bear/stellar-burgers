@@ -1,12 +1,12 @@
-import React from 'react';
-import { compose } from 'redux';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { store } from './services/store';
-import App from './components/app/app';
-import reportWebVitals from './reportWebVitals';
-import './index.css';
+import React from "react";
+import { compose } from "redux";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./services/store";
+import App from "./components/app/app";
+import reportWebVitals from "./reportWebVitals";
+import "./index.css";
 
 declare global {
   interface Window {
@@ -20,7 +20,7 @@ ReactDOM.render(
       <App />
     </Router>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

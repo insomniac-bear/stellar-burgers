@@ -1,23 +1,26 @@
-import { useState, FC } from 'react';
-import { useSelector, useDispatch } from '../../services/hooks';
-import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { updateUser } from '../../services/actions/user';
-import styles from './profile-form.module.css';
-import { IUpdateUserData } from '../../utils/types';
+import { useState, FC, ChangeEvent, FormEvent } from "react";
+import { useSelector, useDispatch } from "../../services/hooks";
+import {
+  Input,
+  Button,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { updateUser } from "../../services/actions/user";
+import styles from "./profile-form.module.css";
+import { IUpdateUserData, TInput } from "../../utils/types";
 
 interface IIsInputEdit {
   [key: string]: boolean;
-};
+}
 
 interface INewUserData {
   newName: string;
   newEmail: string;
   newPassword: string;
-};
+}
 
 const ProfileForm: FC = () => {
   const dispatch = useDispatch();
-  const { name, email } = useSelector(store => store.user.data);
+  const { name, email } = useSelector((store) => store.user.data);
   const [isInputEdit, setInputEdit] = useState<IIsInputEdit>({
     name: false,
     email: false,
@@ -26,24 +29,24 @@ const ProfileForm: FC = () => {
   const [newUserData, setNewUserData] = useState<INewUserData>({
     newName: name,
     newEmail: email,
-    newPassword: '',
+    newPassword: "",
   });
 
   const onInputIconClick = (name: string) => {
     setInputEdit({
       ...isInputEdit,
       [name]: !isInputEdit[name],
-    })
+    });
   };
 
-  const handleInputChange = (evt: any): void => {
+  const handleInputChange = (evt: ChangeEvent<TInput>): void => {
     setNewUserData({
       ...newUserData,
       [evt.target.name]: evt.target.value,
-    })
+    });
   };
 
-  const submitForm = (evt: any) => {
+  const submitForm = (evt: FormEvent) => {
     evt.preventDefault();
     const userData: IUpdateUserData = {};
     if (newUserData.newName !== name) {
@@ -52,7 +55,7 @@ const ProfileForm: FC = () => {
     if (newUserData.newEmail !== email) {
       userData.name = newUserData.newEmail;
     }
-    if (newUserData.newPassword !== '') {
+    if (newUserData.newPassword !== "") {
       userData.name = newUserData.newPassword;
     }
 
@@ -63,9 +66,9 @@ const ProfileForm: FC = () => {
       email: false,
       password: false,
     });
-  }
+  };
 
-  const resetForm = (evt: any) => {
+  const resetForm = (evt: FormEvent) => {
     evt.preventDefault();
     setInputEdit({
       name: false,
@@ -75,9 +78,9 @@ const ProfileForm: FC = () => {
     setNewUserData({
       newName: name,
       newEmail: email,
-      newPassword: '',
+      newPassword: "",
     });
-  }
+  };
 
   return (
     <form
@@ -87,58 +90,49 @@ const ProfileForm: FC = () => {
       onReset={resetForm}
     >
       <Input
-        type='text'
-        placeholder='Имя'
+        type="text"
+        placeholder="Имя"
         value={newUserData.newName}
-        name='newName'
-        icon='EditIcon'
+        name="newName"
+        icon="EditIcon"
         disabled={!isInputEdit.name}
-        onIconClick={() => onInputIconClick('name')}
+        onIconClick={() => onInputIconClick("name")}
         onChange={handleInputChange}
       />
       <Input
-        type='email'
-        placeholder='Логин'
+        type="email"
+        placeholder="Логин"
         value={newUserData.newEmail}
-        name='newEmail'
-        icon='EditIcon'
+        name="newEmail"
+        icon="EditIcon"
         disabled={!isInputEdit.email}
-        onIconClick={() => onInputIconClick('email')}
+        onIconClick={() => onInputIconClick("email")}
         onChange={handleInputChange}
       />
       <Input
-        type='password'
-        placeholder='Пароль'
+        type="password"
+        placeholder="Пароль"
         value={newUserData.newPassword}
-        name='newPassword'
-        icon='EditIcon'
+        name="newPassword"
+        icon="EditIcon"
         disabled={!isInputEdit.password}
-        onIconClick={() => onInputIconClick('password')}
+        onIconClick={() => onInputIconClick("password")}
         onChange={handleInputChange}
       />
-      {
-        (isInputEdit.name || isInputEdit.email || isInputEdit.password) &&
+      {(isInputEdit.name || isInputEdit.email || isInputEdit.password) && (
         <ul className={styles.controls}>
           <li>
-            <Button
-              type="secondary"
-              size="medium"
-              htmlType='reset'
-            >
+            <Button type="secondary" size="medium" htmlType="reset">
               Отмена
             </Button>
           </li>
           <li>
-            <Button
-              type="primary"
-              size="medium"
-              htmlType='submit'
-            >
+            <Button type="primary" size="medium" htmlType="submit">
               Сохранить
-          </Button>
+            </Button>
           </li>
         </ul>
-      }
+      )}
     </form>
   );
 };

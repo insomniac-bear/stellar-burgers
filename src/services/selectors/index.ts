@@ -1,2 +1,2 @@
-export * from './feed-selectors';
-export * from './ingredients-selectors';
+export * from "./feed-selectors";
+export * from "./ingredients-selectors";

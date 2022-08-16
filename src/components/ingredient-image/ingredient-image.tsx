@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import styles from './ingredient-image.module.css';
+import { FC } from "react";
+import styles from "./ingredient-image.module.css";
 
 interface IIngredientImage {
   ingredientUrl: string;
@@ -16,17 +16,12 @@ const IngredientImage: FC<IIngredientImage> = ({
 }) => {
   return (
     <div className={styles.container}>
-      <img
-        className={styles.image}
-        src={ingredientUrl}
-        alt={ingredientName}
-      />
-      {
-        isCountShow && !!unshowedIngredientsCount &&
+      <img className={styles.image} src={ingredientUrl} alt={ingredientName} />
+      {isCountShow && !!unshowedIngredientsCount && (
         <p className={`${styles.counter} text text_type_main-default`}>
-        +{unshowedIngredientsCount}
+          +{unshowedIngredientsCount}
         </p>
-      }
+      )}
     </div>
   );
 };

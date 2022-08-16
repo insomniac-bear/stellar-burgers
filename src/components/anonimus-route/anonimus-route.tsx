@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { useSelector } from '../../services/hooks';
-import { Route, Redirect, RouteProps } from 'react-router-dom';
+import { FC } from "react";
+import { useSelector } from "../../services/hooks";
+import { Route, Redirect, RouteProps } from "react-router-dom";
 
 export const AnonimusRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const { isAuth } = useSelector((state) => state.user);
@@ -8,12 +8,10 @@ export const AnonimusRoute: FC<RouteProps> = ({ children, ...rest }) => {
   if (isAuth) {
     <Redirect
       to={{
-        pathname: '/',
+        pathname: "/",
       }}
-    />
+    />;
   }
 
-  return (
-    <Route { ...rest }>{children}</Route>
-  );
-}
+  return <Route {...rest}>{children}</Route>;
+};

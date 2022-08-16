@@ -4,11 +4,11 @@ export interface IRefreshResponse {
   success: boolean;
   accessToken: string;
   refreshToken: string;
-};
+}
 
 export interface IIngredientsRequest {
   data: IIngredient[];
-};
+}
 
 export interface ISendOrderResponse {
   name: string;
@@ -16,7 +16,7 @@ export interface ISendOrderResponse {
     number: number;
   };
   success: boolean;
-};
+}
 
 export interface IAuthResponse {
   success: string;
@@ -26,7 +26,7 @@ export interface IAuthResponse {
     name: string;
     email: string;
   };
-};
+}
 
 export interface IInformationResponse {
   success: string;
@@ -39,4 +39,4 @@ export interface IUpdateUserResponse {
     name: string;
     email: string;
   };
-};
+}

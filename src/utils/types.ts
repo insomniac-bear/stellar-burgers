@@ -1,7 +1,4 @@
-export type TIngredient =
-| 'bun'
-| 'main'
-| 'sauce';
+export type TIngredient = "bun" | "main" | "sauce";
 
 export interface IIngredient {
   _id: string;
@@ -18,23 +15,19 @@ export interface IIngredient {
   image_mobile: string;
   image_large: string;
   __v: number;
-};
+}
 
 export interface IOrder {
   ingredients: string[];
   _id: string;
-  status: 'done' | 'created' | 'pending';
+  status: "done" | "created" | "pending";
   number: number;
   createdAt: string;
   updatedAt: string;
   name: string;
 }
 
-export type TRequestStatus =
-  | 'idle'
-  | 'pending'
-  | 'success'
-  | 'failed';
+export type TRequestStatus = "idle" | "pending" | "success" | "failed";
 
 export interface IUserData {
   email: string;
@@ -44,7 +37,7 @@ export interface IUserData {
 export interface IResetPasswordData {
   password: string;
   token: string;
-};
+}
 
 export interface IRegistrationUserData {
   name: string;
@@ -56,4 +49,9 @@ export interface IUpdateUserData {
   name?: string;
   email?: string;
   password?: string;
+}
+
+export type TInput = {
+  name: string;
+  value: string;
 };

@@ -1,6 +1,6 @@
-import { IIngredient } from '../../utils/types';
-import { sendOrder } from '../api';
-import { AppThunk } from '../types';
+import { IIngredient } from "../../utils/types";
+import { sendOrder } from "../api";
+import { AppThunk } from "../types";
 import {
   GET_AUTH_FAILED,
   ADD_INGREDIENT,
@@ -11,38 +11,38 @@ import {
   POST_ORDER_SUCCESS,
   CLEAR_ORDER,
   SORT_ORDER,
-} from '../constants';
+} from "../constants";
 
 export interface IAddIngredientAction {
   readonly type: typeof ADD_INGREDIENT;
   readonly ingredient: IIngredient;
-};
+}
 
 export interface IRemoveIngredientAction {
   readonly type: typeof REMOVE_INGREDIENT;
   readonly index: number;
-};
+}
 
 export interface ISetOrderIdListAction {
   readonly type: typeof SET_ORDER_ID_LIST;
-};
+}
 
 export interface IPostOrderAction {
   readonly type: typeof POST_ORDER_REQUEST;
-};
+}
 
 export interface IPostOrderFailedAction {
   readonly type: typeof POST_ORDER_FAILED;
-};
+}
 
 export interface IPostOrderSuccessAction {
   readonly type: typeof POST_ORDER_SUCCESS;
   readonly number: number;
-};
+}
 
 export interface IClearOrderAction {
   readonly type: typeof CLEAR_ORDER;
-};
+}
 
 export interface ISortOrderAction {
   readonly type: typeof SORT_ORDER;
@@ -61,23 +61,25 @@ export type TOrderActions =
   | ISortOrderAction;
 
 export function postOrder(ingredients: string[]): AppThunk {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch({
       type: POST_ORDER_REQUEST,
     });
 
     sendOrder(ingredients)
-      .then(res => dispatch({
-        type: POST_ORDER_SUCCESS,
-        number: res.order.number
-      }))
+      .then((res) =>
+        dispatch({
+          type: POST_ORDER_SUCCESS,
+          number: res.order.number,
+        })
+      )
       .catch(() => {
         dispatch({
-          type: POST_ORDER_FAILED
+          type: POST_ORDER_FAILED,
         });
         dispatch({
-          type: GET_AUTH_FAILED
+          type: GET_AUTH_FAILED,
         });
       });
-  }
+  };
 }

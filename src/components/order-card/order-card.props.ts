@@ -4,5 +4,5 @@ export interface IOrderCardProps {
   name: string;
   number: number;
   created: string;
-  status?: 'done' | 'created' | 'pending';
-};
+  status?: "done" | "created" | "pending";
+}

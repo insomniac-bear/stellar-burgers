@@ -1,7 +1,10 @@
-import { useEffect, FC } from 'react';
-import { useDispatch } from '../services/hooks';
+import { useEffect, FC } from "react";
+import { useDispatch } from "../services/hooks";
 import FeedContent from "../components/feed-content";
-import { WS_FEED_CONNECTION_CLOSED, WS_FEED_CONNECTION_START } from '../services/constants';
+import {
+  WS_FEED_CONNECTION_CLOSED,
+  WS_FEED_CONNECTION_START,
+} from "../services/constants";
 
 export const Feed: FC = () => {
   const dispatch = useDispatch();
@@ -9,15 +12,14 @@ export const Feed: FC = () => {
   useEffect(() => {
     dispatch({
       type: WS_FEED_CONNECTION_START,
-      payload: '/all'
+      payload: "/all",
     });
 
     return () => {
-      console.log('socket was close')
+      console.log("socket was close");
       dispatch({ type: WS_FEED_CONNECTION_CLOSED });
-    }
-  },
-  [dispatch]);
+    };
+  }, [dispatch]);
 
   return (
     <main className="page">

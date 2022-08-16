@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { useDispatch } from '../../services/hooks';
-import { NavLink, useHistory } from 'react-router-dom';
+import { FC } from "react";
+import { useDispatch } from "../../services/hooks";
+import { NavLink, useHistory } from "react-router-dom";
 import { logoutUser } from "../../services/actions/user";
-import styles from './profile-menu.module.css';
+import styles from "./profile-menu.module.css";
 
 const ProfileMenu: FC = () => {
   const history = useHistory();
@@ -11,12 +11,12 @@ const ProfileMenu: FC = () => {
   const logoutButtonHandler = () => {
     dispatch(logoutUser());
     history.replace({
-      pathname: '/',
+      pathname: "/",
       state: {
         from: {
-          pathname: '/',
-        }
-      }
+          pathname: "/",
+        },
+      },
     });
   };
 
@@ -52,7 +52,9 @@ const ProfileMenu: FC = () => {
           </button>
         </li>
       </menu>
-      <p className={`${styles.notes} text text_type_main-small mt-20`}>В этом разделе вы можете изменить&nbsp;свои персональные данные</p>
+      <p className={`${styles.notes} text text_type_main-small mt-20`}>
+        В этом разделе вы можете изменить&nbsp;свои персональные данные
+      </p>
     </nav>
   );
 };

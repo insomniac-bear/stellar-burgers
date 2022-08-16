@@ -1,5 +1,5 @@
-import { TRequestStatus } from '../../utils/types';
-import { TUserActions } from '../actions/user';
+import { TRequestStatus } from "../../utils/types";
+import { TUserActions } from "../actions/user";
 
 import {
   GET_REGISTRATION_FAILED,
@@ -25,12 +25,12 @@ import {
   GET_UPDATE_USER_SUCCESS,
   USER_FORM_SET_VALUE,
   CLEAR_REQUESTS_MESSAGE,
-} from '../constants';
+} from "../constants";
 
 interface IUserData {
   name: string;
   email: string;
-};
+}
 
 interface IUserInput {
   name: string;
@@ -55,176 +55,179 @@ type TUserState = {
   registerRequest: TRequestStatus;
   forgotPassRequest: TRequestStatus;
   resetPassRequest: TRequestStatus;
-}
+};
 
 const initialState: TUserState = {
   data: {
-    name: '',
-    email: '',
+    name: "",
+    email: "",
   },
 
   input: {
-    name: '',
-    email: '',
-    password: '',
-    code: '',
+    name: "",
+    email: "",
+    password: "",
+    code: "",
   },
 
   isAuth: false,
-  message: '',
-  authRequest: 'idle',
-  loginRequest: 'idle',
-  logoutRequest: 'idle',
-  updateUserRequest: 'idle',
+  message: "",
+  authRequest: "idle",
+  loginRequest: "idle",
+  logoutRequest: "idle",
+  updateUserRequest: "idle",
 
-  registerRequest: 'idle',
-  forgotPassRequest: 'idle',
-  resetPassRequest: 'idle',
-}
+  registerRequest: "idle",
+  forgotPassRequest: "idle",
+  resetPassRequest: "idle",
+};
 
-export const userReducer = (state = initialState, action: TUserActions): TUserState => {
+export const userReducer = (
+  state = initialState,
+  action: TUserActions
+): TUserState => {
   switch (action.type) {
     case USER_FORM_SET_VALUE: {
       return {
         ...state,
-       input: {
+        input: {
           ...state.input,
-          [action.field]: action.value
+          [action.field]: action.value,
         },
-      }
+      };
     }
     case GET_REGISTRATION_REQUEST: {
       return {
         ...state,
-        registerRequest: 'pending',
-      }
+        registerRequest: "pending",
+      };
     }
     case GET_REGISTRATION_FAILED: {
       return {
         ...state,
-        registerRequest: 'failed',
+        registerRequest: "failed",
         input: {
           ...state.input,
-          name: '',
-          email: '',
-          password: '',
+          name: "",
+          email: "",
+          password: "",
         },
-       message: action.message,
-      }
+        message: action.message,
+      };
     }
     case GET_REGISTRATION_SUCCESS: {
       return {
         ...state,
-        registerRequest: 'success',
+        registerRequest: "success",
         isAuth: true,
         input: {
           ...state.input,
-          name: '',
-          email: '',
-          password: '',
+          name: "",
+          email: "",
+          password: "",
         },
         data: {
           email: action.user.email,
           name: action.user.name,
         },
-      }
+      };
     }
     case GET_LOGIN_REQUEST: {
       return {
         ...state,
-        loginRequest: 'pending',
-      }
+        loginRequest: "pending",
+      };
     }
     case GET_LOGIN_FAILED: {
       return {
         ...state,
-        loginRequest: 'failed',
+        loginRequest: "failed",
         input: {
           ...state.input,
-          email: '',
-          password: '',
+          email: "",
+          password: "",
         },
         message: action.message,
-      }
+      };
     }
     case GET_LOGIN_SUCCESS: {
       return {
         ...state,
         isAuth: true,
-        loginRequest: 'success',
+        loginRequest: "success",
         input: {
           ...state.input,
-          email: '',
-          password: '',
+          email: "",
+          password: "",
         },
         data: {
           name: action.user.name,
           email: action.user.email,
         },
-      }
+      };
     }
     case GET_AUTH_REQUEST: {
       return {
         ...state,
-        authRequest: 'pending',
-      }
+        authRequest: "pending",
+      };
     }
     case GET_AUTH_FAILED: {
       return {
         ...state,
         isAuth: false,
-        authRequest: 'failed',
-      }
+        authRequest: "failed",
+      };
     }
     case GET_AUTH_SUCCESS: {
       return {
         ...state,
         isAuth: true,
-        authRequest: 'success',
+        authRequest: "success",
         message: action.message,
         data: {
           name: action.user.name,
           email: action.user.email,
         },
-      }
+      };
     }
     case GET_UPDATE_USER_REQUEST: {
       return {
         ...state,
-        updateUserRequest: 'pending',
-      }
+        updateUserRequest: "pending",
+      };
     }
     case GET_UPDATE_USER_FAILED: {
       return {
         ...state,
-        updateUserRequest: 'failed',
+        updateUserRequest: "failed",
         message: action.message,
-      }
+      };
     }
     case GET_UPDATE_USER_SUCCESS: {
       return {
         ...state,
         isAuth: true,
-        updateUserRequest: 'success',
+        updateUserRequest: "success",
         data: {
           name: action.user.name,
           email: action.user.email,
         },
-      }
+      };
     }
     case GET_LOGOUT_REQUEST: {
       return {
         ...state,
         isAuth: false,
-        logoutRequest: 'pending',
-      }
+        logoutRequest: "pending",
+      };
     }
     case GET_LOGOUT_FAILED: {
       return {
         ...state,
-        logoutRequest: 'failed',
+        logoutRequest: "failed",
         message: action.message,
-      }
+      };
     }
     case GET_LOGOUT_SUCCESS: {
       return initialState;
@@ -232,77 +235,77 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
     case GET_FORGOT_PASS_REQUEST: {
       return {
         ...state,
-        forgotPassRequest: 'pending',
-      }
+        forgotPassRequest: "pending",
+      };
     }
     case GET_FORGOT_PASS_FAILED: {
       return {
         ...state,
-        forgotPassRequest: 'failed',
+        forgotPassRequest: "failed",
         input: {
           ...state.input,
-          email: '',
+          email: "",
         },
         message: action.message,
-      }
+      };
     }
     case GET_FORGOT_PASS_SUCCESS: {
       return {
         ...state,
-        forgotPassRequest: 'success',
+        forgotPassRequest: "success",
         input: {
           ...state.input,
-          email: '',
+          email: "",
         },
         message: action.message,
-      }
+      };
     }
     case GET_RESET_PASS_REQUEST: {
       return {
         ...state,
-        resetPassRequest: 'pending',
-      }
+        resetPassRequest: "pending",
+      };
     }
     case GET_RESET_PASS_FAILED: {
       return {
         ...state,
-        resetPassRequest: 'failed',
+        resetPassRequest: "failed",
         input: {
           ...state.input,
-          password: '',
-          code: '',
+          password: "",
+          code: "",
         },
         message: action.message,
-      }
+      };
     }
     case GET_RESET_PASS_SUCCESS: {
       return {
         ...state,
-        resetPassRequest: 'success',
+        resetPassRequest: "success",
         input: {
           ...state.input,
-          password: '',
-          code: '',
+          password: "",
+          code: "",
         },
         message: action.message,
-      }
+      };
     }
     case CLEAR_REQUESTS_MESSAGE: {
       return {
         ...state,
-        authRequest: 'idle',
-        loginRequest: 'idle',
-        logoutRequest: 'idle',
-        updateUserRequest: 'idle',
+        authRequest: "idle",
+        loginRequest: "idle",
+        logoutRequest: "idle",
+        updateUserRequest: "idle",
 
-        registerRequest: 'idle',
-        forgotPassRequest: 'idle',
-        resetPassRequest: 'idle',
-        message: '',
-      }
+        registerRequest: "idle",
+        forgotPassRequest: "idle",
+        resetPassRequest: "idle",
+        message: "",
+      };
     }
     default: {
       return state;
     }
   }
-}
+};

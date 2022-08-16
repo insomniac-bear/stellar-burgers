@@ -1,4 +1,4 @@
-import { setCookie } from '../../utils/utils';
+import { setCookie } from "../../utils/utils";
 import {
   registrationRequest,
   loginRequest,
@@ -7,40 +7,39 @@ import {
   authUserRequest,
   logoutRequest,
   updateUserRequest,
-} from '../api';
-import { AppThunk } from '../types';
+} from "../api";
+import { AppThunk } from "../types";
 import {
   USER_FORM_SET_VALUE,
   CLEAR_REQUESTS_MESSAGE,
   GET_REGISTRATION_FAILED,
   GET_REGISTRATION_REQUEST,
   GET_REGISTRATION_SUCCESS,
-
   GET_LOGIN_FAILED,
   GET_LOGIN_REQUEST,
   GET_LOGIN_SUCCESS,
-
   GET_FORGOT_PASS_FAILED,
   GET_FORGOT_PASS_REQUEST,
   GET_FORGOT_PASS_SUCCESS,
-
   GET_RESET_PASS_FAILED,
   GET_RESET_PASS_REQUEST,
   GET_RESET_PASS_SUCCESS,
-
   GET_AUTH_FAILED,
   GET_AUTH_REQUEST,
   GET_AUTH_SUCCESS,
-
   GET_LOGOUT_FAILED,
   GET_LOGOUT_REQUEST,
   GET_LOGOUT_SUCCESS,
-
   GET_UPDATE_USER_FAILED,
   GET_UPDATE_USER_REQUEST,
   GET_UPDATE_USER_SUCCESS,
-} from '../constants';
-import { IRegistrationUserData, IResetPasswordData, IUpdateUserData, IUserData } from '../../utils/types';
+} from "../constants";
+import {
+  IRegistrationUserData,
+  IResetPasswordData,
+  IUpdateUserData,
+  IUserData,
+} from "../../utils/types";
 
 type TUser = {
   name: string;
@@ -179,32 +178,32 @@ export type TUserActions =
   | IClearRequestMessageAction;
 
 export const registerUser = (newUser: IRegistrationUserData): AppThunk => {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch({
       type: GET_REGISTRATION_REQUEST,
     });
 
     registrationRequest(newUser)
-      .then(res => {
-        const accessToken = res.accessToken.split('Bearer ')[1];
+      .then((res) => {
+        const accessToken = res.accessToken.split("Bearer ")[1];
         const refreshToken = res.refreshToken;
-        setCookie('token', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+        setCookie("token", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
         return res;
       })
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: GET_REGISTRATION_SUCCESS,
           user: res.user,
-        })
+        });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: GET_REGISTRATION_FAILED,
-          message: err.message
+          message: err.message,
         });
       });
-  }
+  };
 };
 
 export const loginUser = (authData: IUserData): AppThunk => {
@@ -214,26 +213,26 @@ export const loginUser = (authData: IUserData): AppThunk => {
     });
 
     loginRequest(authData)
-      .then(res => {
-        const accessToken = res.accessToken.split('Bearer ')[1];
+      .then((res) => {
+        const accessToken = res.accessToken.split("Bearer ")[1];
         const refreshToken = res.refreshToken;
-        setCookie('token', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+        setCookie("token", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
         return res;
       })
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: GET_LOGIN_SUCCESS,
           user: res.user,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: GET_LOGIN_FAILED,
           message: err.message,
         });
       });
-  }
+  };
 };
 
 export const recoveryPassword = (email: string): AppThunk => {
@@ -243,41 +242,44 @@ export const recoveryPassword = (email: string): AppThunk => {
     });
 
     forgotPassRequest(email)
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: GET_FORGOT_PASS_SUCCESS,
           message: res.message,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: GET_FORGOT_PASS_FAILED,
           message: err.message,
         });
       });
-  }
+  };
 };
 
-export const resetPassword = ({ password, token }: IResetPasswordData): AppThunk => {
+export const resetPassword = ({
+  password,
+  token,
+}: IResetPasswordData): AppThunk => {
   return function (dispatch) {
     dispatch({
       type: GET_RESET_PASS_REQUEST,
     });
 
     resetPassRequest({ password, token })
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: GET_RESET_PASS_SUCCESS,
           message: res.message,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: GET_RESET_PASS_FAILED,
           message: err.message,
         });
       });
-  }
+  };
 };
 
 export const authUser = (): AppThunk => {
@@ -287,22 +289,22 @@ export const authUser = (): AppThunk => {
     });
 
     authUserRequest()
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: GET_AUTH_SUCCESS,
           user: res.user,
           message: res.success,
-        })
+        });
       })
       .catch((err) => {
         dispatch({
           type: GET_AUTH_FAILED,
         });
       });
-   }
+  };
 };
 
-export const logoutUser =(): AppThunk => {
+export const logoutUser = (): AppThunk => {
   return function (dispatch) {
     dispatch({
       type: GET_LOGOUT_REQUEST,
@@ -313,16 +315,16 @@ export const logoutUser =(): AppThunk => {
         dispatch({
           type: GET_LOGOUT_SUCCESS,
         });
-        setCookie('token', '');
+        setCookie("token", "");
         localStorage.clear();
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: GET_LOGOUT_FAILED,
           message: err.message,
         });
       });
-  }
+  };
 };
 
 export const updateUser = (userData: IUpdateUserData): AppThunk => {
@@ -332,20 +334,20 @@ export const updateUser = (userData: IUpdateUserData): AppThunk => {
     });
 
     updateUserRequest(userData)
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: GET_UPDATE_USER_SUCCESS,
           user: res.user,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: GET_UPDATE_USER_FAILED,
           message: err.message,
         });
         dispatch({
           type: GET_AUTH_FAILED,
-        })
+        });
       });
-  }
-}
+  };
+};
