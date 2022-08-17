@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../services/hooks";
 import { nanoid } from "nanoid";
 import { getOrders, getWsFeedConnected } from "../../../services/selectors";
 import OrderCard from "../../order-card";
